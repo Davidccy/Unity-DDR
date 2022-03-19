@@ -215,7 +215,8 @@ public class TrackManager : ISingleton<TrackManager> {
             }
         }
 
-        _isTrackEnd = true;
+        // TODO
+        //_isTrackEnd = true;
     }
     #endregion
 }

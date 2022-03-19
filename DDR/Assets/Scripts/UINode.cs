@@ -5,7 +5,9 @@ using TMPro;
 public class UINode : MonoBehaviour {
     #region Serialized Fields
     [SerializeField] private TextMeshProUGUI _textRemainTiming = null;
-    [SerializeField] private Image _imageArrow = null;
+    [SerializeField] private GameObject _goIconRoot = null;
+    [SerializeField] private GameObject _goArrow = null;
+    [SerializeField] private GameObject _goRect = null;
     #endregion
 
     #region Internal Fields
@@ -26,6 +28,7 @@ public class UINode : MonoBehaviour {
         _uiNodeRoot = uiNodeRoot;
         _nInfo = nInfo;
 
+        RefreshIcon();
         RefreshDirection();
     }
     #endregion
@@ -37,6 +40,15 @@ public class UINode : MonoBehaviour {
     #endregion
 
     #region Internal Fields
+    private void RefreshIcon() {
+        if (_nInfo == null) {
+            return;
+        }
+
+        _goArrow.SetActive(_nInfo.Position != NodePosition.Space);
+        _goRect.SetActive(_nInfo.Position == NodePosition.Space);
+    }
+
     private void RefreshDirection() {
         if (_nInfo == null) {
             return;
@@ -44,18 +56,20 @@ public class UINode : MonoBehaviour {
 
         switch (_nInfo.Position) {
             case NodePosition.Left:
-                _imageArrow.transform.localRotation = Quaternion.Euler(0, 0, 180);
+                _goIconRoot.transform.localRotation = Quaternion.Euler(0, 0, 180);
                 break;
             case NodePosition.Up:
-                _imageArrow.transform.localRotation = Quaternion.Euler(0, 0, 90);
+                _goIconRoot.transform.localRotation = Quaternion.Euler(0, 0, 90);
                 break;
             case NodePosition.Down:
-                _imageArrow.transform.localRotation = Quaternion.Euler(0, 0, -90);
+                _goIconRoot.transform.localRotation = Quaternion.Euler(0, 0, -90);
                 break;
             case NodePosition.Right:
-                _imageArrow.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                _goIconRoot.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 break;
+            case NodePosition.Space:
             default:
+                _goIconRoot.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 break;
         }
     }

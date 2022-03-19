@@ -2506,6 +2506,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 805684679}
     m_Modifications:
+    - target: {fileID: 1340788822233268076, guid: 1431c733b4fda144db2812fadbea4cef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1683532350602670738, guid: 1431c733b4fda144db2812fadbea4cef,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2621,10 +2626,35 @@ PrefabInstance:
       propertyPath: _uiHitResult
       value: 
       objectReference: {fileID: 1150221186}
+    - target: {fileID: 4295551816731380994, guid: 1431c733b4fda144db2812fadbea4cef,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.46666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295551816731380994, guid: 1431c733b4fda144db2812fadbea4cef,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295551816731380994, guid: 1431c733b4fda144db2812fadbea4cef,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.8745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 5318596129317114789, guid: 1431c733b4fda144db2812fadbea4cef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8130672590907248452, guid: 1431c733b4fda144db2812fadbea4cef,
         type: 3}
       propertyPath: m_Name
       value: UINodeRootSpace
+      objectReference: {fileID: 0}
+    - target: {fileID: 8151048967278628309, guid: 1431c733b4fda144db2812fadbea4cef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8918270439092899428, guid: 1431c733b4fda144db2812fadbea4cef,
         type: 3}

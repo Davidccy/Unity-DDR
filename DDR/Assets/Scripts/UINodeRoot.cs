@@ -7,7 +7,9 @@ using TMPro;
 public class UINodeRoot : MonoBehaviour {
     #region Serialized Fields
     [SerializeField] private NodePosition _nPos = default;
-    [SerializeField] private Image _imageArrow = null;
+    [SerializeField] private GameObject _goIconRoot = null;
+    [SerializeField] private GameObject _goArrowRoot = null;
+    [SerializeField] private GameObject _goRectRoot = null;
     [SerializeField] private TextMeshProUGUI _textTapResult = null;
     [SerializeField] private PlayableDirector _pdTapResult = null;
     [SerializeField] private UIHitEffect _uiHitResult = null;
@@ -16,12 +18,15 @@ public class UINodeRoot : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void OnEnable() {
+        _goArrowRoot.SetActive(_nPos != NodePosition.Space);
+        _goRectRoot.SetActive(_nPos == NodePosition.Space);
+
         EventManager.Instance.Register(EventTypes.BUMP, OnBumpTrigger);
         EventManager.Instance.Register(EventTypes.TAP_RESULT, OnTapResult);
     }
 
     private void OnDisable() {
-        if (EventManager.Instance == null) {
+        if (EventManager.Instance != null) {
             EventManager.Instance.Unregister(EventTypes.BUMP, OnBumpTrigger);
             EventManager.Instance.Unregister(EventTypes.TAP_RESULT, OnTapResult);
         }        
@@ -81,14 +86,14 @@ public class UINodeRoot : MonoBehaviour {
         while (passedTime < duration) {
 
             float progress = passedTime / duration;
-            _imageArrow.transform.localScale = Vector3.Lerp(Vector3.one * _scaleBump, Vector3.one, progress);
+            _goIconRoot.transform.localScale = Vector3.Lerp(Vector3.one * _scaleBump, Vector3.one, progress);
 
             yield return new WaitForEndOfFrame();
 
             passedTime += Time.deltaTime;
         }
 
-        _imageArrow.transform.localScale = Vector3.one;
+        _goIconRoot.transform.localScale = Vector3.one;
     }
     #endregion
 }
