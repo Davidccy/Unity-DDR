@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b820df5556886b4691aae5522d40083, type: 3}
+  m_Name: TrackData_001
+  m_EditorClassIdentifier: 
+  TrackName: HelloGameWorld
+  BPM: 131
+  ReadyCount: 3
+  StartDelay: 0.05
+  FirstMeasure: 0.5458
+  Nodes:
+  - Measure: 0
+    NodeInfoList:
+    - Timing: 0.75
+      NodePosition: 0
+  - Measure: 1
+    NodeInfoList:
+    - Timing: 0
+      NodePosition: 4
+    - Timing: 0.75
+      NodePosition: 0
+    - Timing: 0.8125
+      NodePosition: 1
+    - Timing: 0.875
+      NodePosition: 0
+    - Timing: 0.9375
+      NodePosition: 1
+  - Measure: 2
+    NodeInfoList:
+    - Timing: 0
+      NodePosition: 0
+    - Timing: 0.5
+      NodePosition: 1
+    - Timing: 0.75
+      NodePosition: 0
+  - Measure: 3
+    NodeInfoList:
+    - Timing: 0
+      NodePosition: 4
+    - Timing: 0.75
+      NodePosition: 2
+    - Timing: 0.8125
+      NodePosition: 3
+    - Timing: 0.875
+      NodePosition: 2
+    - Timing: 0.9375
+      NodePosition: 3
+  - Measure: 4
+    NodeInfoList:
+    - Timing: 0
+      NodePosition: 2
+    - Timing: 0.375
+      NodePosition: 4
+    - Timing: 0.5
+      NodePosition: 4
