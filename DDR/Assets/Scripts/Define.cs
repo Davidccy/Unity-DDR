@@ -35,6 +35,14 @@ public class NodeInfoTest {
     public float Timing;
 }
 
+[System.Serializable]
+public class SelectInfo {
+    public int TrackID;
+    public string TrackName;
+    public Sprite Thumbnail;
+    public int BPM;
+}
+
 public static class Define {
     public static string PLAYER_PREF_KEY_TRACK_NAME = "Track_Name";
     public static string PLAYER_PREF_KEY_SE_TYPE = "SE_Type";

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff2962c6407492a4baf69dbc2edaf448, type: 3}
+  m_Name: SelectData
+  m_EditorClassIdentifier: 
+  SelectInfos:
+  - TrackID: 1
+    TrackName: A
+    Thumbnail: {fileID: 21300000, guid: 91e2cfd162632cf498eab2887e2d1bae, type: 3}
+    BPM: 123
+  - TrackID: 2
+    TrackName: BB
+    Thumbnail: {fileID: 21300000, guid: 87e2036aea5b88d419518a675e1525d6, type: 3}
+    BPM: 80
+  - TrackID: 3
+    TrackName: CCC
+    Thumbnail: {fileID: 21300000, guid: 3a435fe9464a87b49a1d4cdb7f64b4c4, type: 3}
+    BPM: 150
+  - TrackID: 4
+    TrackName: DDDD
+    Thumbnail: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    BPM: 170
+  - TrackID: 5
+    TrackName: EEEEE
+    Thumbnail: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    BPM: 164

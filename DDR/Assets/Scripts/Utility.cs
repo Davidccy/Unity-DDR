@@ -45,9 +45,16 @@ public static class Utility {
     }
     #endregion
 
+    #region Select Data Handlings
+    public static SelectData GetSelectData() {
+        SelectData td = Resources.Load<SelectData>("Data/SelectData");
+        return td;
+    }
+    #endregion
+
     #region Track Handlings
     public static TrackData GetTrackData(int trackID) {
-        TrackData td = Resources.Load<TrackData>(string.Format("TrackData/TrackData_{0:000}", trackID));
+        TrackData td = Resources.Load<TrackData>(string.Format("Data/TrackData/TrackData_{0:000}", trackID));
         return td;
     }
     #endregion
