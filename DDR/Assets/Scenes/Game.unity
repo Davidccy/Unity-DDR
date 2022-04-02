@@ -2131,6 +2131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiSample: {fileID: 1264792832}
+  _uiNodeHandler: {fileID: 1264792831}
 --- !u!1 &1206172555
 GameObject:
   m_ObjectHideFlags: 0

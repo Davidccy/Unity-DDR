@@ -53,6 +53,7 @@ public static class Define {
     public static string SCENE_COMMON = "Common";
     public static string SCENE_GAME = "Game";
     public static string SCENE_INIT = "Init";
-    public static string SCENE_MAIN = "Main";    
+    public static string SCENE_MAIN = "Main";
+    public static string SCENE_RESULT = "Result";
     #endregion
 }

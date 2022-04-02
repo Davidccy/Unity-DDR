@@ -40,6 +40,7 @@ public class UISample : MonoBehaviour {
         _textTrackProgress.text = string.Format("{0}:{1:00}", minutes, seconds);
         _textCurMeasure.text = string.Format("{0}", TrackManager.Instance.CurMeasure);
 
+        bool isTrackEnd = TrackManager.Instance.IsTrackEnd;
         float trackLength = TrackManager.Instance.TrackLength;
         float fillAmount = trackLength != 0 ? trackProgress / trackLength : 0;
         _imageProgress.fillAmount = fillAmount;

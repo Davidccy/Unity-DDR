@@ -106,6 +106,10 @@ public class TrackManager : ISingleton<TrackManager> {
 
     public float TrackProgress {
         get {
+            if (IsTrackEnd) {
+                return TrackLength;
+            }
+
             return _pre + (_asTrack != null ? _asTrack.time : 0);
         }
     }
@@ -206,7 +210,7 @@ public class TrackManager : ISingleton<TrackManager> {
 
         AsTrack.Play();
 
-        while (true) {
+        while (AsTrack.isPlaying) {
             yield return new WaitForEndOfFrame();
 
             if (AsTrack.time >= nextBumpTime) {
@@ -215,8 +219,7 @@ public class TrackManager : ISingleton<TrackManager> {
             }
         }
 
-        // TODO
-        //_isTrackEnd = true;
+        _isTrackEnd = true;
     }
     #endregion
 }

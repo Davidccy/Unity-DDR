@@ -16,12 +16,14 @@ public class UINodeHandler : MonoBehaviour {
 
     #region Exposed Fields
     public Action onNodeGenerated = null;
+    public Action onFinalNodeFinished = null;
     #endregion
 
     #region Internal Fields
     private float _speed = 3.0f;
     private Dictionary<NodePosition, List<UINode>> _nodeMap = new Dictionary<NodePosition, List<UINode>>();
     private float _nodeHandlingThreshold = 0.15f;
+    private float _finalNodeTiming = 0;
     #endregion
 
     #region Mono Behaviour Hooks
@@ -31,6 +33,30 @@ public class UINodeHandler : MonoBehaviour {
 
     private void OnEnable() {
         EventManager.Instance.Register(EventTypes.NODE_PRESSED, OnNodePressed);
+    }
+
+    private void Update() {
+        CheckIsNodeFinished();
+    }
+
+    private bool _isNodeFinished = false;
+    private void CheckIsNodeFinished() {
+        if (!TrackManager.Instance.IsPlaying) {
+            return;
+        }
+
+        if (_isNodeFinished) {
+            return;
+        }
+
+        if (TrackManager.Instance.TrackProgress < _finalNodeTiming) {
+            return;   
+        }
+
+        _isNodeFinished = true;
+        if (onFinalNodeFinished != null) {
+            onFinalNodeFinished();
+        }
     }
 
     private void OnDisable() {
@@ -169,6 +195,10 @@ public class UINodeHandler : MonoBehaviour {
                 }
 
                 _nodeMap[info.NodePosition].Add(uiNode);
+
+                if (_finalNodeTiming < nodeInfo.Timing) {
+                    _finalNodeTiming = nodeInfo.Timing;
+                }
             }
         }
     }
