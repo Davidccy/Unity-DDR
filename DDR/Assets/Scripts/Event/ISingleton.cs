@@ -40,21 +40,33 @@ public class ISingleton<T> : MonoBehaviour where T : Component {
     }
     #endregion
 
-    
-
     #region Mono Behaviour Hooks
-    protected virtual void Awake() {
-        
+    private void Awake() {
+
         //if (_instance == null) {
         //    _instance = this as T;
         //    return;
         //}
 
         //Debug.LogErrorFormat("Duplicate ISingleton component {0} detected", typeof(T).ToString());
+
+        DoAwake();
     }
 
-    protected virtual void OnDestroy() {
+    private void OnDestroy() {
         _isAppPlaying = false;
+
+        DoDestroy();
+    }
+    #endregion
+
+    #region Virtual Methods
+    protected virtual void DoAwake() { 
+
+    }
+
+    protected virtual void DoDestroy() {
+
     }
     #endregion
 }

@@ -44,6 +44,15 @@ public class SelectInfo {
 }
 
 public static class Define {
+    #region Player Pref Keys
     public static string PLAYER_PREF_KEY_TRACK_NAME = "Track_Name";
     public static string PLAYER_PREF_KEY_SE_TYPE = "SE_Type";
+    #endregion
+
+    #region Scene Name
+    public static string SCENE_COMMON = "Common";
+    public static string SCENE_GAME = "Game";
+    public static string SCENE_INIT = "Init";
+    public static string SCENE_MAIN = "Main";    
+    #endregion
 }

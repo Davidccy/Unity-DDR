@@ -25,7 +25,7 @@ public class UISample : MonoBehaviour {
     #endregion
 
     #region Button Handlings
-    private void ButtonOnClick() {
+    public void ButtonOnClick() {
         // Load notes
         PlayerPrefs.SetInt(Utility.PLAYER_PREF_TRACK_ID, 1);
         TrackManager.Instance.LoadTrackData();

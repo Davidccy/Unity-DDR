@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
 
-public class UIMainMenu : MonoBehaviour {
+public class UITrackSelection : MonoBehaviour {
     #region Serialized Fields
     [SerializeField] private GameObject _goSelectedRoot = null;
     [SerializeField] private GameObject _goContentRoot = null;
