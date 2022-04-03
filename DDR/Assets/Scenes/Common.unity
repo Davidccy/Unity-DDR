@@ -294,7 +294,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &102413560
 RectTransform:
@@ -589,7 +589,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pd: {fileID: 865223881}
-  _playOnAwake: 0
 --- !u!1 &1861092774
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,4 +678,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pd: {fileID: 1861092777}
-  _playOnAwake: 0

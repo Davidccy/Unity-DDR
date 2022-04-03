@@ -610,7 +610,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pd: {fileID: 658085803}
-  _playOnAwake: 0
 --- !u!1 &691394274
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,7 +762,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1014450078
 RectTransform:
@@ -888,7 +887,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pd: {fileID: 1257793445}
-  _playOnAwake: 0
 --- !u!1 &1888903933
 GameObject:
   m_ObjectHideFlags: 0

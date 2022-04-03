@@ -7,7 +7,6 @@ using UnityEngine.Playables;
 public class CustomPlayableDirector : MonoBehaviour {
     #region Serialized Fields
     [SerializeField] private PlayableDirector _pd = null;
-    [SerializeField] private bool _playOnAwake = false;
     #endregion
 
     #region Exposed Fields
@@ -33,8 +32,6 @@ public class CustomPlayableDirector : MonoBehaviour {
     #region Mono Behaviou Hooks
     private void Awake() {
         if (_pd != null) {
-            _pd.playOnAwake = _playOnAwake;
-
             _pd.stopped += InternalStopped;
             _pd.played += InternalPlayed;
             _pd.paused += InternalPaused;
@@ -62,6 +59,14 @@ public class CustomPlayableDirector : MonoBehaviour {
         await Timing(cb, _cts.Token);
     }
 
+    public void SetFinish() {
+        if (_cts != null) {
+            _cts.Cancel();
+        }
+
+        _pd.time = _pd.duration;
+    }
+
     public void Stop() {
         if (_cts != null) {
             _cts.Cancel();
@@ -77,6 +82,7 @@ public class CustomPlayableDirector : MonoBehaviour {
         float startTime = Time.realtimeSinceStartup;
         float passedTime = 0;
         double duration = _pd.duration;
+
         while (passedTime < duration) {
             await Task.Delay(1);
             if (ct.IsCancellationRequested) {

@@ -16,6 +16,15 @@ public enum TapResult {
     Perfect,
 }
 
+public enum ResultRank { 
+    SSS,
+    SS,
+    S,
+    A,
+    B,
+    C,
+}
+
 [System.Serializable]
 public class NodeData {
     public int Measure;             // Start from 1
