@@ -35,8 +35,6 @@ public class SceneGame : SceneBase {
     }
 
     private async void OnFinalNodeFinished() {
-        Debug.LogErrorFormat("OnFinalNodeFinished");
-
         await CommonWindowManager.Instance.CutSceneFadeIn();
 
         SceneManager.LoadScene(Define.SCENE_RESULT, LoadSceneMode.Single);

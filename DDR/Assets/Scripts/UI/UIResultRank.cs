@@ -23,8 +23,6 @@ public class UIResultRank : MonoBehaviour {
 
     #region Internal Methods
     private void ButtonNextOnClick() {
-        Debug.LogErrorFormat("ButtonNextOnClick");
-
         ResultFinish();
     }
 

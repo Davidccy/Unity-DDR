@@ -36,12 +36,8 @@ public class SceneResult : SceneBase {
     }
 
     private async void OnResultFinished() {
-        Debug.LogErrorFormat("OnResulteFinished");
-
         CommonWindowManager.Instance.SetCutSceneColor(Color.white);
-        Debug.LogErrorFormat("fade in");
         await CommonWindowManager.Instance.CutSceneFadeIn();
-        Debug.LogErrorFormat("fade in done");
 
         SceneManager.LoadScene(Define.SCENE_MAIN, LoadSceneMode.Single);
     }
