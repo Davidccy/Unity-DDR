@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneMain : SceneBase {
     public enum UIPage { 
@@ -25,7 +27,7 @@ public class SceneMain : SceneBase {
     #region APIs
     public async Task ChangeToPage(UIPage page, bool cutSceneFadeIn = true) {
         if (cutSceneFadeIn) {
-            await CommonWindowManager.Instance.CutSceneFadeIn();
+            await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.CutScene);
         }
 
         if (_curPageIndex != -1) {
@@ -36,7 +38,12 @@ public class SceneMain : SceneBase {
         _curPageIndex = (int) page;
         _uiPages[_curPageIndex].gameObject.SetActive(true);
         await _uiPages[_curPageIndex].PlayFadeIn();
-        await CommonWindowManager.Instance.CutSceneFadeOut();
+        await CommonWindowManager.Instance.FadeOut();
+    }
+
+    public async Task TrackSelectionFinished() {
+        await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.Loading);
+        SceneManager.LoadScene(Define.SCENE_GAME, LoadSceneMode.Single);
     }
     #endregion
 

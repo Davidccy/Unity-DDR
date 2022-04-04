@@ -28,8 +28,10 @@ public class SceneInit : SceneBase {
     }
 
     private async Task ShowCutScene() {
-        CommonWindowManager.Instance.SetCutSceneColor(Color.black);
-        await CommonWindowManager.Instance.CutSceneFadeIn();
+        if (CommonWindowManager.Instance != null) {
+            CommonWindowManager.Instance.SetCutSceneColor(Color.black);
+            await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.CutScene);
+        }        
     }
     #endregion
 }

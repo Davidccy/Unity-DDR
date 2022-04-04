@@ -5,31 +5,17 @@ using TMPro;
 
 public class UIResultRank : MonoBehaviour {
     #region Serialized Fields
-    [SerializeField] private TextMeshPro _textTrackName = null;
-    [SerializeField] private TextMeshPro _textTrackBPM = null;
-
-    [SerializeField] private Button _btnNext = null;
+    [SerializeField] private Image _imageRank = null;
     #endregion
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        _btnNext.onClick.AddListener(ButtonNextOnClick);
     }
 
     private void OnDestroy() {
-        _btnNext.onClick.RemoveListener(ButtonNextOnClick);
     }
     #endregion
 
     #region Internal Methods
-    private void ButtonNextOnClick() {
-        ResultFinish();
-    }
-
-    private async void ResultFinish() {
-        CommonWindowManager.Instance.SetCutSceneColor(Color.white);
-        await CommonWindowManager.Instance.CutSceneFadeIn();
-        SceneManager.LoadScene(Define.SCENE_MAIN, LoadSceneMode.Single);
-    }
     #endregion
 }

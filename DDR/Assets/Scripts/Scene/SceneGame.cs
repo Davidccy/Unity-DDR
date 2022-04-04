@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
 public class SceneGame : SceneBase {
@@ -8,13 +7,10 @@ public class SceneGame : SceneBase {
     [SerializeField] private UINodeHandler _uiNodeHandler = null;
     #endregion
 
-    #region Internal Fields
-    private int _curPageIndex = -1;
-    #endregion
-
     #region Override Methods
     protected override void OnSceneAwake() {
         Init();
+        OnTrackNodeReady();
     }
 
     protected override void OnSceneDestroy() {
@@ -23,19 +19,27 @@ public class SceneGame : SceneBase {
     #endregion
 
     #region Internal Methods
-    private async void Init() {
+    private void Init() {
         _uiNodeHandler.onFinalNodeFinished += OnFinalNodeFinished;
-
-        await CommonWindowManager.Instance.CutSceneFadeOut();
-        _uiSample.ButtonOnClick();
     }
 
     private void UnInit() {
         _uiNodeHandler.onFinalNodeFinished -= OnFinalNodeFinished;
     }
 
+    private async void OnTrackNodeReady() {
+        // TODO
+        if (CommonWindowManager.Instance != null) {
+            await CommonWindowManager.Instance.FadeOut();
+        }
+
+        _uiSample.ButtonOnClick();
+    }
+
     private async void OnFinalNodeFinished() {
-        await CommonWindowManager.Instance.CutSceneFadeIn();
+        if (CommonWindowManager.Instance != null) {
+            await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.Loading);
+        }        
 
         SceneManager.LoadScene(Define.SCENE_RESULT, LoadSceneMode.Single);
     }

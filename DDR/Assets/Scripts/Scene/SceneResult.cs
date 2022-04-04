@@ -29,15 +29,15 @@ public class SceneResult : SceneBase {
 
     private async void PlayPerformance() {
         if (CommonWindowManager.Instance != null) {
-            await CommonWindowManager.Instance.CutSceneFadeOut();
+            await CommonWindowManager.Instance.FadeOut();
         }
 
         _uiResult.PlayResultPerformance();
     }
 
     private async void OnResultFinished() {
-        CommonWindowManager.Instance.SetCutSceneColor(Color.white);
-        await CommonWindowManager.Instance.CutSceneFadeIn();
+        CommonWindowManager.Instance.SetCutSceneColor(Color.white);        
+        await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.Loading);
 
         SceneManager.LoadScene(Define.SCENE_MAIN, LoadSceneMode.Single);
     }

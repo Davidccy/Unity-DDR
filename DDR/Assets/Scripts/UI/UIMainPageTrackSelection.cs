@@ -110,9 +110,8 @@ public class UIMainPageTrackSelection : UIMainPageBase {
         _pdTrackConfirm.Play();
     }
 
-    private async void ButtonStartOnClick() {
-        await CommonWindowManager.Instance.CutSceneFadeIn();
-        SceneManager.LoadScene(Define.SCENE_GAME, LoadSceneMode.Single);
+    private void ButtonStartOnClick() {
+        _sceneMain.TrackSelectionFinished();
     }
 
     private void ButtonCancelOnClick() {
