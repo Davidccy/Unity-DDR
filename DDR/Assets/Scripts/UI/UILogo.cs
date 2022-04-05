@@ -10,11 +10,6 @@ public class UILogo : MonoBehaviour {
     [SerializeField] private float _waitSeconds = 0;
     #endregion
 
-    #region Internal Fields
-    private bool _canSkipWaiting = false;
-    private bool _skipWaiting = false;
-    #endregion
-
     #region Mono Behaviour Hooks
     private void Awake() {
         _btn.onClick.AddListener(ButtonOnClick);
@@ -27,35 +22,18 @@ public class UILogo : MonoBehaviour {
 
     #region Button Handlings
     private void ButtonOnClick() {
-        if (_canSkipWaiting) {
-            _skipWaiting = true;
-        }
+        // Do nothing
     }
     #endregion
 
     #region APIs
     public async Task Play() {
-        _canSkipWaiting = false;
-        _skipWaiting = false;
-
         _cpdFadeIn.Stop();
         _cpdFadeOut.Stop();
 
         await _cpdFadeIn.Play();
-        _canSkipWaiting = true;
-
-        await Wait();
+        await Task.Delay(2000);
         await _cpdFadeOut.Play();
-    }
-    #endregion
-
-    #region Internal Methods
-    private async Task Wait() {
-        int milliSeconds = 0;
-        while (!_skipWaiting && milliSeconds < _waitSeconds * 1000) {
-            await Task.Delay(10);
-            milliSeconds += 10;
-        }
     }
     #endregion
 }
