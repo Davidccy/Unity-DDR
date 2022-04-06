@@ -23,7 +23,7 @@ public class UITweenCanvasGroupAlpha : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        PlayTween();
+        PlayTween().DoNotAwait();
     }
     #endregion
 
@@ -37,8 +37,8 @@ public class UITweenCanvasGroupAlpha : MonoBehaviour {
         _duration = duration;
     }
 
-    public void RestartTween() {
-        PlayTween();
+    public async Task RestartTween() {
+        await PlayTween();
     }
 
     public void StopTween() {

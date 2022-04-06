@@ -111,7 +111,7 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     }
 
     private void ButtonStartOnClick() {
-        _sceneMain.TrackSelectionFinished();
+        _sceneMain.TrackSelectionFinished().DoNotAwait();
     }
 
     private void ButtonCancelOnClick() {

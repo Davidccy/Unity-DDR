@@ -20,7 +20,7 @@ public class SceneMain : SceneBase {
 
     #region Override Methods
     protected override void OnSceneAwake() {
-        ChangeToPage((UIPage) _initPageIndex, false);
+        ChangeToPage((UIPage) _initPageIndex, false).DoNotAwait();
     }
     #endregion
 
