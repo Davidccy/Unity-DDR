@@ -62,7 +62,7 @@ public class CustomPlayableDirector : MonoBehaviour {
     }
 
     public void SetFinish() {
-        Stop();
+        //Stop();
 
         _pd.time = _pd.duration;
     }

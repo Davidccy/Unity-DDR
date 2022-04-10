@@ -8,10 +8,14 @@ public class UILogo : MonoBehaviour {
     [SerializeField] private Button _btn = null;
     [SerializeField] private CustomPlayableDirector _cpdFadeIn = null;
     [SerializeField] private CustomPlayableDirector _cpdFadeOut = null;
+
+    [Header("Settings")]
     [SerializeField] private float _waitSeconds = 0;
+    [SerializeField] private bool _skippable = false;
     #endregion
 
     #region Internal Fields
+    private bool _skipped = false;
     private CancellationTokenSource _cts = null;
     #endregion
 
@@ -29,7 +33,9 @@ public class UILogo : MonoBehaviour {
 
     #region Button Handlings
     private void ButtonOnClick() {
-        // Do nothing
+        if (_skippable && !_skipped) {
+            DoSkip();
+        }
     }
     #endregion
 
@@ -37,6 +43,7 @@ public class UILogo : MonoBehaviour {
     public async Task Play() {
         Stop();
 
+        _skipped = false;
         _cts = new CancellationTokenSource();
 
         await PlayPerformance(_cts.Token);
@@ -60,7 +67,7 @@ public class UILogo : MonoBehaviour {
             return;
         }
 
-        await Task.Delay(2000);
+        await Task.Delay((int) _waitSeconds * 1000);
         if (ct.IsCancellationRequested) {
             return;
         }
@@ -69,6 +76,14 @@ public class UILogo : MonoBehaviour {
         if (ct.IsCancellationRequested) {
             return;
         }
+    }
+
+    private void DoSkip() {
+        if (_skipped) {
+            return;
+        }
+        _skipped = true;
+        _cpdFadeIn.SetFinish();
     }
     #endregion
 }
