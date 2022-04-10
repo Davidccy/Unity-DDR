@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,6 +19,7 @@ public class SceneMain : SceneBase {
 
     #region Override Methods
     protected override void OnSceneAwake() {
+        HideAllPages();
         ChangeToPage((UIPage) _initPageIndex, false).DoNotAwait();
     }
     #endregion
@@ -48,5 +48,10 @@ public class SceneMain : SceneBase {
     #endregion
 
     #region Internal Methods
+    private void HideAllPages() {
+        for (int i = 0; i < _uiPages.Length; i++) {
+            _uiPages[i].gameObject.SetActive(false);
+        }
+    }
     #endregion
 }

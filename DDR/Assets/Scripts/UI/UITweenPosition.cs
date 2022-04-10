@@ -2,16 +2,16 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class UITweenCanvasGroupAlpha : MonoBehaviour {
+public class UITweenPosition : MonoBehaviour {
     public enum LoopType {
         None,
         Yoyo,
     }
 
     #region Serialized Fields
-    [SerializeField] private CanvasGroup _cg = null;
-    [SerializeField] private float _alphaMax = 0;
-    [SerializeField] private float _alphaMin = 0;
+    [SerializeField] private RectTransform _rectTarget = null;
+    [SerializeField] private Vector2 _posStart = Vector2.zero;
+    [SerializeField] private Vector2 _posEnd = Vector2.zero;
     [SerializeField] private float _duration = 0;
     [SerializeField] private AnimationCurve _aniCurve = null;
     [SerializeField] private LoopType _loopType = LoopType.None;
@@ -22,34 +22,30 @@ public class UITweenCanvasGroupAlpha : MonoBehaviour {
     #endregion
 
     #region Mono Behaviour Hooks
-    private void OnEnable() {
-        Play().DoNotAwait();
+    private void Awake() {
+        PlayTween().DoNotAwait();
     }
 
     private void OnDestroy() {
-        Stop();
+        StopTween();
     }
     #endregion
 
     #region APIs
-    public void SetAlphaRange(float max, float min) {
-        _alphaMax = max;
-        _alphaMin = min;
+    public void SetPosition(Vector2 posStart, Vector2 posEnd) {
+        _posStart = posStart;
+        _posEnd = posEnd;
     }
 
     public void SetDuration(float duration) {
         _duration = duration;
     }
 
-    public async Task Play() {
-        Stop();
-
-        _cts = new CancellationTokenSource();
-
-        await PlayTween(_cts.Token);
+    public async Task RestartTween() {
+        await PlayTween();
     }
 
-    public void Stop() {
+    public void StopTween() {
         if (_cts != null) {
             _cts.Cancel();
         }
@@ -59,14 +55,23 @@ public class UITweenCanvasGroupAlpha : MonoBehaviour {
     #endregion
 
     #region Internal Methods
-    private async Task PlayTween(CancellationToken ct) {
+    private async Task PlayTween() {
+        if (_cts != null) {
+            _cts.Cancel();
+        }
+
+        _cts = new CancellationTokenSource();
+        await DoTween(_cts.Token);
+    }
+
+    private async Task DoTween(CancellationToken ct) {
         float progress = 0;
         float value = 0;
         float passedTime = 0.0f;
 
         bool toward = true;
         bool tweenFinish = false;
-        
+
         while (!tweenFinish) {
             if (ct.IsCancellationRequested) {
                 return;
@@ -74,7 +79,7 @@ public class UITweenCanvasGroupAlpha : MonoBehaviour {
 
             progress = toward ? (passedTime / _duration) : 1 - (passedTime / _duration);
             value = _aniCurve.Evaluate(progress);
-            _cg.alpha = value;
+            _rectTarget.anchoredPosition = Vector2.Lerp(_posStart, _posEnd, value);
 
             await Task.Delay(1);
 
@@ -92,7 +97,7 @@ public class UITweenCanvasGroupAlpha : MonoBehaviour {
 
         progress = 1;
         value = _aniCurve.Evaluate(progress);
-        _cg.alpha = value;
+        _rectTarget.anchoredPosition = Vector2.Lerp(_posStart, _posEnd, value);
     }
     #endregion
 }

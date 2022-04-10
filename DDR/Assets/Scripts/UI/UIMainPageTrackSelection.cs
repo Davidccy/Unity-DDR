@@ -233,8 +233,6 @@ public class UIMainPageTrackSelection : UIMainPageBase {
 
                 int goalPositionIndex = toNext ? curPositionIndex - 1 : curPositionIndex + 1;
 
-
-
                 UITrackSelectInfo info = _trackSelectInfoList[uiIndex];
 
                 // Position
@@ -245,8 +243,12 @@ public class UIMainPageTrackSelection : UIMainPageBase {
                 // Scale
                 Vector3 startScale = uiIndex == _centerUIIndex ? Vector3.one : Vector3.one * _unselectedScale;
                 Vector3 goalScale = uiIndex == nextCenterUIIndex ? Vector3.one : Vector3.one * _unselectedScale;
-
                 info.transform.localScale = Vector3.Lerp(startScale, goalScale, progress);
+
+                // Unselected mask alpha
+                float startAlpha = uiIndex == _centerUIIndex ? 0 : 1;
+                float goalAlpha = uiIndex == nextCenterUIIndex ? 0 : 1;
+                info.SetUnselectedMaskAlpha(Mathf.Lerp(startAlpha, goalAlpha, progress));
             }
         }
 
