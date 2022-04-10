@@ -44,6 +44,8 @@ public class CustomPlayableDirector : MonoBehaviour {
             _pd.played -= InternalPlayed;
             _pd.paused -= InternalPaused;
         }
+
+        Stop();
     }
     #endregion
 
@@ -60,9 +62,7 @@ public class CustomPlayableDirector : MonoBehaviour {
     }
 
     public void SetFinish() {
-        if (_cts != null) {
-            _cts.Cancel();
-        }
+        Stop();
 
         _pd.time = _pd.duration;
     }
@@ -71,6 +71,8 @@ public class CustomPlayableDirector : MonoBehaviour {
         if (_cts != null) {
             _cts.Cancel();
         }
+
+        _cts = null;
 
         _pd.Stop();
         _isPlaying = false;

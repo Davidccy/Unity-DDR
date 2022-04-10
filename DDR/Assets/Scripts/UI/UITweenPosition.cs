@@ -23,11 +23,11 @@ public class UITweenPosition : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        PlayTween().DoNotAwait();
+        Play().DoNotAwait();
     }
 
     private void OnDestroy() {
-        StopTween();
+        Stop();
     }
     #endregion
 
@@ -41,11 +41,15 @@ public class UITweenPosition : MonoBehaviour {
         _duration = duration;
     }
 
-    public async Task RestartTween() {
-        await PlayTween();
+    public async Task Play() {
+        Stop();
+
+        _cts = new CancellationTokenSource();
+
+        await PlayTween(_cts.Token);
     }
 
-    public void StopTween() {
+    public void Stop() {
         if (_cts != null) {
             _cts.Cancel();
         }
@@ -55,16 +59,7 @@ public class UITweenPosition : MonoBehaviour {
     #endregion
 
     #region Internal Methods
-    private async Task PlayTween() {
-        if (_cts != null) {
-            _cts.Cancel();
-        }
-
-        _cts = new CancellationTokenSource();
-        await DoTween(_cts.Token);
-    }
-
-    private async Task DoTween(CancellationToken ct) {
+    private async Task PlayTween(CancellationToken ct) {
         float progress = 0;
         float value = 0;
         float passedTime = 0.0f;

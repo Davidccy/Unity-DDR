@@ -18,12 +18,8 @@ public class UIResultTap : MonoBehaviour {
     #endregion
 
     #region Mono Behaviour Hooks
-    private void OnEnable() {
-        StopAllCoroutines();
-    }
-
-    private void OnDisable() {
-        StopAllCoroutines();
+    private void OnDestroy() {
+        Stop();
     }
     #endregion
 
@@ -41,20 +37,26 @@ public class UIResultTap : MonoBehaviour {
 
         _cts = new CancellationTokenSource();
 
-        await PlayValue(_cts.Token);
+        await PlayTween(_cts.Token);
     }
 
     public void SetFinish() {
+        Stop();
+
+        Refresh();
+    }
+
+    public void Stop() {
         if (_cts != null) {
             _cts.Cancel();
         }
 
-        Refresh();
+        _cts = null;
     }
     #endregion
 
     #region Internal Methods
-    private async Task PlayValue(CancellationToken ct) {
+    private async Task PlayTween(CancellationToken ct) {
         int score = 0;
 
         while (_score > 0 && score < _score) {
