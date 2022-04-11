@@ -2,35 +2,26 @@
 using UnityEngine.UI;
 using TMPro;
 
-public class UISample : MonoBehaviour {
+public class UITrackInfo : MonoBehaviour {
     #region Serialized Fields
-    [SerializeField] private Button _btn = null;
     [SerializeField] private TextMeshProUGUI _textTrackProgress = null;
     [SerializeField] private TextMeshProUGUI _textCurMeasure = null;
     [SerializeField] private Image _imageProgress = null;
     #endregion
 
     #region Mono Behaviour Hooks
-    private void Awake() {
-        _btn.onClick.AddListener(ButtonOnClick);
-    }
-
     private void Update() {
         Refresh();
     }
-
-    private void OnDestroy() {
-        _btn.onClick.RemoveListener(ButtonOnClick);
-    }
     #endregion
 
-    #region Button Handlings
-    public void ButtonOnClick() {
-        // Load notes
-        PlayerPrefs.SetInt(Utility.PLAYER_PREF_TRACK_ID, 1);
-        TrackManager.Instance.LoadTrackData();
-    }
-    #endregion
+    //#region Button Handlings
+    //public void ButtonOnClick() {
+    //    // Load notes
+    //    PlayerPrefs.SetInt(Utility.PLAYER_PREF_TRACK_ID, 1);
+    //    TrackManager.Instance.LoadTrackData();
+    //}
+    //#endregion
 
     #region Internal Methods
     private void Refresh() {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class UINodeHandler : MonoBehaviour {
@@ -24,6 +23,7 @@ public class UINodeHandler : MonoBehaviour {
     private Dictionary<NodePosition, List<UINode>> _nodeMap = new Dictionary<NodePosition, List<UINode>>();
     private float _nodeHandlingThreshold = 0.15f;
     private float _finalNodeTiming = 0;
+    private bool _isNodeFinished = false;
     #endregion
 
     #region Mono Behaviour Hooks
@@ -38,8 +38,7 @@ public class UINodeHandler : MonoBehaviour {
     private void Update() {
         CheckIsNodeFinished();
     }
-
-    private bool _isNodeFinished = false;
+    
     private void CheckIsNodeFinished() {
         if (!TrackManager.Instance.IsPlaying) {
             return;
@@ -81,19 +80,9 @@ public class UINodeHandler : MonoBehaviour {
     #endregion
 
     #region Callback Handlings
-    private async void OnTrackLoaded() {
+    private void OnTrackLoaded() {
         RemoveNotes();
         GenerateNodes();
-
-        await Task.Delay(1000);
-
-        GameStart();
-    }
-    #endregion
-
-    #region APIs
-    public void GameStart() {
-        TrackManager.Instance.PlayTrack();
     }
     #endregion
 
@@ -200,6 +189,10 @@ public class UINodeHandler : MonoBehaviour {
                     _finalNodeTiming = nodeInfo.Timing;
                 }
             }
+        }
+
+        if (onNodeGenerated != null) {
+            onNodeGenerated();
         }
     }
 

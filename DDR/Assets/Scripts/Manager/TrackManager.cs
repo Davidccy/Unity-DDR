@@ -17,6 +17,7 @@ public class TrackManager : ISingleton<TrackManager> {
     private bool _isPlaying = false;
     private bool _isTrackEnd = false;
     private float _trackTime = 0;
+    private float _delayBeforeReady = 2.0f;
     private float _pre = 0;
     #endregion
 
@@ -157,6 +158,10 @@ public class TrackManager : ISingleton<TrackManager> {
         StartCoroutine(StartTrack());
     }
 
+    //public void StopTrack() {
+    //    Stop();
+    //}
+
     public void PlaySE(bool isPerfect) {
         AsSE.clip = isPerfect ? _acSEPerfect : _acSENormal;
         AsSE.Play();
@@ -194,8 +199,8 @@ public class TrackManager : ISingleton<TrackManager> {
         float spb = 1 / bps;                        // Seconds per bump
         // BPM calculation
 
-        _pre = -(spb * _trackData.ReadyCount - _trackData.StartDelay);
-        float nextBumpTime = _pre; // First bump
+        _pre = -(spb * _trackData.ReadyCount - _trackData.StartDelay + _delayBeforeReady);
+        float nextBumpTime = -(spb * _trackData.ReadyCount - _trackData.StartDelay); // First bump
         while (_pre < 0) {
             yield return new WaitForEndOfFrame();
 
