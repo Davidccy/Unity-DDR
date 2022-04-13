@@ -6,6 +6,7 @@ public class UIMainPageEntry : UIMainPageBase {
     [Header("Sub Content")]
     [SerializeField] private Button _btnEntry = null;
     [SerializeField] private GameObject[] _goWallpaper = null;
+    [SerializeField] private CustomPlayableDirector _cpdIdle = null;
     #endregion
 
     #region Internal Fields
@@ -23,6 +24,18 @@ public class UIMainPageEntry : UIMainPageBase {
 
     private void OnDestroy() {
         _btnEntry.onClick.RemoveListener(ButtonEntryonClick);
+    }
+    #endregion
+
+    #region Override Methods
+    public override void OnFadeInDone() {
+        Debug.LogErrorFormat("onfade in done");
+        _cpdIdle.Play().DoNotAwait();
+    }
+
+    public override void OnFadeOutDone() {
+        Debug.LogErrorFormat("onfade ooooout done");
+        _cpdIdle.Stop();
     }
     #endregion
 

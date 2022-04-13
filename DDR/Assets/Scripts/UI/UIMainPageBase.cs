@@ -14,13 +14,23 @@ public class UIMainPageBase : MonoBehaviour {
     public async Task PlayFadeIn() {
         if (_cpdFadeIn != null) {
             await _cpdFadeIn.Play();
-        }        
+        }
     }
 
     public async Task PlayFadeOut() {
         if (_cpdFadeOut != null) {
             await _cpdFadeOut.Play();
         }        
+    }
+    #endregion
+
+    #region Virtual Methods
+    public virtual void OnFadeInDone() { 
+
+    }
+
+    public virtual void OnFadeOutDone() {
+
     }
     #endregion
 }

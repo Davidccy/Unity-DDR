@@ -32,13 +32,15 @@ public class SceneMain : SceneBase {
 
         if (_curPageIndex != -1) {
             await _uiPages[_curPageIndex].PlayFadeOut();
+            _uiPages[_curPageIndex].OnFadeOutDone();
             _uiPages[_curPageIndex].gameObject.SetActive(false);
         }
 
         _curPageIndex = (int) page;
         _uiPages[_curPageIndex].gameObject.SetActive(true);
+        CommonWindowManager.Instance.FadeOut().DoNotAwait();
         await _uiPages[_curPageIndex].PlayFadeIn();
-        await CommonWindowManager.Instance.FadeOut();
+        _uiPages[_curPageIndex].OnFadeInDone();
     }
 
     public async Task TrackSelectionFinished() {
