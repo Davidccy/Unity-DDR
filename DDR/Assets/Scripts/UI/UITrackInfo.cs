@@ -5,6 +5,7 @@ using TMPro;
 public class UITrackInfo : MonoBehaviour {
     #region Serialized Fields
     [SerializeField] private TextMeshProUGUI _textTrackProgress = null;
+    [SerializeField] private TextMeshProUGUI _textTrackProgressReverse = null;
     [SerializeField] private TextMeshProUGUI _textCurMeasure = null;
     [SerializeField] private Image _imageProgress = null;
     #endregion
@@ -15,20 +16,18 @@ public class UITrackInfo : MonoBehaviour {
     }
     #endregion
 
-    //#region Button Handlings
-    //public void ButtonOnClick() {
-    //    // Load notes
-    //    PlayerPrefs.SetInt(Utility.PLAYER_PREF_TRACK_ID, 1);
-    //    TrackManager.Instance.LoadTrackData();
-    //}
-    //#endregion
-
     #region Internal Methods
     private void Refresh() {
         float trackProgress = TrackManager.Instance.TrackProgress;
         int minutes = Mathf.Max(0, (int) trackProgress / 60);
         int seconds = Mathf.Max(0, (int) trackProgress % 60);
         _textTrackProgress.text = string.Format("{0}:{1:00}", minutes, seconds);
+
+        float trackProgressReverse = TrackManager.Instance.TrackLength - trackProgress;
+        minutes = Mathf.Max(0, (int) trackProgressReverse / 60);
+        seconds = Mathf.Max(0, (int) trackProgressReverse % 60);
+        _textTrackProgressReverse.text = string.Format("{0}:{1:00}", minutes, seconds);
+
         _textCurMeasure.text = string.Format("{0}", TrackManager.Instance.CurMeasure);
 
         bool isTrackEnd = TrackManager.Instance.IsTrackEnd;
