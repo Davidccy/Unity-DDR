@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Playables;
 using TMPro;
 
@@ -62,13 +61,13 @@ public class UINodeRoot : MonoBehaviour {
 
     private void PlayTapResultEffect(TapResult tr) {
         _textTapResult.text = Utility.GetTapResultText(tr);
+        _textTapResult.color = Utility.GetTapResultColor(tr);
         _pdTapResult.Stop();
         _pdTapResult.Play();
 
         if (tr != TapResult.Miss) {
-            _textTapResult.color = Utility.GetTapResultColor(tr);
             _uiHitResult.Play(tr);
-        }        
+        }
     }
 
     private void PlayTapResultSountEffect(TapResult tr) {
