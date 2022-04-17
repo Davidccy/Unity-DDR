@@ -65,8 +65,10 @@ public class UINodeRoot : MonoBehaviour {
         _pdTapResult.Stop();
         _pdTapResult.Play();
 
-        _textTapResult.color = Utility.GetTapResultColor(tr);
-        _uiHitResult.Play(tr);
+        if (tr != TapResult.Miss) {
+            _textTapResult.color = Utility.GetTapResultColor(tr);
+            _uiHitResult.Play(tr);
+        }        
     }
 
     private void PlayTapResultSountEffect(TapResult tr) {

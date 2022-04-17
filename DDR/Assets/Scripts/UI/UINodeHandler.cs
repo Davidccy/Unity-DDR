@@ -98,6 +98,10 @@ public class UINodeHandler : MonoBehaviour {
         float curTiming = TrackManager.Instance.TrackProgress;
         List<UINode> uiNodeList = _nodeMap[np];
         for (int i = 0; i < uiNodeList.Count; i++) {
+            if (uiNodeList[i].IsDone) {
+                continue;
+            } 
+
             float diffTiming = uiNodeList[i].NInfo.Timing - curTiming;
             if (Mathf.Abs(diffTiming) > _nodeHandlingThreshold) {
                 continue;
@@ -109,23 +113,27 @@ public class UINodeHandler : MonoBehaviour {
             }
         }
 
-        // If node found
-        if (nodeIndex != -1) {
-            // Show tap result on node root
-            TapResult result = GetTapResult(minDiffTiming);
-            TapResultEventArgs args = new TapResultEventArgs();
-            args.TR = result;
-            args.NP = np;
-            args.Dispatch();
-
-            // Hide(or destroy) node
-            UINode node = _nodeMap[np][nodeIndex];
-            node.gameObject.SetActive(false);
-            _nodeMap[np].RemoveAt(nodeIndex);
-
-            // Sound effect
-            TrackManager.Instance.PlaySE(result == TapResult.Perfect);
+        if (nodeIndex == -1) {
+            return;
         }
+
+        // Set done
+        UINode node = _nodeMap[np][nodeIndex];
+        node.IsDone = true;
+
+        // Show tap result on node root
+        TapResult result = GetTapResult(minDiffTiming);
+        TapResultEventArgs args = new TapResultEventArgs();
+        args.TR = result;
+        args.NP = np;
+        args.Dispatch();
+
+        // Hide(or destroy) node
+        node.gameObject.SetActive(false);
+        _nodeMap[np].RemoveAt(nodeIndex);
+
+        // Sound effect
+        TrackManager.Instance.PlaySE(result == TapResult.Perfect);
     }
 
     private TapResult GetTapResult(float diffTiming) {
@@ -177,7 +185,7 @@ public class UINodeHandler : MonoBehaviour {
                 }
 
                 UINode uiNode = Instantiate(_uiNodeRes, root.transform);
-                uiNode.SetInfo(root, nodeInfo);
+                uiNode.SetInfo(root, nodeInfo, _nodeHandlingThreshold, OnNodeMissed, OnNodeOutOfBound);
 
                 if (!_nodeMap.ContainsKey(info.NodePosition)) {
                     _nodeMap.Add(info.NodePosition, new List<UINode>());
@@ -216,6 +224,23 @@ public class UINodeHandler : MonoBehaviour {
         }
 
         return root;
+    }
+
+    private void OnNodeMissed(UINode node) {
+        // Set done
+        node.IsDone = true;
+
+        // Show tap result on node root
+        TapResultEventArgs args = new TapResultEventArgs();
+        args.TR = TapResult.Miss;
+        args.NP = node.NInfo.Position;
+        args.Dispatch();
+    }
+
+    private void OnNodeOutOfBound(UINode node) {
+        // Hide(or destroy) node
+        node.gameObject.SetActive(false);
+        _nodeMap[node.NInfo.Position].Remove(node);
     }
     #endregion
 }

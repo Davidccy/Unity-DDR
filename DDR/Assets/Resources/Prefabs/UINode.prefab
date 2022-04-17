@@ -83,6 +83,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8821484179239867128}
+  - component: {fileID: 1390014047278836774}
   m_Layer: 5
   m_Name: GoIconRoot
   m_TagString: Untagged
@@ -111,6 +112,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1390014047278836774
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3397133839824128500}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4590700429285576857
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +529,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _textRemainTiming: {fileID: 5716040657083374517}
+  _cgRoot: {fileID: 1390014047278836774}
   _goIconRoot: {fileID: 3397133839824128500}
   _goArrow: {fileID: 7505733609981116075}
+  _imageArrow: {fileID: 2253130492980395915}
   _goRect: {fileID: 4615241097391229151}
+  _imageRect: {fileID: 7140268264828154420}
