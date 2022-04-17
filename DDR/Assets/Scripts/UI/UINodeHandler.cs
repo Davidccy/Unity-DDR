@@ -29,9 +29,6 @@ public class UINodeHandler : MonoBehaviour {
     #region Mono Behaviour Hooks
     private void Awake() {
         TrackManager.Instance.onTrackLoaded += OnTrackLoaded;
-    }
-
-    private void OnEnable() {
         EventManager.Instance.Register(EventTypes.NODE_PRESSED, OnNodePressed);
     }
 
@@ -58,16 +55,14 @@ public class UINodeHandler : MonoBehaviour {
         }
     }
 
-    private void OnDisable() {
-        if (EventManager.Instance != null) {
-            EventManager.Instance.Unregister(EventTypes.NODE_PRESSED, OnNodePressed);
-        }        
-    }
-
     private void OnDestroy() {
         if (TrackManager.Instance != null) {
             TrackManager.Instance.onTrackLoaded -= OnTrackLoaded;
-        }        
+        }
+
+        if (EventManager.Instance != null) {
+            EventManager.Instance.Unregister(EventTypes.NODE_PRESSED, OnNodePressed);
+        }
     }
     #endregion
 
