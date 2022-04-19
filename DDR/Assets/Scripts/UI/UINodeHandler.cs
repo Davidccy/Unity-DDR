@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class UINodeHandler : MonoBehaviour {
@@ -13,11 +12,6 @@ public class UINodeHandler : MonoBehaviour {
     [SerializeField] private UINode _uiNodeRes = null;
     #endregion
 
-    #region Exposed Fields
-    public Action onNodeGenerated = null;
-    public Action onFinalNodeFinished = null;
-    #endregion
-
     #region Internal Fields
     private float _speed = 3.0f;
     private Dictionary<NodePosition, List<UINode>> _nodeMap = new Dictionary<NodePosition, List<UINode>>();
@@ -28,7 +22,7 @@ public class UINodeHandler : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        TrackManager.Instance.onTrackLoaded += OnTrackLoaded;
+        EventManager.Instance.Register(EventTypes.TRACK_LOADED, OnTrackLoaded);
         EventManager.Instance.Register(EventTypes.NODE_PRESSED, OnNodePressed);
     }
 
@@ -36,48 +30,24 @@ public class UINodeHandler : MonoBehaviour {
         CheckIsNodeFinished();
     }
     
-    private void CheckIsNodeFinished() {
-        if (!TrackManager.Instance.IsPlaying) {
-            return;
-        }
-
-        if (_isNodeFinished) {
-            return;
-        }
-
-        if (TrackManager.Instance.TrackProgress < _finalNodeTiming) {
-            return;   
-        }
-
-        _isNodeFinished = true;
-        if (onFinalNodeFinished != null) {
-            onFinalNodeFinished();
-        }
-    }
-
     private void OnDestroy() {
-        if (TrackManager.Instance != null) {
-            TrackManager.Instance.onTrackLoaded -= OnTrackLoaded;
-        }
-
         if (EventManager.Instance != null) {
+            EventManager.Instance.Unregister(EventTypes.TRACK_LOADED, OnTrackLoaded);
             EventManager.Instance.Unregister(EventTypes.NODE_PRESSED, OnNodePressed);
         }
     }
     #endregion
 
     #region Event Handlings
+    private void OnTrackLoaded(BaseEventArgs args) {
+        RemoveNotes();
+        GenerateNodes();
+    }
+
     private void OnNodePressed(BaseEventArgs args) {
         NodePressedEventArgs npArgs = args as NodePressedEventArgs;
         NodePosition np = npArgs.NP;
         NodeHandling(np);
-    }
-    #endregion
-
-    #region Callback Handlings
-    private void OnTrackLoaded() {
-        RemoveNotes();
-        GenerateNodes();
     }
     #endregion
 
@@ -194,9 +164,8 @@ public class UINodeHandler : MonoBehaviour {
             }
         }
 
-        if (onNodeGenerated != null) {
-            onNodeGenerated();
-        }
+        NodeGeneratedEventArgs args = new NodeGeneratedEventArgs();
+        args.Dispatch();
     }
 
     private UINodeRoot GetUINodeRoot(NodePosition np) {
@@ -236,6 +205,25 @@ public class UINodeHandler : MonoBehaviour {
         // Hide(or destroy) node
         node.gameObject.SetActive(false);
         _nodeMap[node.NInfo.Position].Remove(node);
+    }
+
+    private void CheckIsNodeFinished() {
+        if (!TrackManager.Instance.IsPlaying) {
+            return;
+        }
+
+        if (_isNodeFinished) {
+            return;
+        }
+
+        if (TrackManager.Instance.TrackProgress < _finalNodeTiming) {
+            return;
+        }
+
+        _isNodeFinished = true;
+
+        FinalNodeFinishedEventArgs args = new FinalNodeFinishedEventArgs();
+        args.Dispatch();
     }
     #endregion
 }

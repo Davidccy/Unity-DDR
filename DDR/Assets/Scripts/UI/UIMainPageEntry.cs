@@ -29,12 +29,10 @@ public class UIMainPageEntry : UIMainPageBase {
 
     #region Override Methods
     public override void OnFadeInDone() {
-        Debug.LogErrorFormat("onfade in done");
         _cpdIdle.Play().DoNotAwait();
     }
 
     public override void OnFadeOutDone() {
-        Debug.LogErrorFormat("onfade ooooout done");
         _cpdIdle.Stop();
     }
     #endregion

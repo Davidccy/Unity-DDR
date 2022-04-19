@@ -21,10 +21,6 @@ public class TrackManager : ISingleton<TrackManager> {
     private float _pre = 0;
     #endregion
 
-    #region Exposed Fields
-    public Action onTrackLoaded;
-    #endregion
-
     #region Properties
     public TrackData TrackData {
         get {
@@ -147,9 +143,9 @@ public class TrackManager : ISingleton<TrackManager> {
         _acSEPerfect = Utility.GetSEPerfect();
         _acSENormal = Utility.GetSENormal();
 
-        if (onTrackLoaded != null) {
-            onTrackLoaded();
-        }
+
+        TrackLoadedEventArgs args = new TrackLoadedEventArgs();
+        args.Dispatch();
     }
 
     public void PlayTrack(bool playReadyBump = false) {

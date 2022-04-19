@@ -41,3 +41,21 @@ public class TapResultEventArgs : BaseEventArgs {
         ID = EventTypes.TAP_RESULT;
     }
 }
+
+public class NodeGeneratedEventArgs : BaseEventArgs {
+    public NodeGeneratedEventArgs() {
+        ID = EventTypes.NODE_GENERATED;
+    }
+}
+
+public class FinalNodeFinishedEventArgs : BaseEventArgs {
+    public FinalNodeFinishedEventArgs() {
+        ID = EventTypes.FINAL_NODE_FINISHED;
+    }
+}
+
+public class TrackLoadedEventArgs : BaseEventArgs {
+    public TrackLoadedEventArgs() {
+        ID = EventTypes.TRACK_LOADED;
+    }
+}

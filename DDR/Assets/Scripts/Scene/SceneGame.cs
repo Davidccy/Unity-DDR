@@ -13,39 +13,38 @@ public class SceneGame : SceneBase {
 
     #region Override Methods
     protected override void OnSceneAwake() {
-        Init();
-        LoadTrack();
+        EventManager.Instance.Register(EventTypes.NODE_GENERATED, OnNodeGenerated);
+        EventManager.Instance.Register(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
 
         _btn.onClick.AddListener(ButtononClick);
+
+        LoadTrack();
     }
 
     protected override void OnSceneDestroy() {
-        UnInit();
-
+        if (EventManager.Instance != null) {
+            EventManager.Instance.Register(EventTypes.NODE_GENERATED, OnNodeGenerated);
+            EventManager.Instance.Register(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+        }
+        
         _btn.onClick.RemoveListener(ButtononClick);
     }
     #endregion
 
+    #region Button Handlings
     private void ButtononClick() {
         TrackManager.Instance.LoadTrackData();
     }
+    #endregion
 
     #region Internal Methods
-    private void Init() {
-        _uiNodeHandler.onNodeGenerated += OnNodeGenerated;
-        _uiNodeHandler.onFinalNodeFinished += OnFinalNodeFinished;
-    }
+    private async void LoadTrack() {
+        await Task.Delay(100);
 
-    private void UnInit() {
-        _uiNodeHandler.onNodeGenerated -= OnNodeGenerated;
-        _uiNodeHandler.onFinalNodeFinished -= OnFinalNodeFinished;
-    }
-
-    private void LoadTrack() {
         TrackManager.Instance.LoadTrackData();
     }
 
-    private async void OnNodeGenerated() {
+    private async void OnNodeGenerated(BaseEventArgs args) {
         await Task.Delay((int) _startWaiting * 1000);
 
         // Start playing track
@@ -59,7 +58,7 @@ public class SceneGame : SceneBase {
         }
     }
 
-    private async void OnFinalNodeFinished() {
+    private async void OnFinalNodeFinished(BaseEventArgs args) {
         await Task.Delay((int) _finishedWaiting * 1000);
 
         if (CommonWindowManager.Instance != null) {

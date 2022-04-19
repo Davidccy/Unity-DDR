@@ -22,23 +22,20 @@ public class UIScore : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        TrackManager.Instance.onTrackLoaded += OnTrackLoaded;
+        EventManager.Instance.Register(EventTypes.TRACK_LOADED, OnTrackLoaded);
         EventManager.Instance.Register(EventTypes.TAP_RESULT, OnTapResult);
     }
 
     private void OnDestroy() {
-        if (TrackManager.Instance != null) {
-            TrackManager.Instance.onTrackLoaded -= OnTrackLoaded;
-        }
-
         if (EventManager.Instance != null) {
+            EventManager.Instance.Unregister(EventTypes.TRACK_LOADED, OnTrackLoaded);
             EventManager.Instance.Unregister(EventTypes.TAP_RESULT, OnTapResult);
         }
     }
     #endregion
 
     #region Event Handlings
-    private void OnTrackLoaded() {
+    private void OnTrackLoaded(BaseEventArgs args) {
         RebuildScoreData();
         UpdateScore();
     }
