@@ -14,13 +14,19 @@ public class SceneMain : SceneBase {
     #endregion
 
     #region Internal Fields
-    private int _curPageIndex = -1;
+    private static int _curPageIndex = -1;
     #endregion
 
     #region Override Methods
     protected override void OnSceneAwake() {
         HideAllPages();
-        ChangeToPage((UIPage) _initPageIndex, false).DoNotAwait();
+
+        if (_curPageIndex == -1) {
+            ChangeToPage((UIPage) _initPageIndex, false).DoNotAwait();
+        }
+        else {
+            ChangeToPage((UIPage) _curPageIndex, false).DoNotAwait();
+        }        
     }
     #endregion
 
