@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 
-public class UIScore : MonoBehaviour {
+public class UIScore : MonoBehaviour {    
     #region Serialized Fields
     [SerializeField] private List<TextMeshProUGUI> _textScoreList = null;
     [SerializeField] private float _performanceDuration = 0.5f;
@@ -15,8 +15,8 @@ public class UIScore : MonoBehaviour {
     private readonly int _TOTAL_SCORE = 1000000;
     private int _totalNode = 0;
     private Dictionary<TapResult, int> _tapResultData = new Dictionary<TapResult, int>();
-    private float _currentScore = 0;
-    private float _performanceScore = 0;
+    private int _currentScore = 0;
+    private int _performanceScore = 0;
     private CancellationTokenSource _cts = null;
     #endregion
 
@@ -24,12 +24,14 @@ public class UIScore : MonoBehaviour {
     private void Awake() {
         EventManager.Instance.Register(EventTypes.TRACK_LOADED, OnTrackLoaded);
         EventManager.Instance.Register(EventTypes.TAP_RESULT, OnTapResult);
+        EventManager.Instance.Register(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
     }
 
     private void OnDestroy() {
         if (EventManager.Instance != null) {
             EventManager.Instance.Unregister(EventTypes.TRACK_LOADED, OnTrackLoaded);
             EventManager.Instance.Unregister(EventTypes.TAP_RESULT, OnTapResult);
+            EventManager.Instance.Unregister(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
         }
     }
     #endregion
@@ -46,6 +48,15 @@ public class UIScore : MonoBehaviour {
         _tapResultData[trArgs.TR] += 1;
 
         UpdateScore();
+    }
+
+    private void OnFinalNodeFinished(BaseEventArgs args) {
+        TempResultData rd = new TempResultData();
+        rd.Score = _currentScore;
+        rd.TotalTaps = _totalNode;
+        rd.Taps = _tapResultData;
+
+        TempDataManager.SaveData(Define.TEMP_GAME_DATA_KEY_RESULT, rd);
     }
     #endregion
 
@@ -78,7 +89,7 @@ public class UIScore : MonoBehaviour {
         totalGainedPoint += _tapResultData[TapResult.Great] * 0.8f;
         totalGainedPoint += _tapResultData[TapResult.Perfect] * 1.0f;
 
-        _currentScore = _TOTAL_SCORE * ((float) totalGainedPoint / _totalNode);
+        _currentScore = (int) (_TOTAL_SCORE * ((float) totalGainedPoint / _totalNode));
 
         StopPerformance();
         PlayPerformance();
@@ -100,10 +111,10 @@ public class UIScore : MonoBehaviour {
         _cts = null;
     }
 
-    private async void Performance(CancellationToken ct, float goalValue) {
+    private async void Performance(CancellationToken ct, int goalValue) {
         float passedTime = 0;
         float progress = 0;
-        float startValue = _performanceScore;
+        int startValue = _performanceScore;
 
         while (passedTime < _performanceDuration) {
             if (ct.IsCancellationRequested) {
@@ -111,7 +122,7 @@ public class UIScore : MonoBehaviour {
             }
 
             progress = passedTime / _performanceDuration;
-            _performanceScore = Mathf.Lerp(startValue, goalValue, progress);
+            _performanceScore = (int) Mathf.Lerp(startValue, goalValue, progress);
             ShowScore(string.Format("{0:0000000}", _performanceScore));
 
             await Task.Delay(1);

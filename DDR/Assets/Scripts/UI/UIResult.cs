@@ -43,9 +43,6 @@ public class UIResult : MonoBehaviour {
 
     #region Internal Fields
     private ResultStep _rStep = ResultStep.None;
-    private TapScore _scorePerfect = new TapScore { Score = 200, ScoreMax = 234 }; // Temp
-    private TapScore _scoreGood = new TapScore { Score = 20, ScoreMax = 234 }; // Temp
-    private TapScore _scoreMiss = new TapScore { Score = 33, ScoreMax = 234 }; // Temp
     private bool _resultFInishedTriggered = false;
     #endregion
 
@@ -96,13 +93,15 @@ public class UIResult : MonoBehaviour {
     }
 
     private async Task PlayResultTap() {
+        TempResultData rd = TempDataManager.LoadData<TempResultData>(Define.TEMP_GAME_DATA_KEY_RESULT);
+
         _rStep = ResultStep.Tap;
 
         List<Task> tasks = new List<Task>();
         tasks.Add(_cpdTap.Play());
-        tasks.Add(_resultTapPerfect.Play(_scorePerfect.Score, _scorePerfect.ScoreMax));
-        tasks.Add(_resultTapGood.Play(_scoreGood.Score, _scoreGood.ScoreMax));
-        tasks.Add(_resultTapMiss.Play(_scoreMiss.Score, _scoreMiss.ScoreMax));
+        tasks.Add(_resultTapPerfect.Play(rd.Taps[TapResult.Perfect], rd.TotalTaps));
+        tasks.Add(_resultTapGood.Play(rd.Taps[TapResult.Good], rd.TotalTaps));
+        tasks.Add(_resultTapMiss.Play(rd.Taps[TapResult.Miss], rd.TotalTaps));
         await Task.WhenAll(tasks.ToArray());
     }
 
