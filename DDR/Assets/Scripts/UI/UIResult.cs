@@ -27,6 +27,7 @@ public class UIResult : MonoBehaviour {
 
     [Header("Tap")]
     [SerializeField] private UIResultTap _resultTapPerfect = null;
+    [SerializeField] private UIResultTap _resultTapGreat = null;
     [SerializeField] private UIResultTap _resultTapGood = null;
     [SerializeField] private UIResultTap _resultTapMiss = null;
     [SerializeField] private CustomPlayableDirector _cpdTap = null;
@@ -82,6 +83,7 @@ public class UIResult : MonoBehaviour {
         _resultFInishedTriggered = false;
 
         _resultTapPerfect.SetScore(0, 0);
+        _resultTapGreat.SetScore(0, 0);
         _resultTapGood.SetScore(0, 0);
         _resultTapMiss.SetScore(0, 0);
     }
@@ -100,6 +102,7 @@ public class UIResult : MonoBehaviour {
         List<Task> tasks = new List<Task>();
         tasks.Add(_cpdTap.Play());
         tasks.Add(_resultTapPerfect.Play(rd.Taps[TapResult.Perfect], rd.TotalTaps));
+        tasks.Add(_resultTapGreat.Play(rd.Taps[TapResult.Great], rd.TotalTaps));
         tasks.Add(_resultTapGood.Play(rd.Taps[TapResult.Good], rd.TotalTaps));
         tasks.Add(_resultTapMiss.Play(rd.Taps[TapResult.Miss], rd.TotalTaps));
         await Task.WhenAll(tasks.ToArray());
@@ -124,6 +127,7 @@ public class UIResult : MonoBehaviour {
         else if (_rStep == ResultStep.Tap) {
             _cpdTap.SetFinish();
             _resultTapPerfect.SetFinish();
+            _resultTapGreat.SetFinish();
             _resultTapGood.SetFinish();
             _resultTapMiss.SetFinish();
         }

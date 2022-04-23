@@ -11,10 +11,10 @@ public enum NodePosition {
 }
 
 public enum TapResult {
-    Miss,
-    Good,
-    Great,
     Perfect,
+    Great,
+    Good,
+    Miss,
 }
 
 public enum ResultRank { 

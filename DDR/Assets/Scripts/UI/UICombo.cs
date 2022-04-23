@@ -43,7 +43,7 @@ public class UICombo : MonoBehaviour {
     private void OnTapResult(BaseEventArgs args) {
         TapResultEventArgs trArgs = args as TapResultEventArgs;
 
-        if (trArgs.TR != (int) TapResult.Miss) {
+        if (trArgs.TR != TapResult.Miss) {
             _comboCount += 1;
         }
         else {
