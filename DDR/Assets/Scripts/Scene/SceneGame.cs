@@ -23,8 +23,8 @@ public class SceneGame : SceneBase {
 
     protected override void OnSceneDestroy() {
         if (EventManager.Instance != null) {
-            EventManager.Instance.Register(EventTypes.NODE_GENERATED, OnNodeGenerated);
-            EventManager.Instance.Register(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+            EventManager.Instance.Unregister(EventTypes.NODE_GENERATED, OnNodeGenerated);
+            EventManager.Instance.Unregister(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
         }
         
         _btn.onClick.RemoveListener(ButtononClick);
