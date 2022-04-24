@@ -18,13 +18,19 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     [SerializeField] private Button _btnConfirm = null;
 
     [SerializeField] private Button _btnStart = null;
-    [SerializeField] private Button _btnCancel = null;
+    [SerializeField] private Button _btnOption = null;
+
+    [SerializeField] private Button _btnConfirmCancel = null;
+    [SerializeField] private Button _btnOptionCancel = null;
     [SerializeField] private SelectData _selectData = null;
 
     [SerializeField] private List<UITrackSelectInfo> _trackSelectInfoList = new List<UITrackSelectInfo>(); // Count should be odd number
 
-    [SerializeField] private PlayableDirector _pdTrackConfirm = null;
-    [SerializeField] private PlayableDirector _pdTrackCancel = null;
+    [SerializeField] private CustomPlayableDirector _cpdTrackConfirm = null;
+    [SerializeField] private CustomPlayableDirector _cpdTrackCancel = null;
+
+    [SerializeField] private CustomPlayableDirector _cpdOptionFadeIn = null;
+    [SerializeField] private CustomPlayableDirector _cpdOptionFadeOut = null;
 
     [Header("Sub Content - Performance Settings")]
     [SerializeField] private float _space = 0;
@@ -61,7 +67,9 @@ public class UIMainPageTrackSelection : UIMainPageBase {
         _btnNext.onClick.AddListener(ButtonNextOnClick);
         _btnConfirm.onClick.AddListener(ButtonConfirmOnClick);
         _btnStart.onClick.AddListener(ButtonStartOnClick);
-        _btnCancel.onClick.AddListener(ButtonCancelOnClick);
+        _btnOption.onClick.AddListener(ButtonOptionOnClick);
+        _btnConfirmCancel.onClick.AddListener(ButtonConfirmCancelOnClick);
+        _btnOptionCancel.onClick.AddListener(ButtonOptionCancelOnClick);
     }
 
     private void OnEnable() {
@@ -74,7 +82,9 @@ public class UIMainPageTrackSelection : UIMainPageBase {
         _btnNext.onClick.RemoveListener(ButtonNextOnClick);
         _btnConfirm.onClick.RemoveListener(ButtonConfirmOnClick);
         _btnStart.onClick.RemoveListener(ButtonStartOnClick);
-        _btnCancel.onClick.RemoveListener(ButtonCancelOnClick);
+        _btnOption.onClick.RemoveListener(ButtonOptionOnClick);
+        _btnConfirmCancel.onClick.RemoveListener(ButtonConfirmCancelOnClick);
+        _btnOptionCancel.onClick.RemoveListener(ButtonOptionCancelOnClick);
     }
     #endregion
 
@@ -107,25 +117,28 @@ public class UIMainPageTrackSelection : UIMainPageBase {
         _trackSelectInfoList[_centerUIIndex].transform.SetParent(_goSelectedRoot.transform);
         _trackSelectInfoList[_centerUIIndex].PlayFadeIn();
 
-        _pdTrackConfirm.Play();
+        _cpdTrackConfirm.Play().DoNotAwait();
     }
 
     private void ButtonStartOnClick() {
         _sceneMain.TrackSelectionFinished().DoNotAwait();
     }
 
-    private void ButtonCancelOnClick() {
-        _trackSelectInfoList[_centerUIIndex].PlayFadeOut();
-
-        _pdTrackCancel.stopped -= OnFadeInFinished;
-        _pdTrackCancel.stopped += OnFadeInFinished;
-
-        _pdTrackCancel.Play();
+    private void ButtonOptionOnClick() {
+        _cpdOptionFadeIn.Play().DoNotAwait();
     }
 
-    private void OnFadeInFinished(PlayableDirector pd) {
-        _trackSelectInfoList[_centerUIIndex].transform.SetParent(_goContentRoot.transform);
-        _trackSelectInfoList[_centerUIIndex].transform.SetSiblingIndex(_centerUIIndex);
+    private void ButtonConfirmCancelOnClick() {
+        _trackSelectInfoList[_centerUIIndex].PlayFadeOut();
+
+        _cpdTrackCancel.Play(() => {
+            _trackSelectInfoList[_centerUIIndex].transform.SetParent(_goContentRoot.transform);
+            _trackSelectInfoList[_centerUIIndex].transform.SetSiblingIndex(_centerUIIndex);
+        }).DoNotAwait();
+    }
+
+    private void ButtonOptionCancelOnClick() {
+        _cpdOptionFadeOut.Play().DoNotAwait();
     }
     #endregion
 

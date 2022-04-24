@@ -25,6 +25,16 @@ public enum ResultRank {
     B,
     C,
 }
+
+public enum NodeMovingType { 
+    Falling,
+    Raising,
+}
+
+public enum ControlType { 
+    Keyboard,
+    Touching,
+}
 #endregion
 
 #region Temp Data
@@ -63,10 +73,9 @@ public class SelectInfo {
 }
 
 public static class Define {
-    #region Player Pref Keys
-    public static string PLAYER_PREF_KEY_TRACK_NAME = "Track_Name";
-    public static string PLAYER_PREF_KEY_SE_TYPE = "SE_Type";
-    #endregion
+    public static int SPEED_LEVEL_MIN = 1;
+    public static int SPEED_LEVEL_MAX = 20;
+    public static float SPEED_PER_LEVEL = 0.5f;
 
     #region Scene Names
     public static string SCENE_COMMON = "Common";
@@ -76,7 +85,15 @@ public static class Define {
     public static string SCENE_RESULT = "Result";
     #endregion
 
+    #region Game Data Keys
+    public static string GAME_DATA_KEY_SE_TYPE = "Game_Data_SE_Type"; // TODO
+    public static string GAME_DATA_KEY_SPEED_LEVEL = "Game_Data_Speed_Level";
+    public static string GAME_DATA_KEY_NODE_MOVING_TYPE = "Game_Data_Node_Moving_Type";
+    public static string GAME_DATA_KEY_CONTROL_TYPE = "Game_Data_Control_Type";
+    #endregion
+
     #region Temporary Game Data Keys
+    public static string TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID = "Temp_Selected_Track_ID";
     public static string TEMP_GAME_DATA_KEY_RESULT = "Temp_Result";
     #endregion
 }

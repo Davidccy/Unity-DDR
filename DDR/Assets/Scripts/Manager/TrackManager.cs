@@ -130,7 +130,8 @@ public class TrackManager : ISingleton<TrackManager> {
 
     #region APIs
     public void LoadTrackData() {
-        int trackID = PlayerPrefs.HasKey(Utility.PLAYER_PREF_TRACK_ID) ? PlayerPrefs.GetInt(Utility.PLAYER_PREF_TRACK_ID) : 0;
+        int trackID = 1; // TODO
+        //int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
 
         // Load data
         _trackData = Utility.GetTrackData(trackID);
@@ -143,7 +144,7 @@ public class TrackManager : ISingleton<TrackManager> {
         _acSEPerfect = Utility.GetSEPerfect();
         _acSENormal = Utility.GetSENormal();
 
-
+        // Loading finished
         TrackLoadedEventArgs args = new TrackLoadedEventArgs();
         args.Dispatch();
     }

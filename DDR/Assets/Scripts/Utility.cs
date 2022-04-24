@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 
 public static class Utility {
-    #region Keys
-    public static string PLAYER_PREF_TRACK_ID = "PlayerPref_Track_ID";
-    #endregion
-
     #region Tap Related Handlings     
     public static string GetTapResultText(TapResult tr) {
         string text = string.Empty;
