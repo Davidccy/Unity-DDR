@@ -76,4 +76,11 @@ public static class Utility {
         return ac;
     }
     #endregion
+
+    #region Track Speed Handlings
+    public static float GetTrackSpeed() {
+        int speedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL);
+        return speedLevel * Define.SPEED_PER_LEVEL + Define.SPEED_BASE;
+    }
+    #endregion
 }

@@ -13,7 +13,6 @@ public class UINodeHandler : MonoBehaviour {
     #endregion
 
     #region Internal Fields
-    private float _speed = 3.0f;
     private Dictionary<NodePosition, List<UINode>> _nodeMap = new Dictionary<NodePosition, List<UINode>>();
     private float _nodeHandlingThreshold = 0.15f;
     private float _finalNodeTiming = 0;
@@ -130,6 +129,8 @@ public class UINodeHandler : MonoBehaviour {
     private void GenerateNodes() {
         TrackData td = TrackManager.Instance.TrackData;
 
+        float speedValue = Utility.GetTrackSpeed();
+
         int bpm = td.BPM;
         float timePerMeasure = 60.0f / (float) bpm * 4;
 
@@ -142,7 +143,7 @@ public class UINodeHandler : MonoBehaviour {
                 NodeInfoTest nodeInfo = new NodeInfoTest();
                 nodeInfo.Position = info.NodePosition;
                 nodeInfo.Timing = timePerMeasure * ((measure - 1) + info.Timing) + td.FirstMeasure;
-                nodeInfo.Speed = _speed;
+                nodeInfo.Speed = speedValue;
 
                 UINodeRoot root = GetUINodeRoot(info.NodePosition);
                 if (root == null) {

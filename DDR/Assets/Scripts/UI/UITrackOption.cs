@@ -111,6 +111,9 @@ public class UITrackOption : MonoBehaviour {
 
     #region Internal Methods
     private void InitUI() {
+        _sliderSpeed.minValue = Define.SPEED_LEVEL_MIN;
+        _sliderSpeed.maxValue = Define.SPEED_LEVEL_MAX;
+
         _curSpeedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL);
         _sliderSpeed.value = _curSpeedLevel;
     }
@@ -123,7 +126,8 @@ public class UITrackOption : MonoBehaviour {
 
     private void RefreshSpeedSetting() {
         _curSpeedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL);
-        float speedValue = _curSpeedLevel * Define.SPEED_PER_LEVEL;
+
+        float speedValue = Utility.GetTrackSpeed();
         _textSpeedValue.text = string.Format("{0:0.0}", speedValue);
     }
 

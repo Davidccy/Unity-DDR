@@ -73,9 +73,12 @@ public class SelectInfo {
 }
 
 public static class Define {
+    #region Track Speed
     public static int SPEED_LEVEL_MIN = 1;
-    public static int SPEED_LEVEL_MAX = 20;
+    public static int SPEED_LEVEL_MAX = 19;
     public static float SPEED_PER_LEVEL = 0.5f;
+    public static float SPEED_BASE = 0.5f;
+    #endregion
 
     #region Scene Names
     public static string SCENE_COMMON = "Common";
