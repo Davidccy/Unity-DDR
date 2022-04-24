@@ -18,7 +18,7 @@ public class UINode : MonoBehaviour {
 
     #region Internal Fields
     private UINodeRoot _uiNodeRoot = null;
-    private NodeInfoTest _nInfo;
+    private NodeDisplayInfo _ndInfo;
     private float _nodeHandlingThreshold;
     private Action<UINode> _onNodeMissedAction;
     private Action<UINode> _onNodeOutOfBoundAction;
@@ -26,9 +26,9 @@ public class UINode : MonoBehaviour {
     #endregion
 
     #region Properties
-    public NodeInfoTest NInfo {
+    public NodeDisplayInfo NDInfo {
         get {
-            return _nInfo;
+            return _ndInfo;
         }
     }
 
@@ -44,9 +44,9 @@ public class UINode : MonoBehaviour {
     #endregion
 
     #region APIs
-    public void SetInfo(UINodeRoot uiNodeRoot, NodeInfoTest nInfo, float nodeHandlingThreshold, Action<UINode> onNodeMissedAction, Action<UINode> onNodeOutOfBoundAction) {
+    public void SetInfo(UINodeRoot uiNodeRoot, NodeDisplayInfo ndInfo, float nodeHandlingThreshold, Action<UINode> onNodeMissedAction, Action<UINode> onNodeOutOfBoundAction) {
         _uiNodeRoot = uiNodeRoot;
-        _nInfo = nInfo;
+        _ndInfo = ndInfo;
         _nodeHandlingThreshold = nodeHandlingThreshold;
         _onNodeMissedAction = onNodeMissedAction;
         _onNodeOutOfBoundAction = onNodeOutOfBoundAction;
@@ -70,20 +70,20 @@ public class UINode : MonoBehaviour {
 
 
     private void RefreshIcon() {
-        if (_nInfo == null) {
+        if (_ndInfo == null) {
             return;
         }
 
-        _goArrow.SetActive(_nInfo.Position != NodePosition.Space);
-        _goRect.SetActive(_nInfo.Position == NodePosition.Space);
+        _goArrow.SetActive(_ndInfo.Position != NodePosition.Space);
+        _goRect.SetActive(_ndInfo.Position == NodePosition.Space);
     }
 
     private void RefreshDirection() {
-        if (_nInfo == null) {
+        if (_ndInfo == null) {
             return;
         }
 
-        switch (_nInfo.Position) {
+        switch (_ndInfo.Position) {
             case NodePosition.Left:
                 _goIconRoot.transform.localRotation = Quaternion.Euler(0, 0, 180);
                 break;
@@ -111,17 +111,20 @@ public class UINode : MonoBehaviour {
     }
 
     private void RefreshPosition() {
-        if (_nInfo == null) {
+        if (_ndInfo == null) {
             return;
         }
 
         float curTiming = TrackManager.Instance.TrackProgress;
-        float timingDiff = _nInfo.Timing - curTiming; // If 'timingDiff' > 0, means the node not passed yet
+        float timingDiff = _ndInfo.Timing - curTiming; // If 'timingDiff' > 0, means the node not passed yet
 
         _textRemainTiming.text = string.Format("{0:F4}", timingDiff);
 
+        float height = timingDiff * _ndInfo.Speed * 100;
+        height = _ndInfo.MovingType == NodeMovingType.Raising ? -height : height;
+
         RectTransform rt = this.transform as RectTransform;
-        rt.anchoredPosition = new Vector3(0, -(timingDiff * _nInfo.Speed * 100), 0);
+        rt.anchoredPosition = new Vector3(0, height, 0);
     }
 
     private void CheckIsMissed() {
@@ -130,7 +133,7 @@ public class UINode : MonoBehaviour {
         }
 
         float curTiming = TrackManager.Instance.TrackProgress;
-        float timingDiff = _nInfo.Timing - curTiming; // If 'timingDiff' > 0, means the node not passed yet
+        float timingDiff = _ndInfo.Timing - curTiming; // If 'timingDiff' > 0, means the node not passed yet
 
         if (timingDiff < -_nodeHandlingThreshold) {
             _onNodeMissedAction(this);
@@ -139,7 +142,7 @@ public class UINode : MonoBehaviour {
 
     private void CheckIsOutOfBound() {
         float curTiming = TrackManager.Instance.TrackProgress;
-        float timingDiff = _nInfo.Timing - curTiming; // If 'timingDiff' > 0, means the node not passed yet
+        float timingDiff = _ndInfo.Timing - curTiming; // If 'timingDiff' > 0, means the node not passed yet
 
         if (timingDiff < -2) {
             _onNodeOutOfBoundAction(this);

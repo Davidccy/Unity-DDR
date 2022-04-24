@@ -1,18 +1,40 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class UINodeHandler : MonoBehaviour {
+    [System.Serializable]
+    public class NodeRootSet {
+        public GameObject GoRoot;
+        public UINodeRoot NodeLeft;
+        public UINodeRoot NodeUp;
+        public UINodeRoot NodeDown;
+        public UINodeRoot NodeRight;
+        public UINodeRoot NodeSpace;
+    }
+
+    [System.Serializable]
+    public class HitEffectRootSet {
+        public ParentConstraint PCLeft;
+        public ParentConstraint PCUp;
+        public ParentConstraint PCDown;
+        public ParentConstraint PCRight;
+        public ParentConstraint PCSpace;
+    }
+
     #region Serialized Fields
-    [SerializeField] private UINodeRoot _uiNodeLeft = null;
-    [SerializeField] private UINodeRoot _uiNodeUp = null;
-    [SerializeField] private UINodeRoot _uiNodeDown = null;
-    [SerializeField] private UINodeRoot _uiNodeRight = null;
-    [SerializeField] private UINodeRoot _uiNodeSpace = null;
+    [SerializeField] private NodeRootSet _nodeRootSetRaising = null;
+    [SerializeField] private NodeRootSet _nodeRootSetFalling = null;
+
+    [SerializeField] private HitEffectRootSet _hitEffectRootSet = null;
 
     [SerializeField] private UINode _uiNodeRes = null;
     #endregion
 
     #region Internal Fields
+    private NodeMovingType _nodeMovingType;
+    private float _nodeSpeed;
+    private NodeRootSet _nodeRootSet = null;
     private Dictionary<NodePosition, List<UINode>> _nodeMap = new Dictionary<NodePosition, List<UINode>>();
     private float _nodeHandlingThreshold = 0.15f;
     private float _finalNodeTiming = 0;
@@ -39,6 +61,9 @@ public class UINodeHandler : MonoBehaviour {
 
     #region Event Handlings
     private void OnTrackLoaded(BaseEventArgs args) {
+        InitSettings();
+        InitUI();
+
         RemoveNotes();
         GenerateNodes();
     }
@@ -66,7 +91,7 @@ public class UINodeHandler : MonoBehaviour {
                 continue;
             } 
 
-            float diffTiming = uiNodeList[i].NInfo.Timing - curTiming;
+            float diffTiming = uiNodeList[i].NDInfo.Timing - curTiming;
             if (Mathf.Abs(diffTiming) > _nodeHandlingThreshold) {
                 continue;
             }
@@ -116,6 +141,25 @@ public class UINodeHandler : MonoBehaviour {
         return result;
     }
 
+    private void InitSettings() {
+        _nodeMovingType = (NodeMovingType) GameDataManager.LoadInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE);
+        _nodeSpeed = Utility.GetTrackSpeed();
+    }
+
+    private void InitUI() {
+        // UI node roots set
+        _nodeRootSet = _nodeMovingType == NodeMovingType.Raising ? _nodeRootSetRaising : _nodeRootSetFalling;
+        _nodeRootSetRaising.GoRoot.SetActive(_nodeMovingType == NodeMovingType.Raising);
+        _nodeRootSetFalling.GoRoot.SetActive(_nodeMovingType == NodeMovingType.Falling);
+
+        // Hit effect
+        _hitEffectRootSet.PCLeft.AddSource(new ConstraintSource() { sourceTransform = _nodeRootSet.NodeLeft.transform, weight = 1 });
+        _hitEffectRootSet.PCUp.AddSource(new ConstraintSource() { sourceTransform = _nodeRootSet.NodeUp.transform, weight = 1 });
+        _hitEffectRootSet.PCDown.AddSource(new ConstraintSource() { sourceTransform = _nodeRootSet.NodeDown.transform, weight = 1 });
+        _hitEffectRootSet.PCRight.AddSource(new ConstraintSource() { sourceTransform = _nodeRootSet.NodeRight.transform, weight = 1 });
+        _hitEffectRootSet.PCSpace.AddSource(new ConstraintSource() { sourceTransform = _nodeRootSet.NodeSpace.transform, weight = 1 });
+    }
+
     private void RemoveNotes() {
         foreach (List<UINode> nodeList in _nodeMap.Values) {
             for (int i = 0; i < nodeList.Count; i++) {
@@ -127,10 +171,10 @@ public class UINodeHandler : MonoBehaviour {
     }
 
     private void GenerateNodes() {
+        // Track data
         TrackData td = TrackManager.Instance.TrackData;
 
-        float speedValue = Utility.GetTrackSpeed();
-
+        // BPM
         int bpm = td.BPM;
         float timePerMeasure = 60.0f / (float) bpm * 4;
 
@@ -140,10 +184,11 @@ public class UINodeHandler : MonoBehaviour {
             for (int j = 0; j < nData.NodeInfoList.Length; j++) {
                 NodeInfo info = nData.NodeInfoList[j];
 
-                NodeInfoTest nodeInfo = new NodeInfoTest();
-                nodeInfo.Position = info.NodePosition;
-                nodeInfo.Timing = timePerMeasure * ((measure - 1) + info.Timing) + td.FirstMeasure;
-                nodeInfo.Speed = speedValue;
+                NodeDisplayInfo nodedisplayInfo = new NodeDisplayInfo();
+                nodedisplayInfo.Position = info.NodePosition;
+                nodedisplayInfo.MovingType = _nodeMovingType;
+                nodedisplayInfo.Timing = timePerMeasure * ((measure - 1) + info.Timing) + td.FirstMeasure;
+                nodedisplayInfo.Speed = _nodeSpeed;
 
                 UINodeRoot root = GetUINodeRoot(info.NodePosition);
                 if (root == null) {
@@ -151,7 +196,7 @@ public class UINodeHandler : MonoBehaviour {
                 }
 
                 UINode uiNode = Instantiate(_uiNodeRes, root.transform);
-                uiNode.SetInfo(root, nodeInfo, _nodeHandlingThreshold, OnNodeMissed, OnNodeOutOfBound);
+                uiNode.SetInfo(root, nodedisplayInfo, _nodeHandlingThreshold, OnNodeMissed, OnNodeOutOfBound);
 
                 if (!_nodeMap.ContainsKey(info.NodePosition)) {
                     _nodeMap.Add(info.NodePosition, new List<UINode>());
@@ -159,8 +204,8 @@ public class UINodeHandler : MonoBehaviour {
 
                 _nodeMap[info.NodePosition].Add(uiNode);
 
-                if (_finalNodeTiming < nodeInfo.Timing) {
-                    _finalNodeTiming = nodeInfo.Timing;
+                if (_finalNodeTiming < nodedisplayInfo.Timing) {
+                    _finalNodeTiming = nodedisplayInfo.Timing;
                 }
             }
         }
@@ -173,19 +218,19 @@ public class UINodeHandler : MonoBehaviour {
         UINodeRoot root = null;
 
         if (np == NodePosition.Left) {
-            root = _uiNodeLeft;
+            root = _nodeRootSet.NodeLeft;
         }
         else if (np == NodePosition.Up) {
-            root = _uiNodeUp;
+            root = _nodeRootSet.NodeUp;
         }
         else if (np == NodePosition.Down) {
-            root = _uiNodeDown;
+            root = _nodeRootSet.NodeDown;
         }
         else if (np == NodePosition.Right) {
-            root = _uiNodeRight;
+            root = _nodeRootSet.NodeRight;
         }
         else if (np == NodePosition.Space) {
-            root = _uiNodeSpace;
+            root = _nodeRootSet.NodeSpace;
         }
 
         return root;
@@ -198,14 +243,14 @@ public class UINodeHandler : MonoBehaviour {
         // Show tap result on node root
         TapResultEventArgs args = new TapResultEventArgs();
         args.TR = TapResult.Miss;
-        args.NP = node.NInfo.Position;
+        args.NP = node.NDInfo.Position;
         args.Dispatch();
     }
 
     private void OnNodeOutOfBound(UINode node) {
         // Hide(or destroy) node
         node.gameObject.SetActive(false);
-        _nodeMap[node.NInfo.Position].Remove(node);
+        _nodeMap[node.NDInfo.Position].Remove(node);
     }
 
     private void CheckIsNodeFinished() {

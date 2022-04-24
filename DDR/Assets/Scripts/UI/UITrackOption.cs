@@ -9,8 +9,8 @@ public class UITrackOption : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _textSpeedValue = null;
 
     [Header("Node Moving Type")]
-    [SerializeField] private Button _btnNodeMovingFalling = null;
     [SerializeField] private Button _btnNodeMovingRaising = null;
+    [SerializeField] private Button _btnNodeMovingFalling = null;
 
     [Header("Control Type")]
     [SerializeField] private Button _btnControlKeyboard = null;
@@ -31,8 +31,8 @@ public class UITrackOption : MonoBehaviour {
     private void Awake() {
         _sliderSpeed.onValueChanged.AddListener(SliderSpeedValueChanged);
 
-        _btnNodeMovingFalling.onClick.AddListener(ButtonMovingFallingOnClick);
         _btnNodeMovingRaising.onClick.AddListener(ButtonMovingRaisingOnClick);
+        _btnNodeMovingFalling.onClick.AddListener(ButtonMovingFallingOnClick);
 
         _btnControlKeyboard.onClick.AddListener(ButtonControlKeyboardOnClick);
         _btnControlTouching.onClick.AddListener(ButtonControlTouchingOnClick);
@@ -46,8 +46,8 @@ public class UITrackOption : MonoBehaviour {
     private void OnDestroy() {
         _sliderSpeed.onValueChanged.RemoveListener(SliderSpeedValueChanged);
 
-        _btnNodeMovingFalling.onClick.RemoveListener(ButtonMovingFallingOnClick);
         _btnNodeMovingRaising.onClick.RemoveListener(ButtonMovingRaisingOnClick);
+        _btnNodeMovingFalling.onClick.RemoveListener(ButtonMovingFallingOnClick);
 
         _btnControlKeyboard.onClick.RemoveListener(ButtonControlKeyboardOnClick);
         _btnControlTouching.onClick.RemoveListener(ButtonControlTouchingOnClick);
@@ -68,22 +68,22 @@ public class UITrackOption : MonoBehaviour {
     #endregion
 
     #region Button Handlings
-    private void ButtonMovingFallingOnClick() {
-        if (_curNodeMovingType == (int) NodeMovingType.Falling) {
-            return;
-        }
-
-        GameDataManager.SaveInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE, (int) NodeMovingType.Falling);
-
-        RefreshMovingSetting();
-    }
-
     private void ButtonMovingRaisingOnClick() {
         if (_curNodeMovingType == (int) NodeMovingType.Raising) {
             return;
         }
 
         GameDataManager.SaveInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE, (int) NodeMovingType.Raising);
+
+        RefreshMovingSetting();
+    }
+
+    private void ButtonMovingFallingOnClick() {
+        if (_curNodeMovingType == (int) NodeMovingType.Falling) {
+            return;
+        }
+
+        GameDataManager.SaveInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE, (int) NodeMovingType.Falling);
 
         RefreshMovingSetting();
     }
@@ -133,10 +133,10 @@ public class UITrackOption : MonoBehaviour {
 
     private void RefreshMovingSetting() {
         _curNodeMovingType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE);
-        _btnNodeMovingFalling.image.sprite = 
-            _curNodeMovingType == (int) NodeMovingType.Falling ? _imageSelected.sprite : _imageUnselected.sprite;
         _btnNodeMovingRaising.image.sprite = 
             _curNodeMovingType == (int) NodeMovingType.Raising ? _imageSelected.sprite : _imageUnselected.sprite;
+        _btnNodeMovingFalling.image.sprite =
+            _curNodeMovingType == (int) NodeMovingType.Falling ? _imageSelected.sprite : _imageUnselected.sprite;
     }
 
     private void RefreshControlSetting() {

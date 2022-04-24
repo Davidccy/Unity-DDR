@@ -8,15 +8,12 @@ public class SceneGame : SceneBase {
     [SerializeField] private UINodeHandler _uiNodeHandler = null;
     [SerializeField] private float _startWaiting = 0;
     [SerializeField] private float _finishedWaiting = 0;
-    [SerializeField] private Button _btn = null;
     #endregion
 
     #region Override Methods
     protected override void OnSceneAwake() {
         EventManager.Instance.Register(EventTypes.NODE_GENERATED, OnNodeGenerated);
         EventManager.Instance.Register(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
-
-        _btn.onClick.AddListener(ButtononClick);
 
         LoadTrack();
     }
@@ -26,14 +23,6 @@ public class SceneGame : SceneBase {
             EventManager.Instance.Unregister(EventTypes.NODE_GENERATED, OnNodeGenerated);
             EventManager.Instance.Unregister(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
         }
-        
-        _btn.onClick.RemoveListener(ButtononClick);
-    }
-    #endregion
-
-    #region Button Handlings
-    private void ButtononClick() {
-        TrackManager.Instance.LoadTrackData();
     }
     #endregion
 

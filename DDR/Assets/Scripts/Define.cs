@@ -26,9 +26,9 @@ public enum ResultRank {
     C,
 }
 
-public enum NodeMovingType { 
-    Falling,
+public enum NodeMovingType {
     Raising,
+    Falling,    
 }
 
 public enum ControlType { 
@@ -58,8 +58,9 @@ public class NodeInfo {
 }
 
 
-public class NodeInfoTest {
+public class NodeDisplayInfo {
     public NodePosition Position;
+    public NodeMovingType MovingType;
     public float Speed;
     public float Timing;
 }
