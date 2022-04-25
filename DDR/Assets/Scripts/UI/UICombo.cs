@@ -23,7 +23,7 @@ public class UICombo : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        EventManager.Instance.Register(EventTypes.TAP_RESULT, OnTapResult);
+        GameEventManager.Instance.Register(GameEventTypes.TAP_RESULT, OnTapResult);
     }
 
     private void OnEnable() {
@@ -33,15 +33,15 @@ public class UICombo : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        if (EventManager.Instance != null) {
-            EventManager.Instance.Unregister(EventTypes.TAP_RESULT, OnTapResult);
+        if (GameEventManager.Instance != null) {
+            GameEventManager.Instance.Unregister(GameEventTypes.TAP_RESULT, OnTapResult);
         }
     }
     #endregion
 
     #region Event Handlings
-    private void OnTapResult(BaseEventArgs args) {
-        TapResultEventArgs trArgs = args as TapResultEventArgs;
+    private void OnTapResult(BaseGameEventArgs args) {
+        TapResultGameEventArgs trArgs = args as TapResultGameEventArgs;
 
         if (trArgs.TR != TapResult.Miss) {
             _comboCount += 1;

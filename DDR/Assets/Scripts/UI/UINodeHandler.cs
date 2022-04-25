@@ -43,8 +43,8 @@ public class UINodeHandler : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        EventManager.Instance.Register(EventTypes.TRACK_LOADED, OnTrackLoaded);
-        EventManager.Instance.Register(EventTypes.NODE_PRESSED, OnNodePressed);
+        GameEventManager.Instance.Register(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
+        GameEventManager.Instance.Register(GameEventTypes.NODE_PRESSED, OnNodePressed);
     }
 
     private void Update() {
@@ -52,15 +52,15 @@ public class UINodeHandler : MonoBehaviour {
     }
     
     private void OnDestroy() {
-        if (EventManager.Instance != null) {
-            EventManager.Instance.Unregister(EventTypes.TRACK_LOADED, OnTrackLoaded);
-            EventManager.Instance.Unregister(EventTypes.NODE_PRESSED, OnNodePressed);
+        if (GameEventManager.Instance != null) {
+            GameEventManager.Instance.Unregister(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
+            GameEventManager.Instance.Unregister(GameEventTypes.NODE_PRESSED, OnNodePressed);
         }
     }
     #endregion
 
     #region Event Handlings
-    private void OnTrackLoaded(BaseEventArgs args) {
+    private void OnTrackLoaded(BaseGameEventArgs args) {
         InitSettings();
         InitUI();
 
@@ -68,8 +68,8 @@ public class UINodeHandler : MonoBehaviour {
         GenerateNodes();
     }
 
-    private void OnNodePressed(BaseEventArgs args) {
-        NodePressedEventArgs npArgs = args as NodePressedEventArgs;
+    private void OnNodePressed(BaseGameEventArgs args) {
+        NodePressedGameEventArgs npArgs = args as NodePressedGameEventArgs;
         NodePosition np = npArgs.NP;
         NodeHandling(np);
     }
@@ -112,7 +112,7 @@ public class UINodeHandler : MonoBehaviour {
 
         // Show tap result on node root
         TapResult result = GetTapResult(minDiffTiming);
-        TapResultEventArgs args = new TapResultEventArgs();
+        TapResultGameEventArgs args = new TapResultGameEventArgs();
         args.TR = result;
         args.NP = np;
         args.Dispatch();
@@ -210,7 +210,7 @@ public class UINodeHandler : MonoBehaviour {
             }
         }
 
-        NodeGeneratedEventArgs args = new NodeGeneratedEventArgs();
+        NodeGeneratedGameEventArgs args = new NodeGeneratedGameEventArgs();
         args.Dispatch();
     }
 
@@ -241,7 +241,7 @@ public class UINodeHandler : MonoBehaviour {
         node.IsDone = true;
 
         // Show tap result on node root
-        TapResultEventArgs args = new TapResultEventArgs();
+        TapResultGameEventArgs args = new TapResultGameEventArgs();
         args.TR = TapResult.Miss;
         args.NP = node.NDInfo.Position;
         args.Dispatch();
@@ -268,7 +268,7 @@ public class UINodeHandler : MonoBehaviour {
 
         _isNodeFinished = true;
 
-        FinalNodeFinishedEventArgs args = new FinalNodeFinishedEventArgs();
+        FinalNodeFinishedGameEventArgs args = new FinalNodeFinishedGameEventArgs();
         args.Dispatch();
     }
     #endregion

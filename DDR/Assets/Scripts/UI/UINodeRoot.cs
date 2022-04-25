@@ -20,29 +20,29 @@ public class UINodeRoot : MonoBehaviour {
         _goArrowRoot.SetActive(_nPos != NodePosition.Space);
         _goRectRoot.SetActive(_nPos == NodePosition.Space);
 
-        EventManager.Instance.Register(EventTypes.BUMP, OnBumpTrigger);
-        EventManager.Instance.Register(EventTypes.TAP_RESULT, OnTapResult);
+        GameEventManager.Instance.Register(GameEventTypes.BUMP, OnBumpTrigger);
+        GameEventManager.Instance.Register(GameEventTypes.TAP_RESULT, OnTapResult);
     }
 
     private void OnDisable() {
-        if (EventManager.Instance != null) {
-            EventManager.Instance.Unregister(EventTypes.BUMP, OnBumpTrigger);
-            EventManager.Instance.Unregister(EventTypes.TAP_RESULT, OnTapResult);
+        if (GameEventManager.Instance != null) {
+            GameEventManager.Instance.Unregister(GameEventTypes.BUMP, OnBumpTrigger);
+            GameEventManager.Instance.Unregister(GameEventTypes.TAP_RESULT, OnTapResult);
         }        
     }
     #endregion
 
     #region Event Handlings
-    private void OnBumpTrigger(BaseEventArgs args) {
-        BumpEventArgs bArgs = args as BumpEventArgs;
+    private void OnBumpTrigger(BaseGameEventArgs args) {
+        BumpGameEventArgs bArgs = args as BumpGameEventArgs;
 
         if (bArgs != null) {
             PlayBouncing();
         }
     }
 
-    private void OnTapResult(BaseEventArgs args) {
-        TapResultEventArgs trArgs = args as TapResultEventArgs;
+    private void OnTapResult(BaseGameEventArgs args) {
+        TapResultGameEventArgs trArgs = args as TapResultGameEventArgs;
         if (trArgs.NP != _nPos) {
             return;
         }

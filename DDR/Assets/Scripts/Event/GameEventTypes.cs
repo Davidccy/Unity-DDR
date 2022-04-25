@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-// 會和元系統的撞衫呢 ...
-public enum EventTypes {
+public enum GameEventTypes {
     NONE,
     TEST,
     BUMP,

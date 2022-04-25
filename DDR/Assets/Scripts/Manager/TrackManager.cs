@@ -145,7 +145,7 @@ public class TrackManager : ISingleton<TrackManager> {
         _acSENormal = Utility.GetSENormal();
 
         // Loading finished
-        TrackLoadedEventArgs args = new TrackLoadedEventArgs();
+        TrackLoadedGameEventArgs args = new TrackLoadedGameEventArgs();
         args.Dispatch();
     }
 
@@ -204,7 +204,7 @@ public class TrackManager : ISingleton<TrackManager> {
             _pre += Time.deltaTime;
             if (_pre > nextBumpTime) {
                 PlayReady();
-                new BumpEventArgs().Dispatch();
+                new BumpGameEventArgs().Dispatch();
                 nextBumpTime += spb;
             }
         }
@@ -216,7 +216,7 @@ public class TrackManager : ISingleton<TrackManager> {
             yield return new WaitForEndOfFrame();
 
             if (AsTrack.time >= nextBumpTime) {
-                new BumpEventArgs().Dispatch();
+                new BumpGameEventArgs().Dispatch();
                 nextBumpTime += spb;
             }
         }

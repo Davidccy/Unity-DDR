@@ -22,35 +22,35 @@ public class UIScore : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        EventManager.Instance.Register(EventTypes.TRACK_LOADED, OnTrackLoaded);
-        EventManager.Instance.Register(EventTypes.TAP_RESULT, OnTapResult);
-        EventManager.Instance.Register(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+        GameEventManager.Instance.Register(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
+        GameEventManager.Instance.Register(GameEventTypes.TAP_RESULT, OnTapResult);
+        GameEventManager.Instance.Register(GameEventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
     }
 
     private void OnDestroy() {
-        if (EventManager.Instance != null) {
-            EventManager.Instance.Unregister(EventTypes.TRACK_LOADED, OnTrackLoaded);
-            EventManager.Instance.Unregister(EventTypes.TAP_RESULT, OnTapResult);
-            EventManager.Instance.Unregister(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+        if (GameEventManager.Instance != null) {
+            GameEventManager.Instance.Unregister(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
+            GameEventManager.Instance.Unregister(GameEventTypes.TAP_RESULT, OnTapResult);
+            GameEventManager.Instance.Unregister(GameEventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
         }
     }
     #endregion
 
     #region Event Handlings
-    private void OnTrackLoaded(BaseEventArgs args) {
+    private void OnTrackLoaded(BaseGameEventArgs args) {
         RebuildScoreData();
         UpdateScore();
     }
 
-    private void OnTapResult(BaseEventArgs args) {
-        TapResultEventArgs trArgs = args as TapResultEventArgs;
+    private void OnTapResult(BaseGameEventArgs args) {
+        TapResultGameEventArgs trArgs = args as TapResultGameEventArgs;
 
         _tapResultData[trArgs.TR] += 1;
 
         UpdateScore();
     }
 
-    private void OnFinalNodeFinished(BaseEventArgs args) {
+    private void OnFinalNodeFinished(BaseGameEventArgs args) {
         TempResultData rd = new TempResultData();
         rd.Score = _currentScore;
         rd.TotalTaps = _totalNode;

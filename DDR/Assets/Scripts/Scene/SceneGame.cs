@@ -12,16 +12,16 @@ public class SceneGame : SceneBase {
 
     #region Override Methods
     protected override void OnSceneAwake() {
-        EventManager.Instance.Register(EventTypes.NODE_GENERATED, OnNodeGenerated);
-        EventManager.Instance.Register(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+        GameEventManager.Instance.Register(GameEventTypes.NODE_GENERATED, OnNodeGenerated);
+        GameEventManager.Instance.Register(GameEventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
 
         LoadTrack();
     }
 
     protected override void OnSceneDestroy() {
-        if (EventManager.Instance != null) {
-            EventManager.Instance.Unregister(EventTypes.NODE_GENERATED, OnNodeGenerated);
-            EventManager.Instance.Unregister(EventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+        if (GameEventManager.Instance != null) {
+            GameEventManager.Instance.Unregister(GameEventTypes.NODE_GENERATED, OnNodeGenerated);
+            GameEventManager.Instance.Unregister(GameEventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
         }
     }
     #endregion
@@ -33,7 +33,7 @@ public class SceneGame : SceneBase {
         TrackManager.Instance.LoadTrackData();
     }
 
-    private async void OnNodeGenerated(BaseEventArgs args) {
+    private async void OnNodeGenerated(BaseGameEventArgs args) {
         await Task.Delay((int) _startWaiting * 1000);
 
         // Start playing track
@@ -47,7 +47,7 @@ public class SceneGame : SceneBase {
         }
     }
 
-    private async void OnFinalNodeFinished(BaseEventArgs args) {
+    private async void OnFinalNodeFinished(BaseGameEventArgs args) {
         await Task.Delay((int) _finishedWaiting * 1000);
 
         if (CommonWindowManager.Instance != null) {

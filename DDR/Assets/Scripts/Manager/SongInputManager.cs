@@ -23,7 +23,7 @@ public class SongInputManager : ISingleton<SongInputManager> {
 
     #region Event Handlings
     private void OnNodePressed(NodePosition np) {
-        NodePressedEventArgs args = new NodePressedEventArgs();
+        NodePressedGameEventArgs args = new NodePressedGameEventArgs();
         args.NP = np;
         args.Dispatch();
     }
