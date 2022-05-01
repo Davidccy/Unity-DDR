@@ -4,19 +4,39 @@ using TMPro;
 
 public class UITrackInfo : MonoBehaviour {
     #region Serialized Fields
+    [SerializeField] private TextMeshProUGUI _textTrackName = null;
+
     [SerializeField] private TextMeshProUGUI _textTrackProgress = null;
     [SerializeField] private TextMeshProUGUI _textTrackProgressReverse = null;
-    [SerializeField] private TextMeshProUGUI _textCurMeasure = null;
     [SerializeField] private Image _imageProgress = null;
+    [SerializeField] private TextMeshProUGUI _textCurMeasure = null;
+    #endregion
+
+    #region Internal Fields
+    private SelectInfo _selectInfo = null;
     #endregion
 
     #region Mono Behaviour Hooks
+    private void OnEnable() {
+        Init();
+        RefreshTrackName();
+    }
+
     private void Update() {
         Refresh();
     }
     #endregion
 
     #region Internal Methods
+    private void Init() {
+        int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
+        _selectInfo = Utility.GetSelectInfo(trackID);
+    }
+
+    private void RefreshTrackName() {
+        _textTrackName.text = string.Format("{0}", _selectInfo.TrackName);
+    }
+
     private void Refresh() {
         float trackProgress = TrackManager.Instance.TrackProgress;
         int minutes = Mathf.Max(0, (int) trackProgress / 60);

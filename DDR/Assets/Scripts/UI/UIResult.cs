@@ -17,7 +17,8 @@ public class UIResult : MonoBehaviour {
 
     #region Serialized Fields
     [Header("Track Info")]
-    [SerializeField] private TextMeshProUGUI _textTrackInfo = null;
+    [SerializeField] private TextMeshProUGUI _textTrackName = null;
+    [SerializeField] private Image _imageTrackThumbnail = null;
     [SerializeField] private CustomPlayableDirector _cpdTrackInfo = null;
 
     [Header("Node & Score")]
@@ -80,6 +81,11 @@ public class UIResult : MonoBehaviour {
 
     private void InitPerformance() {
         _resultFInishedTriggered = false;
+
+        int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
+        SelectInfo sInfo = Utility.GetSelectInfo(trackID);
+        _textTrackName.text = sInfo.TrackName;
+        _imageTrackThumbnail.sprite = sInfo.Thumbnail;
 
         TempResultData trd = TempDataManager.LoadData<TempResultData>(Define.TEMP_GAME_DATA_KEY_RESULT);
         _resultPerfect.SetScore(trd.NodeResultTable[NodeResult.Perfect], trd.TotalNodeCount);

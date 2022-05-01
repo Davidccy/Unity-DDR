@@ -1081,6 +1081,7 @@ MonoBehaviour:
   _imageThumbnail: {fileID: 937834525935655440}
   _cgUnselectedMask: {fileID: 6310827855983969160}
   _textBPM: {fileID: 6916987228988045252}
+  _textTrackName: {fileID: 950557085945933341}
   _cpdConfirm: {fileID: 3374509155835713853}
   _cpdCancel: {fileID: 2252347723653356310}
 --- !u!95 &7172398388725404724

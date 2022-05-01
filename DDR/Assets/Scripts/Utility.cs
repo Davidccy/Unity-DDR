@@ -42,9 +42,29 @@ public static class Utility {
     #endregion
 
     #region Select Data Handlings
-    public static SelectData GetSelectData() {
-        SelectData td = Resources.Load<SelectData>("Data/SelectData");
-        return td;
+    private static SelectData _selectData = null;
+    public static SelectData SelectData {
+        get {
+            if (_selectData == null) {
+                _selectData = Resources.Load<SelectData>("Data/SelectData");
+            }
+
+            return _selectData;
+        }
+    }
+
+    public static SelectInfo GetSelectInfo(int trackID) {
+        if (SelectData == null) {
+            return null;
+        }
+
+        for (int i = 0; i < SelectData.SelectInfos.Length; i++) {
+            if (SelectData.SelectInfos[i].TrackID == trackID) {
+                return SelectData.SelectInfos[i];
+            }
+        }
+
+        return null;
     }
     #endregion
 

@@ -1568,7 +1568,7 @@ GameObject:
   - component: {fileID: 8279779791995636269}
   - component: {fileID: 2915777140463641880}
   m_Layer: 5
-  m_Name: TextTitle
+  m_Name: TextTrackName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1802,7 +1802,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -90}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!225 &6134394218806925879
@@ -2232,7 +2232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 15}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!225 &5075829137908986553
@@ -2859,16 +2859,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e7fa21660dd694cafa15f65b5b1083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textTrackInfo: {fileID: 0}
+  _textTrackName: {fileID: 2915777140463641880}
+  _imageTrackThumbnail: {fileID: 3895816762607174212}
   _cpdTrackInfo: {fileID: 5075829137093716484}
-  _resultTapPerfect: {fileID: 0}
-  _resultTapGreat: {fileID: 0}
-  _resultTapGood: {fileID: 0}
-  _resultTapMiss: {fileID: 0}
-  _resultTapCombo: {fileID: 0}
-  _resultTapScore: {fileID: 0}
+  _resultPerfect: {fileID: 5458628293665171520}
+  _resultGreat: {fileID: 5553995313272926705}
+  _resultGood: {fileID: 8021334115224725603}
+  _resultMiss: {fileID: 5907465709399532980}
+  _resultCombo: {fileID: 1745906456710047224}
+  _resultScore: {fileID: 2194179647503154812}
   _textMyBestScore: {fileID: 4070330073090912667}
-  _cpdTap: {fileID: 5075829138521181899}
+  _cpdNode: {fileID: 5075829138521181899}
   _textScoreRank: {fileID: 5075829137412269948}
   _cpdRank: {fileID: 5075829137446327572}
   _cpdContinue: {fileID: 5075829137768600685}
@@ -4840,7 +4841,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -80, y: -160}
+  m_AnchoredPosition: {x: -60, y: -140}
   m_SizeDelta: {x: 350, y: 300}
   m_Pivot: {x: 1, y: 1}
 --- !u!95 &5075829137994988023
@@ -4914,7 +4915,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -160}
+  m_AnchoredPosition: {x: 80, y: -145}
   m_SizeDelta: {x: 400, y: 195}
   m_Pivot: {x: 0, y: 1}
 --- !u!95 &5075829138060631814
@@ -5873,7 +5874,7 @@ GameObject:
   - component: {fileID: 5075829138521181898}
   - component: {fileID: 5075829138521181897}
   m_Layer: 5
-  m_Name: CPDNodeScore
+  m_Name: CPDNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

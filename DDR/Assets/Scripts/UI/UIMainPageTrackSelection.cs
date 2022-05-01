@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Playables;
-using UnityEngine.SceneManagement;
 
 public class UIMainPageTrackSelection : UIMainPageBase {
     #region Serialized Fields
@@ -22,7 +20,6 @@ public class UIMainPageTrackSelection : UIMainPageBase {
 
     [SerializeField] private Button _btnConfirmCancel = null;
     [SerializeField] private Button _btnOptionCancel = null;
-    [SerializeField] private SelectData _selectData = null;
 
     [SerializeField] private List<UITrackSelectInfo> _trackSelectInfoList = new List<UITrackSelectInfo>(); // Count should be odd number
 
@@ -40,6 +37,8 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     #endregion
 
     #region Internal Fields
+    private SelectData _selectData = null;
+
     private int _centerTrackDataIndex = 0;
     private int _centerUIIndex = 0;
     private bool _isPerforming = false;
@@ -73,6 +72,7 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     }
 
     private void OnEnable() {
+        InitSelectData();
         Refresh(true);
     }
 
@@ -121,6 +121,8 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     }
 
     private void ButtonStartOnClick() {
+        SelectInfo sInfo = _selectData.SelectInfos[_centerTrackDataIndex];
+        TempDataManager.SaveData(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID, sInfo.TrackID);
         _sceneMain.TrackSelectionFinished().DoNotAwait();
     }
 
@@ -143,6 +145,12 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     #endregion
 
     #region Internal Methods
+    private void InitSelectData() {
+        if (_selectData == null) {
+            _selectData = Utility.SelectData;
+        }
+    }
+
     private void Refresh(bool resetCenterUI = false) {
         int totalUICount = TotalUICount;
         int totalSelectDataCount = TotalSelectDataCount;

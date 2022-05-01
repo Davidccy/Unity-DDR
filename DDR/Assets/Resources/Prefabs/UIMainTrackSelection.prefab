@@ -436,6 +436,10 @@ PlayableDirector:
     value: {fileID: 5925163878195587899}
   - key: {fileID: 2706915271358395566, guid: d67a40503b8df474793277dd5a15c01c, type: 2}
     value: {fileID: 5925163878159550445}
+  - key: {fileID: 4895791759297536416, guid: d67a40503b8df474793277dd5a15c01c, type: 2}
+    value: {fileID: 5925163879813457906}
+  - key: {fileID: 2830690968465705656, guid: d67a40503b8df474793277dd5a15c01c, type: 2}
+    value: {fileID: 5925163879894676693}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &5925163878313221420
@@ -761,7 +765,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5925163878393240363}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -816,7 +820,6 @@ MonoBehaviour:
   _btnOption: {fileID: 5925163879942015019}
   _btnConfirmCancel: {fileID: 5925163878140162458}
   _btnOptionCancel: {fileID: 5925163879222455636}
-  _selectData: {fileID: 11400000, guid: bacde7ee50b96ca44b3b5d0718afc485, type: 2}
   _trackSelectInfoList:
   - {fileID: 1565371265435574078}
   - {fileID: 5558812817225896044}
@@ -5018,6 +5021,10 @@ PlayableDirector:
     value: {fileID: 5925163878195587899}
   - key: {fileID: -9033162496423023053, guid: a9ef0b7b661f3f14ab224e4bbaf4b37e, type: 2}
     value: {fileID: 5925163878159550445}
+  - key: {fileID: -7260119303385489703, guid: a9ef0b7b661f3f14ab224e4bbaf4b37e, type: 2}
+    value: {fileID: 5925163879813457906}
+  - key: {fileID: 130279704367770037, guid: a9ef0b7b661f3f14ab224e4bbaf4b37e, type: 2}
+    value: {fileID: 5925163879894676693}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &5925163879781811361
@@ -5461,6 +5468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5925163879813457907}
   - component: {fileID: 5925163879813457906}
+  - component: {fileID: 5925163878633010765}
   m_Layer: 5
   m_Name: GoButtonPreviousRoot
   m_TagString: Untagged
@@ -5507,6 +5515,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &5925163878633010765
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5925163879813457908}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5925163879831941615
 GameObject:
   m_ObjectHideFlags: 0
@@ -5639,6 +5659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5925163879894676694}
   - component: {fileID: 5925163879894676693}
+  - component: {fileID: 5925163878633010764}
   m_Layer: 5
   m_Name: GoButtonNextRoot
   m_TagString: Untagged
@@ -5685,6 +5706,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &5925163878633010764
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5925163879894676695}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5925163879914927444
 GameObject:
   m_ObjectHideFlags: 0

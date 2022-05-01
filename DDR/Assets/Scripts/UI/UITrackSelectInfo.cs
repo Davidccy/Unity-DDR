@@ -7,6 +7,7 @@ public class UITrackSelectInfo : MonoBehaviour {
     [SerializeField] private Image _imageThumbnail = null;
     [SerializeField] private CanvasGroup _cgUnselectedMask = null;
     [SerializeField] private TextMeshProUGUI _textBPM = null;
+    [SerializeField] private TextMeshProUGUI _textTrackName = null;
     [SerializeField] private CustomPlayableDirector _cpdConfirm = null;
     [SerializeField] private CustomPlayableDirector _cpdCancel = null;
     #endregion
@@ -30,6 +31,7 @@ public class UITrackSelectInfo : MonoBehaviour {
     private void Refresh() {
         _imageThumbnail.sprite = _sInfo.Thumbnail;
         _textBPM.text = string.Format("{0}", _sInfo.BPM);
+        _textTrackName.text = string.Format("{0}", _sInfo.TrackName);
     }
     #endregion
 
