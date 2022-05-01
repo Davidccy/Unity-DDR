@@ -5,9 +5,16 @@ using UnityEngine.UI;
 using TMPro;
 
 public class UIResultTap : MonoBehaviour {
+    public enum PerformType { 
+        Value,
+        Ratio,
+    }
+
     #region Serialized Fields
     [SerializeField] private Image _imageBarValue = null;
     [SerializeField] private TextMeshProUGUI _textValue = null;
+    [SerializeField] private PerformType _pType = PerformType.Value;
+    [SerializeField] private float _interval = 1;
     #endregion
 
     #region Internal Fields
@@ -24,20 +31,19 @@ public class UIResultTap : MonoBehaviour {
     #endregion
 
     #region APIs
-    public void SetScore(int score, int scoreMax) {
+    public void SetScore(int score, int scoreMax, bool refresh = false) {
         _score = score;
         _scoreMax = scoreMax;
 
-        Refresh();
+        if (refresh) {
+            Refresh();
+        }        
     }
 
-    public async Task Play(int score, int scoreMax) {
-        _score = score;
-        _scoreMax = scoreMax;
-
+    public async Task Play(float delay) {
         _cts = new CancellationTokenSource();
 
-        await PlayTween(_cts.Token);
+        await PlayTween(_cts.Token, delay);
     }
 
     public void SetFinish() {
@@ -56,11 +62,25 @@ public class UIResultTap : MonoBehaviour {
     #endregion
 
     #region Internal Methods
-    private async Task PlayTween(CancellationToken ct) {
+    private async Task PlayTween(CancellationToken ct, float delay) {
+        float delayTimer = 0;
+        while (delayTimer < delay) {
+            await Task.Delay(1);
+            if (ct.IsCancellationRequested) {
+                return;
+            }
+
+            delayTimer += Time.deltaTime;
+        }
+
         int score = 0;
 
+        float internalValue = 0;
+
         while (_score > 0 && score < _score) {
-            _imageBarValue.fillAmount = (float) score / _scoreMax;
+            if (_imageBarValue != null) {
+                _imageBarValue.fillAmount = (float) score / _scoreMax;
+            }
             _textValue.text = string.Format(string.Format("{0}", score));
 
             await Task.Delay(1);
@@ -68,14 +88,23 @@ public class UIResultTap : MonoBehaviour {
                 return;
             }
 
-            score += 3;            
+            if (_pType == PerformType.Value) {
+                internalValue += _interval;
+                score = (int) internalValue;
+            }
+            else {
+                internalValue += _interval;
+                score = (int) (_score * internalValue);
+            }
         }
 
         Refresh();
     }
 
     private void Refresh() {
-        _imageBarValue.fillAmount = (float) _score / _scoreMax;
+        if (_imageBarValue != null) {
+            _imageBarValue.fillAmount = (float) _score / _scoreMax;
+        }
         _textValue.text = string.Format(string.Format("{0}", _score));
     }
     #endregion

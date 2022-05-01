@@ -25,14 +25,18 @@ public class UIResult : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _textTrackInfo = null;
     [SerializeField] private CustomPlayableDirector _cpdTrackInfo = null;
 
-    [Header("Tap")]
+    [Header("Tap & Score")]
     [SerializeField] private UIResultTap _resultTapPerfect = null;
     [SerializeField] private UIResultTap _resultTapGreat = null;
     [SerializeField] private UIResultTap _resultTapGood = null;
     [SerializeField] private UIResultTap _resultTapMiss = null;
+    [SerializeField] private UIResultTap _resultTapCombo = null;
+    [SerializeField] private UIResultTap _resultTapScore = null;
+    [SerializeField] private TextMeshProUGUI _textMyBestScore = null;
     [SerializeField] private CustomPlayableDirector _cpdTap = null;
 
     [Header("Rank")]
+    [SerializeField] private TextMeshProUGUI _textScoreRank = null;
     [SerializeField] private CustomPlayableDirector _cpdRank = null;
 
     [Header("Continue")]
@@ -82,10 +86,16 @@ public class UIResult : MonoBehaviour {
     private void InitPerformance() {
         _resultFInishedTriggered = false;
 
-        _resultTapPerfect.SetScore(0, 0);
-        _resultTapGreat.SetScore(0, 0);
-        _resultTapGood.SetScore(0, 0);
-        _resultTapMiss.SetScore(0, 0);
+        TempResultData trd = TempDataManager.LoadData<TempResultData>(Define.TEMP_GAME_DATA_KEY_RESULT);
+        _resultTapPerfect.SetScore(trd.Taps[TapResult.Perfect], trd.TotalTaps);
+        _resultTapGreat.SetScore(trd.Taps[TapResult.Great], trd.TotalTaps);
+        _resultTapGood.SetScore(trd.Taps[TapResult.Good], trd.TotalTaps);
+        _resultTapMiss.SetScore(trd.Taps[TapResult.Miss], trd.TotalTaps);
+        _resultTapCombo.SetScore(0, trd.TotalTaps); // TODO
+        _resultTapScore.SetScore(trd.Score, trd.TotalTaps);
+        _textMyBestScore.text = "1234567"; // TODO
+
+        _textScoreRank.text = "S"; // TODO
     }
 
     private async Task PlayTitle() {
@@ -95,16 +105,16 @@ public class UIResult : MonoBehaviour {
     }
 
     private async Task PlayResultTap() {
-        TempResultData rd = TempDataManager.LoadData<TempResultData>(Define.TEMP_GAME_DATA_KEY_RESULT);
-
         _rStep = ResultStep.Tap;
 
         List<Task> tasks = new List<Task>();
         tasks.Add(_cpdTap.Play());
-        tasks.Add(_resultTapPerfect.Play(rd.Taps[TapResult.Perfect], rd.TotalTaps));
-        tasks.Add(_resultTapGreat.Play(rd.Taps[TapResult.Great], rd.TotalTaps));
-        tasks.Add(_resultTapGood.Play(rd.Taps[TapResult.Good], rd.TotalTaps));
-        tasks.Add(_resultTapMiss.Play(rd.Taps[TapResult.Miss], rd.TotalTaps));
+        tasks.Add(_resultTapPerfect.Play((float) 0 / 60));
+        tasks.Add(_resultTapGreat.Play((float) 2 / 60));
+        tasks.Add(_resultTapGood.Play((float) 4 / 60));
+        tasks.Add(_resultTapMiss.Play((float) 6 / 60));
+        tasks.Add(_resultTapCombo.Play((float) 28 / 60));
+        tasks.Add(_resultTapScore.Play((float) 30 / 60));
         await Task.WhenAll(tasks.ToArray());
     }
 
@@ -130,6 +140,8 @@ public class UIResult : MonoBehaviour {
             _resultTapGreat.SetFinish();
             _resultTapGood.SetFinish();
             _resultTapMiss.SetFinish();
+            _resultTapCombo.SetFinish();
+            _resultTapScore.SetFinish();
         }
         else if(_rStep == ResultStep.Rank) {
             _cpdRank.SetFinish();
