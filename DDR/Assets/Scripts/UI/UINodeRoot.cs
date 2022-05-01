@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Playables;
 using TMPro;
 
 public class UINodeRoot : MonoBehaviour {
@@ -9,8 +8,8 @@ public class UINodeRoot : MonoBehaviour {
     [SerializeField] private GameObject _goIconRoot = null;
     [SerializeField] private GameObject _goArrowRoot = null;
     [SerializeField] private GameObject _goRectRoot = null;
-    [SerializeField] private TextMeshProUGUI _textTapResult = null;
-    [SerializeField] private PlayableDirector _pdTapResult = null;
+    [SerializeField] private TextMeshProUGUI _textNodeResult = null;
+    [SerializeField] private CustomPlayableDirector _cpdNodeResult = null;
     [SerializeField] private UIHitEffect _uiHitResult = null;
     [SerializeField] private float _scaleBump = 0.9f;
     #endregion
@@ -21,13 +20,13 @@ public class UINodeRoot : MonoBehaviour {
         _goRectRoot.SetActive(_nPos == NodePosition.Space);
 
         GameEventManager.Instance.Register(GameEventTypes.BUMP, OnBumpTrigger);
-        GameEventManager.Instance.Register(GameEventTypes.TAP_RESULT, OnTapResult);
+        GameEventManager.Instance.Register(GameEventTypes.NODE_RESULT, OnNodeResult);
     }
 
     private void OnDisable() {
         if (GameEventManager.Instance != null) {
             GameEventManager.Instance.Unregister(GameEventTypes.BUMP, OnBumpTrigger);
-            GameEventManager.Instance.Unregister(GameEventTypes.TAP_RESULT, OnTapResult);
+            GameEventManager.Instance.Unregister(GameEventTypes.NODE_RESULT, OnNodeResult);
         }        
     }
     #endregion
@@ -41,15 +40,14 @@ public class UINodeRoot : MonoBehaviour {
         }
     }
 
-    private void OnTapResult(BaseGameEventArgs args) {
-        TapResultGameEventArgs trArgs = args as TapResultGameEventArgs;
-        if (trArgs.NP != _nPos) {
+    private void OnNodeResult(BaseGameEventArgs args) {
+        NodeResultGameEventArgs nrArgs = args as NodeResultGameEventArgs;
+        if (nrArgs.NP != _nPos) {
             return;
         }
 
-        TapResult tr = trArgs.TR;
-        PlayTapResultEffect(tr);
-        PlayTapResultSountEffect(tr);
+        NodeResult nr = nrArgs.NR;
+        PlayNodeResultEffect(nr);
     }
     #endregion
 
@@ -59,19 +57,15 @@ public class UINodeRoot : MonoBehaviour {
         StartCoroutine(StartBouncing());
     }
 
-    private void PlayTapResultEffect(TapResult tr) {
-        _textTapResult.text = Utility.GetTapResultText(tr);
-        _textTapResult.color = Utility.GetTapResultColor(tr);
-        _pdTapResult.Stop();
-        _pdTapResult.Play();
+    private void PlayNodeResultEffect(NodeResult nr) {
+        _textNodeResult.text = Utility.GetNodeResultText(nr);
+        _textNodeResult.color = Utility.GetNodeResultColor(nr);
+        _cpdNodeResult.Stop();
+        _cpdNodeResult.Play().DoNotAwait();
 
-        if (tr != TapResult.Miss) {
-            _uiHitResult.Play(tr);
+        if (nr != NodeResult.Miss) {
+            _uiHitResult.Play(nr);
         }
-    }
-
-    private void PlayTapResultSountEffect(TapResult tr) {
-        // TODO
     }
 
     private IEnumerator StartBouncing() {

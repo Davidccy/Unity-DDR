@@ -1,39 +1,39 @@
 ﻿using UnityEngine;
 
 public static class Utility {
-    #region Tap Related Handlings     
-    public static string GetTapResultText(TapResult tr) {
+    #region Node Related Handlings     
+    public static string GetNodeResultText(NodeResult nr) {
         string text = string.Empty;
 
-        if (tr == TapResult.Miss) {
+        if (nr == NodeResult.Miss) {
             text = "Miss ..";
         }
-        else if (tr == TapResult.Good) {
+        else if (nr == NodeResult.Good) {
             text = "Good";
         }
-        else if (tr == TapResult.Great) {
+        else if (nr == NodeResult.Great) {
             text = "Great !";
         }
-        else if (tr == TapResult.Perfect) {
+        else if (nr == NodeResult.Perfect) {
             text = "PERFECT !!!";
         }
 
         return text;
     }
 
-    public static Color GetTapResultColor(TapResult tr) {
+    public static Color GetNodeResultColor(NodeResult nr) {
         Color c = Color.white;
 
-        if (tr == TapResult.Miss) {
+        if (nr == NodeResult.Miss) {
             c = Color.gray;
         }
-        else if (tr == TapResult.Good) {
+        else if (nr == NodeResult.Good) {
             c = Color.green;
         }
-        else if (tr == TapResult.Great) {
+        else if (nr == NodeResult.Great) {
             c = Color.red;
         }
-        else if (tr == TapResult.Perfect) {
+        else if (nr == NodeResult.Perfect) {
             c = Color.yellow;
         }
 
@@ -81,6 +81,53 @@ public static class Utility {
     public static float GetTrackSpeed() {
         int speedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL);
         return speedLevel * Define.SPEED_PER_LEVEL + Define.SPEED_BASE;
+    }
+    #endregion
+
+    #region Score rank Handlings
+    public static ScoreRank GetScoreRank(int score) {
+        if (score >= Define.SCORE_MIN_RANK_S) {
+            return ScoreRank.S;
+        }
+        else if (score >= Define.SCORE_MIN_RANK_A) {
+            return ScoreRank.A;
+        }
+        else if (score >= Define.SCORE_MIN_RANK_B) {
+            return ScoreRank.B;
+        }
+        else if (score >= Define.SCORE_MIN_RANK_C) {
+            return ScoreRank.C;
+        }
+        else if (score >= Define.SCORE_MIN_RANK_D) {
+            return ScoreRank.D;
+        }
+
+        return ScoreRank.E;
+    }
+
+    public static string GetScoreRankText(int score) {
+        ScoreRank rank = GetScoreRank(score);
+        return GetScoreRankText(rank);
+    }
+
+    public static string GetScoreRankText(ScoreRank rank) {
+        if (rank == ScoreRank.S) {
+            return "S";
+        }
+        else if (rank == ScoreRank.A) {
+            return "A";
+        }
+        else if (rank == ScoreRank.B) {
+            return "B";
+        }
+        else if (rank == ScoreRank.C) {
+            return "C";
+        }
+        else if (rank == ScoreRank.D) {
+            return "D";
+        }
+
+        return "E";
     }
     #endregion
 }

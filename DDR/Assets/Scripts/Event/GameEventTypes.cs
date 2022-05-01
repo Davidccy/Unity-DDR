@@ -3,10 +3,16 @@
 public enum GameEventTypes {
     NONE,
     TEST,
-    BUMP,
+
+    // Game playing
     NODE_PRESSED,
-    TAP_RESULT,
     NODE_GENERATED,
+
+    BUMP,
+    NODE_RESULT,
     FINAL_NODE_FINISHED,
     TRACK_LOADED,
+
+    SCORE_CHANGED,
+    COMBO_CHANGED,
 }

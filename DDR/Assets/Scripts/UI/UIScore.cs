@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -12,9 +11,6 @@ public class UIScore : MonoBehaviour {
     #endregion
 
     #region Internal Fields
-    private readonly int _TOTAL_SCORE = 1000000;
-    private int _totalNode = 0;
-    private Dictionary<TapResult, int> _tapResultData = new Dictionary<TapResult, int>();
     private int _currentScore = 0;
     private int _performanceScore = 0;
     private CancellationTokenSource _cts = null;
@@ -22,79 +18,27 @@ public class UIScore : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        GameEventManager.Instance.Register(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
-        GameEventManager.Instance.Register(GameEventTypes.TAP_RESULT, OnTapResult);
-        GameEventManager.Instance.Register(GameEventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+        GameEventManager.Instance.Register(GameEventTypes.SCORE_CHANGED, OnScoreChanged);
     }
 
     private void OnDestroy() {
         if (GameEventManager.Instance != null) {
-            GameEventManager.Instance.Unregister(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
-            GameEventManager.Instance.Unregister(GameEventTypes.TAP_RESULT, OnTapResult);
-            GameEventManager.Instance.Unregister(GameEventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+            GameEventManager.Instance.Unregister(GameEventTypes.SCORE_CHANGED, OnScoreChanged);
         }
     }
     #endregion
 
     #region Event Handlings
-    private void OnTrackLoaded(BaseGameEventArgs args) {
-        RebuildScoreData();
-        UpdateScore();
-    }
-
-    private void OnTapResult(BaseGameEventArgs args) {
-        TapResultGameEventArgs trArgs = args as TapResultGameEventArgs;
-
-        _tapResultData[trArgs.TR] += 1;
-
-        UpdateScore();
-    }
-
-    private void OnFinalNodeFinished(BaseGameEventArgs args) {
-        TempResultData rd = new TempResultData();
-        rd.Score = _currentScore;
-        rd.TotalTaps = _totalNode;
-        rd.Taps = _tapResultData;
-
-        TempDataManager.SaveData(Define.TEMP_GAME_DATA_KEY_RESULT, rd);
-    }
-    #endregion
-
-    #region Internal Methods
-    private void RebuildScoreData() {
-        TrackData td = TrackManager.Instance.TrackData;
-
-        // Track's node
-        _totalNode = 0;
-        for (int i = 0; i < td.Nodes.Length; i++) {
-            NodeData nd = td.Nodes[i];
-            _totalNode += nd.NodeInfoList.Length;
-        }
-
-        // Tap result data
-        _tapResultData.Clear();
-        foreach (TapResult tr in Enum.GetValues(typeof(TapResult))) {
-            _tapResultData.Add(tr, 0);
-        }
-
-        // Performance
-        _currentScore = 0;
-        _performanceScore = 0;
-    }
-
-    private void UpdateScore() {
-        float totalGainedPoint = 0;
-        totalGainedPoint += _tapResultData[TapResult.Miss] * 0.0f;
-        totalGainedPoint += _tapResultData[TapResult.Good] * 0.5f;
-        totalGainedPoint += _tapResultData[TapResult.Great] * 0.8f;
-        totalGainedPoint += _tapResultData[TapResult.Perfect] * 1.0f;
-
-        _currentScore = (int) (_TOTAL_SCORE * ((float) totalGainedPoint / _totalNode));
+    private void OnScoreChanged(BaseGameEventArgs args) {
+        ScoreChangedGameEventArgs scArgs = args as ScoreChangedGameEventArgs;
+        _currentScore = scArgs.CurrentScore;
 
         StopPerformance();
         PlayPerformance();
     }
+    #endregion
 
+    #region Internal Methods
     private void PlayPerformance() {
         StopPerformance();
 

@@ -110,10 +110,10 @@ public class UINodeHandler : MonoBehaviour {
         UINode node = _nodeMap[np][nodeIndex];
         node.IsDone = true;
 
-        // Show tap result on node root
-        TapResult result = GetTapResult(minDiffTiming);
-        TapResultGameEventArgs args = new TapResultGameEventArgs();
-        args.TR = result;
+        // Show node result on node root
+        NodeResult result = GetNodeResult(minDiffTiming);
+        NodeResultGameEventArgs args = new NodeResultGameEventArgs();
+        args.NR = result;
         args.NP = np;
         args.Dispatch();
 
@@ -122,20 +122,20 @@ public class UINodeHandler : MonoBehaviour {
         _nodeMap[np].RemoveAt(nodeIndex);
 
         // Sound effect
-        TrackManager.Instance.PlaySE(result == TapResult.Perfect);
+        TrackManager.Instance.PlaySE(result == NodeResult.Perfect);
     }
 
-    private TapResult GetTapResult(float diffTiming) {
-        TapResult result = TapResult.Miss;
+    private NodeResult GetNodeResult(float diffTiming) {
+        NodeResult result = NodeResult.Miss;
 
         if (Mathf.Abs(diffTiming) <= 0.03f) {
-            result = TapResult.Perfect;
+            result = NodeResult.Perfect;
         }
         else if (Mathf.Abs(diffTiming) <= 0.10f) {
-            result = TapResult.Great;
+            result = NodeResult.Great;
         }
         else if (Mathf.Abs(diffTiming) <= _nodeHandlingThreshold) {
-            result = TapResult.Good;
+            result = NodeResult.Good;
         }
 
         return result;
@@ -240,9 +240,9 @@ public class UINodeHandler : MonoBehaviour {
         // Set done
         node.IsDone = true;
 
-        // Show tap result on node root
-        TapResultGameEventArgs args = new TapResultGameEventArgs();
-        args.TR = TapResult.Miss;
+        // Show node result on node root
+        NodeResultGameEventArgs args = new NodeResultGameEventArgs();
+        args.NR = NodeResult.Miss;
         args.NP = node.NDInfo.Position;
         args.Dispatch();
     }

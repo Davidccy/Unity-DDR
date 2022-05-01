@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIResultTap : MonoBehaviour {
-    public enum PerformType { 
+public class UIResultValueRolling : MonoBehaviour {
+    public enum ValueType { 
         Value,
         Ratio,
     }
@@ -13,7 +13,7 @@ public class UIResultTap : MonoBehaviour {
     #region Serialized Fields
     [SerializeField] private Image _imageBarValue = null;
     [SerializeField] private TextMeshProUGUI _textValue = null;
-    [SerializeField] private PerformType _pType = PerformType.Value;
+    [SerializeField] private ValueType _pType = ValueType.Value;
     [SerializeField] private float _interval = 1;
     #endregion
 
@@ -88,7 +88,7 @@ public class UIResultTap : MonoBehaviour {
                 return;
             }
 
-            if (_pType == PerformType.Value) {
+            if (_pType == ValueType.Value) {
                 internalValue += _interval;
                 score = (int) internalValue;
             }

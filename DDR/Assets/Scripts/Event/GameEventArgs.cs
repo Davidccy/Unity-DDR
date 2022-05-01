@@ -33,12 +33,12 @@ public class NodePressedGameEventArgs : BaseGameEventArgs {
     }
 }
 
-public class TapResultGameEventArgs : BaseGameEventArgs {
-    public TapResult TR;
+public class NodeResultGameEventArgs : BaseGameEventArgs {
+    public NodeResult NR;
     public NodePosition NP;
 
-    public TapResultGameEventArgs() {
-        ID = GameEventTypes.TAP_RESULT;
+    public NodeResultGameEventArgs() {
+        ID = GameEventTypes.NODE_RESULT;
     }
 }
 
@@ -57,5 +57,43 @@ public class FinalNodeFinishedGameEventArgs : BaseGameEventArgs {
 public class TrackLoadedGameEventArgs : BaseGameEventArgs {
     public TrackLoadedGameEventArgs() {
         ID = GameEventTypes.TRACK_LOADED;
+    }
+}
+
+public class ScoreChangedGameEventArgs : BaseGameEventArgs {
+    public int PreviousScore {
+        get;
+        private set;
+    }
+
+    public int CurrentScore {
+        get;
+        private set;
+    }
+
+    public ScoreChangedGameEventArgs(int preScore, int curScore) {
+        ID = GameEventTypes.SCORE_CHANGED;
+
+        PreviousScore = preScore;
+        CurrentScore = curScore;
+    }
+}
+
+public class ComboChangedGameEventArgs : BaseGameEventArgs {
+    public int PreviousCombo {
+        get;
+        private set;
+    }
+
+    public int CurrentCombo {
+        get;
+        private set;
+    }
+
+    public ComboChangedGameEventArgs(int preCombo, int curCombo) {
+        ID = GameEventTypes.COMBO_CHANGED;
+
+        PreviousCombo = preCombo;
+        CurrentCombo = preCombo;
     }
 }

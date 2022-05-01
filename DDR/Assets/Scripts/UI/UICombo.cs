@@ -9,10 +9,6 @@ public class UICombo : MonoBehaviour {
     [SerializeField] private int _displayThreshold = 0;
     #endregion
 
-    #region Internal Fields
-    private int _comboCount = 0;
-    #endregion
-
     #region Properties
     private int DisplayThreshold {
         get {
@@ -23,45 +19,26 @@ public class UICombo : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        GameEventManager.Instance.Register(GameEventTypes.TAP_RESULT, OnTapResult);
-    }
-
-    private void OnEnable() {
-        _comboCount = 0;
-
-        Refresh();
+        GameEventManager.Instance.Register(GameEventTypes.COMBO_CHANGED, OnComboChanged);
     }
 
     private void OnDestroy() {
         if (GameEventManager.Instance != null) {
-            GameEventManager.Instance.Unregister(GameEventTypes.TAP_RESULT, OnTapResult);
+            GameEventManager.Instance.Unregister(GameEventTypes.COMBO_CHANGED, OnComboChanged);
         }
     }
     #endregion
 
     #region Event Handlings
-    private void OnTapResult(BaseGameEventArgs args) {
-        TapResultGameEventArgs trArgs = args as TapResultGameEventArgs;
-
-        if (trArgs.TR != TapResult.Miss) {
-            _comboCount += 1;
-        }
-        else {
-            _comboCount = 0;
-        }
-
-        Refresh();
-    }
-    #endregion
-
-    #region Internal Methods
-    private void Refresh() {
-        _rectRoot.gameObject.SetActive(_comboCount >= DisplayThreshold);
-        if (_comboCount < DisplayThreshold) {
+    private void OnComboChanged(BaseGameEventArgs args) {
+        ComboChangedGameEventArgs ccArgs = args as ComboChangedGameEventArgs;
+        int curCombo = ccArgs.CurrentCombo;
+        _rectRoot.gameObject.SetActive(curCombo >= DisplayThreshold);
+        if (curCombo < DisplayThreshold) {
             return;
         }
 
-        _textCombo.text = string.Format("{0}", _comboCount);
+        _textCombo.text = string.Format("{0}", curCombo);
         _cpdCombo.Play().DoNotAwait();
     }
     #endregion

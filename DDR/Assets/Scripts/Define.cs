@@ -10,20 +10,20 @@ public enum NodePosition {
     Space,
 }
 
-public enum TapResult {
+public enum NodeResult {
     Perfect,
     Great,
     Good,
     Miss,
 }
 
-public enum ResultRank { 
-    SSS,
-    SS,
+public enum ScoreRank { 
     S,
     A,
     B,
     C,
+    D,
+    E,
 }
 
 public enum NodeMovingType {
@@ -40,8 +40,9 @@ public enum ControlType {
 #region Temp Data
 public class TempResultData {
     public int Score;
-    public int TotalTaps;
-    public Dictionary<TapResult, int> Taps;
+    public int TotalNodeCount;
+    public int MaxCombo;
+    public Dictionary<NodeResult, int> NodeResultTable;
 }
 #endregion
 
@@ -79,6 +80,15 @@ public static class Define {
     public static int SPEED_LEVEL_MAX = 19;
     public static float SPEED_PER_LEVEL = 0.5f;
     public static float SPEED_BASE = 0.5f;
+    #endregion
+
+    #region Track Score
+    public static int TOTAL_SCORE = 1000000;
+    public static int SCORE_MIN_RANK_S = 900000;
+    public static int SCORE_MIN_RANK_A = 800000;
+    public static int SCORE_MIN_RANK_B = 700000;
+    public static int SCORE_MIN_RANK_C = 600000;
+    public static int SCORE_MIN_RANK_D = 500000;
     #endregion
 
     #region Scene Names

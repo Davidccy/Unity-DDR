@@ -10,13 +10,16 @@ public class SceneInit : SceneBase {
     #region Override Methods
     protected override void OnSceneAwake() {
         Init();
+        PlayPerformance();
     }
     #endregion
 
     #region Internal Methods
-    private async void Init() {
+    private void Init() {
         SceneManager.LoadScene(Define.SCENE_COMMON, LoadSceneMode.Additive);
+    }
 
+    private async void PlayPerformance() {
         await ShowLogo();
         await ShowCutScene();
 

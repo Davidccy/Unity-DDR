@@ -24,17 +24,17 @@ public class UIHitEffect : MonoBehaviour {
     #endregion
 
     #region APIs
-    public void Play(TapResult tr) {
+    public void Play(NodeResult nr) {
         StopAllCoroutines();
 
-        SetEffectColor(tr);
+        SetEffectColor(nr);
         StartCoroutine(PlayFadeOut());
     }
     #endregion
 
     #region Internal Methods
-    private void SetEffectColor(TapResult tr) {
-        _image.color = Utility.GetTapResultColor(tr);
+    private void SetEffectColor(NodeResult nr) {
+        _image.color = Utility.GetNodeResultColor(nr);
     }
 
     private IEnumerator PlayFadeOut() {
