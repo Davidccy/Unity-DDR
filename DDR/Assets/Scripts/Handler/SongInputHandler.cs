@@ -1,7 +1,16 @@
 ﻿using UnityEngine;
 
-public class SongInputManager : ISingleton<SongInputManager> {
+public class SongInputHandler : MonoBehaviour {
+    #region Internal Fields
+    private bool _isActive = false;
+    #endregion
+
     #region Mono Behaviour Hooks
+    private void Awake() {
+        int controlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
+        _isActive = controlType == (int) ControlType.Keyboard;
+    }
+
     private void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             OnNodePressed(NodePosition.Left);
@@ -23,6 +32,10 @@ public class SongInputManager : ISingleton<SongInputManager> {
 
     #region Event Handlings
     private void OnNodePressed(NodePosition np) {
+        if (!_isActive) {
+            return;
+        }
+
         NodePressedGameEventArgs args = new NodePressedGameEventArgs();
         args.NP = np;
         args.Dispatch();

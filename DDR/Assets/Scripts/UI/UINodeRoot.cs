@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UINodeRoot : MonoBehaviour {
     #region Serialized Fields
+    [SerializeField] private Button _btn = null;
     [SerializeField] private NodePosition _nPos = default;
     [SerializeField] private GameObject _goIconRoot = null;
     [SerializeField] private GameObject _goArrowRoot = null;
@@ -14,20 +16,43 @@ public class UINodeRoot : MonoBehaviour {
     [SerializeField] private float _scaleBump = 0.9f;
     #endregion
 
+    #region Internal Fields
+    private bool _isButtonActive;
+    #endregion
+
     #region Mono Behaviour Hooks
-    private void OnEnable() {
-        _goArrowRoot.SetActive(_nPos != NodePosition.Space);
-        _goRectRoot.SetActive(_nPos == NodePosition.Space);
+    //private void Awake() {
+    //    int controlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
+    //    _isButtonActive = controlType == (int) ControlType.Keyboard;
 
-        GameEventManager.Instance.Register(GameEventTypes.BUMP, OnBumpTrigger);
-        GameEventManager.Instance.Register(GameEventTypes.NODE_RESULT, OnNodeResult);
-    }
+    //    _goArrowRoot.SetActive(_nPos != NodePosition.Space);
+    //    _goRectRoot.SetActive(_nPos == NodePosition.Space);
 
-    private void OnDisable() {
+    //    _btn.onClick.AddListener(ButtonOnClick);
+
+    //    GameEventManager.Instance.Register(GameEventTypes.BUMP, OnBumpTrigger);
+    //    GameEventManager.Instance.Register(GameEventTypes.NODE_RESULT, OnNodeResult);
+    //}
+
+    private void OnDestroy() {
+        _btn.onClick.RemoveListener(ButtonOnClick);
+
         if (GameEventManager.Instance != null) {
             GameEventManager.Instance.Unregister(GameEventTypes.BUMP, OnBumpTrigger);
             GameEventManager.Instance.Unregister(GameEventTypes.NODE_RESULT, OnNodeResult);
-        }        
+        }
+    }
+    #endregion
+
+    #region Button Handlings
+    private void ButtonOnClick() {
+        if (!_isButtonActive) {
+            return;
+        }
+
+        NodePressedGameEventArgs args = new NodePressedGameEventArgs();
+        args.NP = _nPos;
+        args.Dispatch();
     }
     #endregion
 
@@ -51,7 +76,26 @@ public class UINodeRoot : MonoBehaviour {
     }
     #endregion
 
+    #region APIs
+    public void Activate() {
+        Init();
+    }
+    #endregion
+
     #region Internal Methods
+    private void Init() {
+        int controlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
+        _isButtonActive = controlType == (int) ControlType.Touching;
+
+        _goArrowRoot.SetActive(_nPos != NodePosition.Space);
+        _goRectRoot.SetActive(_nPos == NodePosition.Space);
+
+        _btn.onClick.AddListener(ButtonOnClick);
+
+        GameEventManager.Instance.Register(GameEventTypes.BUMP, OnBumpTrigger);
+        GameEventManager.Instance.Register(GameEventTypes.NODE_RESULT, OnNodeResult);
+    }
+
     private void PlayBouncing() {
         StopAllCoroutines();
         StartCoroutine(StartBouncing());

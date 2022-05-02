@@ -152,6 +152,12 @@ public class UINodeHandler : MonoBehaviour {
         _nodeRootSetRaising.GoRoot.SetActive(_nodeMovingType == NodeMovingType.Raising);
         _nodeRootSetFalling.GoRoot.SetActive(_nodeMovingType == NodeMovingType.Falling);
 
+        _nodeRootSet.NodeLeft.Activate();
+        _nodeRootSet.NodeUp.Activate();
+        _nodeRootSet.NodeDown.Activate();
+        _nodeRootSet.NodeRight.Activate();
+        _nodeRootSet.NodeSpace.Activate();
+
         // Hit effect
         _hitEffectRootSet.PCLeft.AddSource(new ConstraintSource() { sourceTransform = _nodeRootSet.NodeLeft.transform, weight = 1 });
         _hitEffectRootSet.PCUp.AddSource(new ConstraintSource() { sourceTransform = _nodeRootSet.NodeUp.transform, weight = 1 });
