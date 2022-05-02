@@ -42,19 +42,29 @@ public class ISingleton<T> : MonoBehaviour where T : Component {
 
     #region Mono Behaviour Hooks
     private void Awake() {
+        if (_instance == null) {
+            _instance = this as T;
 
-        //if (_instance == null) {
-        //    _instance = this as T;
-        //    return;
-        //}
+            DontDestroyOnLoad(_instance);
 
-        //Debug.LogErrorFormat("Duplicate ISingleton component {0} detected", typeof(T).ToString());
+            return;
+        }
+        else {
+            T instance = this as T;
+            if (_instance != instance) {
+                Debug.LogErrorFormat("Duplicate ISingleton component {0} detected", typeof(T).ToString());
+                Destroy(instance);
+            }
+        }
 
         DoAwake();
     }
 
     private void OnDestroy() {
-        _isAppPlaying = false;
+        T instance = this as T;
+        if (_instance == instance) {
+            _isAppPlaying = false;
+        }        
 
         DoDestroy();
     }
