@@ -1164,7 +1164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectRoot: {fileID: 5925163878541039524}
   _imageRes: {fileID: 5925163878381644969}
-  _speed: 1
+  _speed: 0.2
 --- !u!1 &5925163878544812892
 GameObject:
   m_ObjectHideFlags: 0
@@ -4375,7 +4375,7 @@ MonoBehaviour:
   - {fileID: 5925163879985613119}
   - {fileID: 5925163878313221419}
   _warpThreshold: 0
-  _speed: 1
+  _speed: 0.5
 --- !u!95 &5925163879452701606
 Animator:
   serializedVersion: 3
@@ -5753,7 +5753,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -4, y: -4}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5925163879914927441
 CanvasRenderer:

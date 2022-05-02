@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Newtonsoft.Json;
 
 public static class Utility {
     #region Node Related Handlings     
@@ -104,7 +105,7 @@ public static class Utility {
     }
     #endregion
 
-    #region Score rank Handlings
+    #region Score Rank Handlings
     public static ScoreRank GetScoreRank(int score) {
         if (score >= Define.SCORE_MIN_RANK_S) {
             return ScoreRank.S;
@@ -148,6 +149,25 @@ public static class Utility {
         }
 
         return "E";
+    }
+    #endregion
+
+    #region Track Achievement Handlings
+    public static void SaveTrackAchievement(int trackID, TrackAchievement achv) {
+        string jsonString = JsonConvert.SerializeObject(achv);
+        string saveKey = string.Format(Define.GAME_DATA_KEY_TRACK_ACHV, trackID);
+        GameDataManager.SaveString(saveKey, jsonString);
+    }
+
+    public static TrackAchievement LoadTrackAchievement(int trackID) {
+        string saveKey = string.Format(Define.GAME_DATA_KEY_TRACK_ACHV, trackID);
+        string jsonString = GameDataManager.LoadString(saveKey);
+        if (string.IsNullOrEmpty(jsonString)) {
+            return null;
+        }
+
+        TrackAchievement achv = JsonConvert.DeserializeObject<TrackAchievement>(jsonString);
+        return achv;
     }
     #endregion
 }

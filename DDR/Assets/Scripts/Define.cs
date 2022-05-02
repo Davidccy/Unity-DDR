@@ -58,6 +58,13 @@ public class NodeInfo {
     public NodePosition NodePosition;
 }
 
+[System.Serializable]
+public class SelectInfo {
+    public int TrackID;
+    public string TrackName;
+    public Sprite Thumbnail;
+    public int BPM;
+}
 
 public class NodeDisplayInfo {
     public NodePosition Position;
@@ -66,12 +73,11 @@ public class NodeDisplayInfo {
     public float Timing;
 }
 
-[System.Serializable]
-public class SelectInfo {
-    public int TrackID;
-    public string TrackName;
-    public Sprite Thumbnail;
-    public int BPM;
+public class TrackAchievement {
+    public int Score;
+    public int Combo;
+    public bool IsAllPerfect;
+    public bool IsFullCombo;
 }
 
 public static class Define {
@@ -100,10 +106,14 @@ public static class Define {
     #endregion
 
     #region Game Data Keys
+    // Options
     public static string GAME_DATA_KEY_SE_TYPE = "Game_Data_SE_Type"; // TODO
     public static string GAME_DATA_KEY_SPEED_LEVEL = "Game_Data_Speed_Level";
     public static string GAME_DATA_KEY_NODE_MOVING_TYPE = "Game_Data_Node_Moving_Type";
     public static string GAME_DATA_KEY_CONTROL_TYPE = "Game_Data_Control_Type";
+
+    // Track achievements
+    public static string GAME_DATA_KEY_TRACK_ACHV = "Game_Data_Track_Achv_{0:000}"; // Fill track ID as parameter
     #endregion
 
     #region Temporary Game Data Keys
