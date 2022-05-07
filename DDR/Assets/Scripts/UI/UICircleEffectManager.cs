@@ -2,21 +2,25 @@
 
 public class UICircleEffectManager : MonoBehaviour {
     #region Serialized Fields
-    [SerializeField] private Canvas _canvas = null;
     [SerializeField] private UICircleEffect[] _effects = null;
+    #endregion
+
+    #region Internal Fields
+    private Canvas _canvas = null;
     #endregion
 
     #region Mono Behaviour Hooks
     private void Awake() {
+        InitCanvas();
         SetBound();
     }
     #endregion
 
-    #region APIs
-
-    #endregion
-
     #region Internal Methods
+    private void InitCanvas() {
+        _canvas = Utility.GetNearestCanvas(this.transform);
+    }
+
     private void SetBound() {
         if (_effects == null || _effects.Length <= 0) {
             return;

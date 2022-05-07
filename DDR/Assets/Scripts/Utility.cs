@@ -170,4 +170,19 @@ public static class Utility {
         return achv;
     }
     #endregion
+
+    #region Misc
+    public static Canvas GetNearestCanvas(Transform tf) {
+        Canvas c = tf.GetComponent<Canvas>();
+        if (c != null) {
+            return c;
+        }
+
+        if (tf.parent != null) {
+            return GetNearestCanvas(tf.parent);
+        }
+
+        return null;
+    }
+    #endregion
 }

@@ -5,6 +5,7 @@ public class UIMainPageEntry : UIMainPageBase {
     #region Serialized Fields
     [Header("Sub Content")]
     [SerializeField] private Button _btnEntry = null;
+    [SerializeField] private Button _btnCredits = null;
     [SerializeField] private GameObject[] _goWallpaper = null;
     [SerializeField] private CustomPlayableDirector _cpdIdle = null;
     #endregion
@@ -15,7 +16,8 @@ public class UIMainPageEntry : UIMainPageBase {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        _btnEntry.onClick.AddListener(ButtonEntryonClick);
+        _btnEntry.onClick.AddListener(ButtonEntryOnClick);
+        _btnCredits.onClick.AddListener(ButtonCreditsOnClick);
     }
 
     private void OnEnable() {
@@ -23,7 +25,8 @@ public class UIMainPageEntry : UIMainPageBase {
     }
 
     private void OnDestroy() {
-        _btnEntry.onClick.RemoveListener(ButtonEntryonClick);
+        _btnEntry.onClick.RemoveListener(ButtonEntryOnClick);
+        _btnCredits.onClick.RemoveListener(ButtonEntryOnClick);
     }
     #endregion
 
@@ -38,8 +41,14 @@ public class UIMainPageEntry : UIMainPageBase {
     #endregion
 
     #region Button Handlings
-    private async void ButtonEntryonClick() {
+    private async void ButtonEntryOnClick() {
         await _sceneMain.ChangeToPage(SceneMain.UIPage.TrackSelection);
+    }
+
+    private async void ButtonCreditsOnClick() {
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.OpenWindow(Define.WIDNOW_CREDITS);
+        }
     }
     #endregion
 

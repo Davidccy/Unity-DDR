@@ -29,16 +29,17 @@ public class SceneResult : SceneBase {
     }
 
     private async void PlayPerformance() {
-        if (CommonWindowManager.Instance != null) {
-            await CommonWindowManager.Instance.FadeOut();
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.CloseWindow(Define.WIDNOW_LOADING);
         }
 
         _uiResult.PlayResultPerformance();
     }
 
     private async void OnResultFinished() {
-        CommonWindowManager.Instance.SetCutSceneColor(Color.white);        
-        await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.Loading);
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.OpenWindow(Define.WIDNOW_LOADING);
+        }
 
         SceneManager.LoadScene(Define.SCENE_MAIN, LoadSceneMode.Single);
     }

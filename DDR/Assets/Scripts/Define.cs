@@ -81,6 +81,21 @@ public class TrackAchievement {
 }
 
 public static class Define {
+    #region Scene Names
+    public static string SCENE_COMMON = "Common";
+    public static string SCENE_GAME = "Game";
+    public static string SCENE_INIT = "Init";
+    public static string SCENE_MAIN = "Main";
+    public static string SCENE_RESULT = "Result";
+    #endregion
+
+    #region Window Names
+    public static string WIDNOW_CREDITS = "UIWindowCredits";
+    public static string WIDNOW_CUT_SCENE = "UIWindowCutScene";
+    public static string WIDNOW_LOADING = "UIWindowLoading";
+    public static string WIDNOW_TRACK_OPTION = "UIWindowTrackOption";
+    #endregion
+
     #region Track Speed
     public static int SPEED_LEVEL_MIN = 1;
     public static int SPEED_LEVEL_MAX = 19;
@@ -95,14 +110,6 @@ public static class Define {
     public static int SCORE_MIN_RANK_B = 700000;
     public static int SCORE_MIN_RANK_C = 600000;
     public static int SCORE_MIN_RANK_D = 500000;
-    #endregion
-
-    #region Scene Names
-    public static string SCENE_COMMON = "Common";
-    public static string SCENE_GAME = "Game";
-    public static string SCENE_INIT = "Init";
-    public static string SCENE_MAIN = "Main";
-    public static string SCENE_RESULT = "Result";
     #endregion
 
     #region Game Data Keys

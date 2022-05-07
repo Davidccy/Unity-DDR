@@ -42,16 +42,16 @@ public class SceneGame : SceneBase {
 
         // NOTE:
         // Fade out after starting
-        if (CommonWindowManager.Instance != null) {
-            await CommonWindowManager.Instance.FadeOut();
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.CloseWindow(Define.WIDNOW_LOADING);
         }
     }
 
     private async void OnFinalNodeFinished(BaseGameEventArgs args) {
         await Task.Delay((int) _finishedWaiting * 1000);
 
-        if (CommonWindowManager.Instance != null) {
-            await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.Loading);
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.OpenWindow(Define.WIDNOW_LOADING);
         }
 
         TrackManager.Instance.Stop();

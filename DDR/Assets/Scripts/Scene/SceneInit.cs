@@ -30,10 +30,11 @@ public class SceneInit : SceneBase {
         await _uiLogo.Play();
     }
 
-    private async Task ShowCutScene() {
-        if (CommonWindowManager.Instance != null) {
-            CommonWindowManager.Instance.SetCutSceneColor(Color.black);
-            await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.CutScene);
+    private async Task ShowCutScene() {        
+        if (WindowManager.Instance != null) {
+            UIWindowCutScene window = await WindowManager.Instance.GetWindow(Define.WIDNOW_CUT_SCENE) as UIWindowCutScene;
+            window.SetColor(Color.black);
+            await window.PlayFadeIn();
         }        
     }
     #endregion

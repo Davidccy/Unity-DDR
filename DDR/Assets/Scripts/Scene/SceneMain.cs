@@ -22,6 +22,17 @@ public class SceneMain : SceneBase {
         HideAllPages();
 
         if (_curPageIndex == -1) {
+            if (WindowManager.Instance != null) {
+                WindowManager.Instance.CloseWindow(Define.WIDNOW_CUT_SCENE).DoNotAwait();
+            }
+        }
+        else {
+            if (WindowManager.Instance != null) {
+                WindowManager.Instance.CloseWindow(Define.WIDNOW_LOADING).DoNotAwait();
+            }
+        }
+
+        if (_curPageIndex == -1) {
             ChangeToPage((UIPage) _initPageIndex, false).DoNotAwait();
         }
         else {
@@ -31,9 +42,9 @@ public class SceneMain : SceneBase {
     #endregion
 
     #region APIs
-    public async Task ChangeToPage(UIPage page, bool cutSceneFadeIn = true) {
-        if (cutSceneFadeIn) {
-            await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.CutScene);
+    public async Task ChangeToPage(UIPage page, bool useCutScene = true) {
+        if (useCutScene && WindowManager.Instance != null) {
+            await WindowManager.Instance.OpenWindow(Define.WIDNOW_CUT_SCENE);
         }
 
         if (_curPageIndex != -1) {
@@ -44,13 +55,18 @@ public class SceneMain : SceneBase {
 
         _curPageIndex = (int) page;
         _uiPages[_curPageIndex].gameObject.SetActive(true);
-        CommonWindowManager.Instance.FadeOut().DoNotAwait();
+        if (useCutScene && WindowManager.Instance != null) {
+            WindowManager.Instance.CloseWindow(Define.WIDNOW_CUT_SCENE).DoNotAwait();
+        }
+
         await _uiPages[_curPageIndex].PlayFadeIn();
         _uiPages[_curPageIndex].OnFadeInDone();
     }
 
     public async Task TrackSelectionFinished() {
-        await CommonWindowManager.Instance.FadeIn(CommonWindowManager.Type.Loading);
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.OpenWindow(Define.WIDNOW_LOADING);
+        }
         SceneManager.LoadScene(Define.SCENE_GAME, LoadSceneMode.Single);
     }
     #endregion

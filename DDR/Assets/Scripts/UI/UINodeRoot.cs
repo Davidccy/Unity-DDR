@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
-public class UINodeRoot : MonoBehaviour {
+public class UINodeRoot : MonoBehaviour, IPointerDownHandler {
     #region Serialized Fields
-    [SerializeField] private Button _btn = null;
     [SerializeField] private NodePosition _nPos = default;
     [SerializeField] private GameObject _goIconRoot = null;
     [SerializeField] private GameObject _goArrowRoot = null;
@@ -17,26 +16,23 @@ public class UINodeRoot : MonoBehaviour {
     #endregion
 
     #region Internal Fields
-    private bool _isButtonActive;
+    private bool _isInit = false;
+    private bool _isTouchActive = false;
     #endregion
 
     #region Mono Behaviour Hooks
     //private void Awake() {
     //    int controlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
-    //    _isButtonActive = controlType == (int) ControlType.Keyboard;
+    //    _isTouchActive = controlType == (int) ControlType.Touching;
 
     //    _goArrowRoot.SetActive(_nPos != NodePosition.Space);
     //    _goRectRoot.SetActive(_nPos == NodePosition.Space);
-
-    //    _btn.onClick.AddListener(ButtonOnClick);
 
     //    GameEventManager.Instance.Register(GameEventTypes.BUMP, OnBumpTrigger);
     //    GameEventManager.Instance.Register(GameEventTypes.NODE_RESULT, OnNodeResult);
     //}
 
     private void OnDestroy() {
-        _btn.onClick.RemoveListener(ButtonOnClick);
-
         if (GameEventManager.Instance != null) {
             GameEventManager.Instance.Unregister(GameEventTypes.BUMP, OnBumpTrigger);
             GameEventManager.Instance.Unregister(GameEventTypes.NODE_RESULT, OnNodeResult);
@@ -46,7 +42,7 @@ public class UINodeRoot : MonoBehaviour {
 
     #region Button Handlings
     private void ButtonOnClick() {
-        if (!_isButtonActive) {
+        if (!_isTouchActive) {
             return;
         }
 
@@ -74,6 +70,16 @@ public class UINodeRoot : MonoBehaviour {
         NodeResult nr = nrArgs.NR;
         PlayNodeResultEffect(nr);
     }
+
+    public void OnPointerDown(PointerEventData eventData) {
+        if (!_isTouchActive) {
+            return;
+        }
+
+        NodePressedGameEventArgs args = new NodePressedGameEventArgs();
+        args.NP = _nPos;
+        args.Dispatch();
+    }
     #endregion
 
     #region APIs
@@ -84,13 +90,17 @@ public class UINodeRoot : MonoBehaviour {
 
     #region Internal Methods
     private void Init() {
+        if (_isInit) {
+            return;
+        }
+
+        _isInit = true;
+
         int controlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
-        _isButtonActive = controlType == (int) ControlType.Touching;
+        _isTouchActive = controlType == (int) ControlType.Touching;
 
         _goArrowRoot.SetActive(_nPos != NodePosition.Space);
         _goRectRoot.SetActive(_nPos == NodePosition.Space);
-
-        _btn.onClick.AddListener(ButtonOnClick);
 
         GameEventManager.Instance.Register(GameEventTypes.BUMP, OnBumpTrigger);
         GameEventManager.Instance.Register(GameEventTypes.NODE_RESULT, OnNodeResult);

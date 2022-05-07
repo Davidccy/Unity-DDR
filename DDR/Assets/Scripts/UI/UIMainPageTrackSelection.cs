@@ -19,15 +19,11 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     [SerializeField] private Button _btnOption = null;
 
     [SerializeField] private Button _btnConfirmCancel = null;
-    [SerializeField] private Button _btnOptionCancel = null;
 
     [SerializeField] private List<UITrackSelectInfo> _trackSelectInfoList = new List<UITrackSelectInfo>(); // Count should be odd number
 
     [SerializeField] private CustomPlayableDirector _cpdTrackConfirm = null;
     [SerializeField] private CustomPlayableDirector _cpdTrackCancel = null;
-
-    [SerializeField] private CustomPlayableDirector _cpdOptionFadeIn = null;
-    [SerializeField] private CustomPlayableDirector _cpdOptionFadeOut = null;
 
     [Header("Sub Content - Performance Settings")]
     [SerializeField] private float _space = 0;
@@ -68,7 +64,6 @@ public class UIMainPageTrackSelection : UIMainPageBase {
         _btnStart.onClick.AddListener(ButtonStartOnClick);
         _btnOption.onClick.AddListener(ButtonOptionOnClick);
         _btnConfirmCancel.onClick.AddListener(ButtonConfirmCancelOnClick);
-        _btnOptionCancel.onClick.AddListener(ButtonOptionCancelOnClick);
     }
 
     private void OnEnable() {
@@ -84,7 +79,6 @@ public class UIMainPageTrackSelection : UIMainPageBase {
         _btnStart.onClick.RemoveListener(ButtonStartOnClick);
         _btnOption.onClick.RemoveListener(ButtonOptionOnClick);
         _btnConfirmCancel.onClick.RemoveListener(ButtonConfirmCancelOnClick);
-        _btnOptionCancel.onClick.RemoveListener(ButtonOptionCancelOnClick);
     }
     #endregion
 
@@ -126,8 +120,10 @@ public class UIMainPageTrackSelection : UIMainPageBase {
         _sceneMain.TrackSelectionFinished().DoNotAwait();
     }
 
-    private void ButtonOptionOnClick() {
-        _cpdOptionFadeIn.Play().DoNotAwait();
+    private async void ButtonOptionOnClick() {
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.OpenWindow(Define.WIDNOW_TRACK_OPTION);
+        }
     }
 
     private void ButtonConfirmCancelOnClick() {
@@ -137,10 +133,6 @@ public class UIMainPageTrackSelection : UIMainPageBase {
             _trackSelectInfoList[_centerUIIndex].transform.SetParent(_goContentRoot.transform);
             _trackSelectInfoList[_centerUIIndex].transform.SetSiblingIndex(_centerUIIndex);
         }).DoNotAwait();
-    }
-
-    private void ButtonOptionCancelOnClick() {
-        _cpdOptionFadeOut.Play().DoNotAwait();
     }
     #endregion
 

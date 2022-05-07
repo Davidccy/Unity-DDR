@@ -2,21 +2,21 @@
 using UnityEngine.UI;
 using TMPro;
 
-public class UITrackOption : MonoBehaviour {
+public class UIWindowTrackOption : UIGenericWindow {
     #region Serialized Fields
-    [Header("Speed")]
+    [Header("Sub Content - Speed")]
     [SerializeField] private Slider _sliderSpeed = null;
     [SerializeField] private TextMeshProUGUI _textSpeedValue = null;
 
-    [Header("Node Moving Type")]
+    [Header("Sub Content - Node Moving Type")]
     [SerializeField] private Button _btnNodeMovingRaising = null;
     [SerializeField] private Button _btnNodeMovingFalling = null;
 
-    [Header("Control Type")]
+    [Header("Sub Content - Control Type")]
     [SerializeField] private Button _btnControlKeyboard = null;
     [SerializeField] private Button _btnControlTouching = null;
 
-    [Header("Icon Reference")]
+    [Header("Sub Content - Icon Reference")]
     [SerializeField] private Image _imageSelected = null;
     [SerializeField] private Image _imageUnselected = null;
     #endregion
@@ -27,8 +27,12 @@ public class UITrackOption : MonoBehaviour {
     private int _curControlType;
     #endregion
 
-    #region Mono Behaviour Hooks
-    private void Awake() {
+    #region Exposed Fields
+    public override string WindowName => Define.WIDNOW_TRACK_OPTION;
+    #endregion
+
+    #region Override Methods
+    protected override void OnWindowAwake() {
         _sliderSpeed.onValueChanged.AddListener(SliderSpeedValueChanged);
 
         _btnNodeMovingRaising.onClick.AddListener(ButtonMovingRaisingOnClick);
@@ -38,12 +42,12 @@ public class UITrackOption : MonoBehaviour {
         _btnControlTouching.onClick.AddListener(ButtonControlTouchingOnClick);
     }
 
-    private void OnEnable() {
+    protected override void OnWindowEnable() {
         InitUI();
         Refresh();
     }
 
-    private void OnDestroy() {
+    protected override void OnWindowDestroy() {
         _sliderSpeed.onValueChanged.RemoveListener(SliderSpeedValueChanged);
 
         _btnNodeMovingRaising.onClick.RemoveListener(ButtonMovingRaisingOnClick);

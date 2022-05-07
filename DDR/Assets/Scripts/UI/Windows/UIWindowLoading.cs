@@ -1,11 +1,8 @@
-﻿using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class UIWindowLoading : MonoBehaviour {
+public class UIWindowLoading : UIGenericWindow {
     #region Serialized Fields
-    [SerializeField] private CustomPlayableDirector _cpdFadeIn = null;
-    [SerializeField] private CustomPlayableDirector _cpdFadeOut = null;
-
+    [Header("Sub Content")]
     [SerializeField] private GameObject[] _goPokemonArray = null;
     #endregion
 
@@ -13,25 +10,14 @@ public class UIWindowLoading : MonoBehaviour {
     private int _pokemonIndex = 0;
     #endregion
 
-    #region Mono Behaviour Hooks
-    private void Awake() {
-        HideAllPokemon();
-    }
+    #region Exposed Fields
+    public override string WindowName => Define.WIDNOW_LOADING;
     #endregion
 
-    #region APIs
-    public async Task PlayFadeIn() {
+    #region Override Methods
+    protected override void OnWindowEnable() {
+        HideAllPokemon();
         ShowRandomPokemon();
-
-        _cpdFadeOut.Stop();
-
-        await _cpdFadeIn.Play();
-    }
-
-    public async Task PlayFadeOut() {
-        _cpdFadeIn.Stop();
-
-        await _cpdFadeOut.Play();
     }
     #endregion
 
