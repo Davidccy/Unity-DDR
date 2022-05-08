@@ -96,6 +96,13 @@ public static class Define {
     public static string WIDNOW_TRACK_OPTION = "UIWindowTrackOption";
     #endregion
 
+    #region Audio Settings
+    public static float AUDIO_DEFAULT_BGM_VOLUME = 0.5f;
+    public static float AUDIO_DEFAULT_SE_VOLUME = 0.5f;
+    public static float AUDIO_BGM_FADE_IN_DURATION = 0.25f;
+    public static float AUDIO_BGM_FADE_OUT_DURATION = 0.25f;
+    #endregion
+
     #region Track Speed
     public static int SPEED_LEVEL_MIN = 1;
     public static int SPEED_LEVEL_MAX = 19;
@@ -115,6 +122,8 @@ public static class Define {
     #region Game Data Keys
     // Options
     public static string GAME_DATA_KEY_SE_TYPE = "Game_Data_SE_Type"; // TODO
+    public static string GAME_DATA_KEY_VOLUME_BGM = "Game_Data_Volume_BGM";
+    public static string GAME_DATA_KEY_VOLUME_SE = "Game_Data_Volume_SE";
     public static string GAME_DATA_KEY_SPEED_LEVEL = "Game_Data_Speed_Level";
     public static string GAME_DATA_KEY_NODE_MOVING_TYPE = "Game_Data_Node_Moving_Type";
     public static string GAME_DATA_KEY_CONTROL_TYPE = "Game_Data_Control_Type";

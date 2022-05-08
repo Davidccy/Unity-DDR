@@ -11,6 +11,7 @@ public class SceneMain : SceneBase {
     #region Serialized Fields
     [SerializeField] private UIMainPageBase[] _uiPages = null;
     [SerializeField] private int _initPageIndex = 0;
+    [SerializeField] private AudioClip _acBGM = null;
     #endregion
 
     #region Internal Fields
@@ -19,6 +20,10 @@ public class SceneMain : SceneBase {
 
     #region Override Methods
     protected override void OnSceneAwake() {
+        if (AudioManager.Instance != null) {
+            AudioManager.Instance.PlayBGM(_acBGM).DoNotAwait();
+        }
+
         HideAllPages();
 
         if (_curPageIndex == -1) {
@@ -64,9 +69,14 @@ public class SceneMain : SceneBase {
     }
 
     public async Task TrackSelectionFinished() {
+        if (AudioManager.Instance != null) { 
+            AudioManager.Instance.StopBGM().DoNotAwait();
+        }
+
         if (WindowManager.Instance != null) {
             await WindowManager.Instance.OpenWindow(Define.WIDNOW_LOADING);
         }
+
         SceneManager.LoadScene(Define.SCENE_GAME, LoadSceneMode.Single);
     }
     #endregion

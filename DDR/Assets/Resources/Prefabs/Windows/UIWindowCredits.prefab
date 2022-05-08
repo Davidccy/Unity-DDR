@@ -1539,8 +1539,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991026765cad84d4dbbd15a11a0ffc3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cgRoot: {fileID: 2721117524879433461}
   _btnClose: {fileID: 2067585256564762848}
+  _acClose: {fileID: 8300000, guid: dec37c50d84d1554a85b59e1cb092c4a, type: 3}
   _cpdFadeIn: {fileID: 4931363396207269064}
   _cpdFadeOut: {fileID: 2405043973039796780}
 --- !u!225 &2721117524879433461

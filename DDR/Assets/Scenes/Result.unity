@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiResult: {fileID: 1170662280}
+  _acBGM: {fileID: 8300000, guid: 56ac33fcc29cdfd46868993bdfffd330, type: 3}
 --- !u!114 &1170662280 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5075829136881258812, guid: dc058f2708f4825428cdfe579dcf0003,

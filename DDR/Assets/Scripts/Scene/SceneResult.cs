@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneResult : SceneBase {
     #region Serialized Fields
     [SerializeField] private UIResult _uiResult = null;
+    [SerializeField] private AudioClip _acBGM = null;
     #endregion
 
     #region Override Methods
@@ -29,6 +28,10 @@ public class SceneResult : SceneBase {
     }
 
     private async void PlayPerformance() {
+        if (AudioManager.Instance != null) {
+            AudioManager.Instance.PlayBGM(_acBGM).DoNotAwait();
+        }
+
         if (WindowManager.Instance != null) {
             await WindowManager.Instance.CloseWindow(Define.WIDNOW_LOADING);
         }
@@ -37,6 +40,10 @@ public class SceneResult : SceneBase {
     }
 
     private async void OnResultFinished() {
+        if (AudioManager.Instance != null) {
+            AudioManager.Instance.StopBGM().DoNotAwait();
+        }
+
         if (WindowManager.Instance != null) {
             await WindowManager.Instance.OpenWindow(Define.WIDNOW_LOADING);
         }

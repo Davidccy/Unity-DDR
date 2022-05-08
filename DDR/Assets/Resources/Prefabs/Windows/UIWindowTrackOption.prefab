@@ -1913,6 +1913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _btnClose: {fileID: 545011927649819483}
+  _acClose: {fileID: 8300000, guid: dec37c50d84d1554a85b59e1cb092c4a, type: 3}
   _cpdFadeIn: {fileID: 5925163878713251831}
   _cpdFadeOut: {fileID: 5925163878348821380}
   _sliderSpeed: {fileID: 6842614386514735710}

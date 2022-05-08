@@ -6,6 +6,7 @@ public abstract class UIGenericWindow : MonoBehaviour {
 	#region Serialized Fields
 	[Header("Base Content")]
 	[SerializeField] private Button _btnClose = null;
+	[SerializeField] private AudioClip _acClose = null;
 
 	[SerializeField] private CustomPlayableDirector _cpdFadeIn = null;
 	[SerializeField] private CustomPlayableDirector _cpdFadeOut = null;
@@ -72,6 +73,10 @@ public abstract class UIGenericWindow : MonoBehaviour {
 	#region UI Button Handlings
 	private void ButtonCloseOnClick() {
 		PlayFadeOut().DoNotAwait();
+
+		if (_acClose != null && AudioManager.Instance != null) {
+			AudioManager.Instance.PlaySE(_acClose);
+		}
 	}
 	#endregion
 
