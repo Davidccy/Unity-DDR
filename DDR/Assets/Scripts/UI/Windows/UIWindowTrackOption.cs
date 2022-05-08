@@ -8,6 +8,12 @@ public class UIWindowTrackOption : UIGenericWindow {
     [SerializeField] private Slider _sliderSpeed = null;
     [SerializeField] private TextMeshProUGUI _textSpeedValue = null;
 
+    [Header("Sub Content - Node Sound Perfect")]
+    [SerializeField] private Button[] _btnNodeSoundPerfect = null;
+
+    [Header("Sub Content - Node Sound Normal")]
+    [SerializeField] private Button[] _btnNodeSoundNormal = null;
+
     [Header("Sub Content - Node Moving Type")]
     [SerializeField] private Button _btnNodeMovingRaising = null;
     [SerializeField] private Button _btnNodeMovingFalling = null;
@@ -35,6 +41,16 @@ public class UIWindowTrackOption : UIGenericWindow {
     protected override void OnWindowAwake() {
         _sliderSpeed.onValueChanged.AddListener(SliderSpeedValueChanged);
 
+        for (int i = 0; i < _btnNodeSoundPerfect.Length; i++) {
+            int index = i;
+            _btnNodeSoundPerfect[i].onClick.AddListener(() => ButtonSoundPerfectOnClick(index));
+        }
+
+        for (int i = 0; i < _btnNodeSoundNormal.Length; i++) {
+            int index = i;
+            _btnNodeSoundNormal[i].onClick.AddListener(() => ButtonSoundNormalOnClick(index));
+        }
+
         _btnNodeMovingRaising.onClick.AddListener(ButtonMovingRaisingOnClick);
         _btnNodeMovingFalling.onClick.AddListener(ButtonMovingFallingOnClick);
 
@@ -49,6 +65,14 @@ public class UIWindowTrackOption : UIGenericWindow {
 
     protected override void OnWindowDestroy() {
         _sliderSpeed.onValueChanged.RemoveListener(SliderSpeedValueChanged);
+
+        for (int i = 0; i < _btnNodeSoundPerfect.Length; i++) {
+            _btnNodeSoundPerfect[i].onClick.RemoveAllListeners();
+        }
+
+        for (int i = 0; i < _btnNodeSoundNormal.Length; i++) {
+            _btnNodeSoundNormal[i].onClick.RemoveAllListeners();
+        }
 
         _btnNodeMovingRaising.onClick.RemoveListener(ButtonMovingRaisingOnClick);
         _btnNodeMovingFalling.onClick.RemoveListener(ButtonMovingFallingOnClick);
@@ -72,6 +96,28 @@ public class UIWindowTrackOption : UIGenericWindow {
     #endregion
 
     #region Button Handlings
+    private void ButtonSoundPerfectOnClick(int index) {
+        GameDataManager.SaveInt(Define.GAME_DATA_KEY_SE_PERFECT, index);
+
+        if (AudioManager.Instance != null) {
+            AudioClip ac = Utility.GetSEPerfect();
+            AudioManager.Instance.PlaySE(ac);
+        }
+
+        RefreshNodeSoundPerfect();
+    }
+
+    private void ButtonSoundNormalOnClick(int index) {
+        GameDataManager.SaveInt(Define.GAME_DATA_KEY_SE_NORMAL, index);
+
+        if (AudioManager.Instance != null) {
+            AudioClip ac = Utility.GetSENormal();
+            AudioManager.Instance.PlaySE(ac);
+        }
+
+        RefreshNodeSoundNormal();
+    }
+
     private void ButtonMovingRaisingOnClick() {
         if (_curNodeMovingType == (int) NodeMovingType.Raising) {
             return;
@@ -124,6 +170,8 @@ public class UIWindowTrackOption : UIGenericWindow {
 
     private void Refresh() {
         RefreshSpeedSetting();
+        RefreshNodeSoundPerfect();
+        RefreshNodeSoundNormal();
         RefreshMovingSetting();
         RefreshControlSetting();
     }
@@ -135,8 +183,25 @@ public class UIWindowTrackOption : UIGenericWindow {
         _textSpeedValue.text = string.Format("{0:0.0}", speedValue);
     }
 
+    private void RefreshNodeSoundPerfect() {
+        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_PERFECT);
+
+        for (int i = 0; i < _btnNodeSoundPerfect.Length; i++) {
+            _btnNodeSoundPerfect[i].image.sprite = i == seIndex ? _imageSelected.sprite : _imageUnselected.sprite;
+        }
+    }
+
+    private void RefreshNodeSoundNormal() {
+        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_NORMAL);
+
+        for (int i = 0; i < _btnNodeSoundNormal.Length; i++) {
+            _btnNodeSoundNormal[i].image.sprite = i == seIndex ? _imageSelected.sprite : _imageUnselected.sprite;
+        }
+    }
+
     private void RefreshMovingSetting() {
         _curNodeMovingType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE);
+
         _btnNodeMovingRaising.image.sprite = 
             _curNodeMovingType == (int) NodeMovingType.Raising ? _imageSelected.sprite : _imageUnselected.sprite;
         _btnNodeMovingFalling.image.sprite =
@@ -145,6 +210,7 @@ public class UIWindowTrackOption : UIGenericWindow {
 
     private void RefreshControlSetting() {
         _curControlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
+
         _btnControlKeyboard.image.sprite =
             _curControlType == (int) ControlType.Keyboard ? _imageSelected.sprite : _imageUnselected.sprite;
         _btnControlTouching.image.sprite =

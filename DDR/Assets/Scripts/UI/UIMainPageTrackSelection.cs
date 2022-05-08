@@ -30,6 +30,7 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     [SerializeField] private float _unselectedScale = 0;
     [SerializeField] private float _performcanceDuration = 0;
     [SerializeField] private bool _switchWhenPerformance = false;
+    [SerializeField] private AudioClip _acTrackSelection = null;
     #endregion
 
     #region Internal Fields
@@ -179,6 +180,10 @@ public class UIMainPageTrackSelection : UIMainPageBase {
             StopCoroutine(_coPerformance);
         }
         _coPerformance = StartCoroutine(CoPlayPerformance(false));
+
+        if (AudioManager.Instance != null) {
+            AudioManager.Instance.PlaySE(_acTrackSelection);
+        }
     }
 
     private void ToNextTrack() {
@@ -186,6 +191,10 @@ public class UIMainPageTrackSelection : UIMainPageBase {
             StopCoroutine(_coPerformance);
         }
         _coPerformance = StartCoroutine(CoPlayPerformance(true));
+
+        if (AudioManager.Instance != null) {
+            AudioManager.Instance.PlaySE(_acTrackSelection);
+        }
     }
 
     private void SetCenterTrackDataIndex(int index) {

@@ -11,7 +11,6 @@ public class SceneMain : SceneBase {
     #region Serialized Fields
     [SerializeField] private UIMainPageBase[] _uiPages = null;
     [SerializeField] private int _initPageIndex = 0;
-    [SerializeField] private AudioClip _acBGM = null;
     #endregion
 
     #region Internal Fields
@@ -21,7 +20,8 @@ public class SceneMain : SceneBase {
     #region Override Methods
     protected override void OnSceneAwake() {
         if (AudioManager.Instance != null) {
-            AudioManager.Instance.PlayBGM(_acBGM).DoNotAwait();
+            AudioClip acBGM = Utility.GameConfigData.BGMMain;
+            AudioManager.Instance.PlayBGM(acBGM).DoNotAwait();
         }
 
         HideAllPages();

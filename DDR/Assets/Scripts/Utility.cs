@@ -42,6 +42,53 @@ public static class Utility {
     }
     #endregion
 
+    #region Game Config Handlings
+    private static GameConfigData _gameConfigData = null;
+    public static GameConfigData GameConfigData {
+        get {
+            if (_gameConfigData == null) {
+                _gameConfigData = Resources.Load<GameConfigData>("Data/GameConfigData");
+            }
+
+            return _gameConfigData;
+        }
+    }
+
+    public static AudioClip GetSEReady() {
+        if (GameConfigData == null) {
+            return null;
+        }
+
+        return GameConfigData.SoundEffectReady;
+    }
+
+    public static AudioClip GetSEPerfect() {
+        if (GameConfigData == null) {
+            return null;
+        }
+
+        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_PERFECT);
+        if (seIndex >= GameConfigData.SoundEffectPerfect.Length) {
+            return GameConfigData.SoundEffectPerfect[0];
+        }
+
+        return GameConfigData.SoundEffectPerfect[seIndex];
+    }
+
+    public static AudioClip GetSENormal() {
+        if (GameConfigData == null) {
+            return null;
+        }
+
+        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_NORMAL);
+        if (seIndex >= GameConfigData.SoundEffectNormal.Length) {
+            return GameConfigData.SoundEffectNormal[0];
+        }
+
+        return GameConfigData.SoundEffectNormal[seIndex];
+    }
+    #endregion
+
     #region Select Data Handlings
     private static SelectData _selectData = null;
     public static SelectData SelectData {
@@ -79,21 +126,6 @@ public static class Utility {
     #region Audio Handlings
     public static AudioClip GetTrack(int trackID) {
         AudioClip ac = Resources.Load<AudioClip>(string.Format("Audio/Track/Track_{0:000}", trackID));
-        return ac;
-    }
-
-    public static AudioClip GetSEReady() {
-        AudioClip ac = Resources.Load<AudioClip>("Audio/SE/SoundEffect_001");
-        return ac;
-    }
-
-    public static AudioClip GetSEPerfect() {
-        AudioClip ac = Resources.Load<AudioClip>("Audio/SE/SoundEffect_001");
-        return ac;
-    }
-
-    public static AudioClip GetSENormal() {
-        AudioClip ac = Resources.Load<AudioClip>("Audio/SE/SoundEffect_002");
         return ac;
     }
     #endregion

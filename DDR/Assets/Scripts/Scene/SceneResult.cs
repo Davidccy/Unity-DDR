@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 public class SceneResult : SceneBase {
     #region Serialized Fields
     [SerializeField] private UIResult _uiResult = null;
-    [SerializeField] private AudioClip _acBGM = null;
     #endregion
 
     #region Override Methods
@@ -29,7 +28,8 @@ public class SceneResult : SceneBase {
 
     private async void PlayPerformance() {
         if (AudioManager.Instance != null) {
-            AudioManager.Instance.PlayBGM(_acBGM).DoNotAwait();
+            AudioClip acBGM = Utility.GameConfigData.BGMResult;
+            AudioManager.Instance.PlayBGM(acBGM).DoNotAwait();
         }
 
         if (WindowManager.Instance != null) {

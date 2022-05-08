@@ -46,6 +46,7 @@ public class TempResultData {
 }
 #endregion
 
+#region Scriptable Object Data
 [System.Serializable]
 public class NodeData {
     public int Measure;             // Start from 1
@@ -65,6 +66,7 @@ public class SelectInfo {
     public Sprite Thumbnail;
     public int BPM;
 }
+#endregion
 
 public class NodeDisplayInfo {
     public NodePosition Position;
@@ -121,7 +123,8 @@ public static class Define {
 
     #region Game Data Keys
     // Options
-    public static string GAME_DATA_KEY_SE_TYPE = "Game_Data_SE_Type"; // TODO
+    public static string GAME_DATA_KEY_SE_PERFECT = "Game_Data_SE_Perfect";
+    public static string GAME_DATA_KEY_SE_NORMAL = "Game_Data_SE_Normal";
     public static string GAME_DATA_KEY_VOLUME_BGM = "Game_Data_Volume_BGM";
     public static string GAME_DATA_KEY_VOLUME_SE = "Game_Data_Volume_SE";
     public static string GAME_DATA_KEY_SPEED_LEVEL = "Game_Data_Speed_Level";

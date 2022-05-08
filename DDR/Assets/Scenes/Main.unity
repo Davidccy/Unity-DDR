@@ -322,7 +322,6 @@ MonoBehaviour:
   - {fileID: 2026829784}
   - {fileID: 310357359}
   _initPageIndex: 0
-  _acBGM: {fileID: 8300000, guid: ebae148afca1a9547ba2dbfb438ff083, type: 3}
 --- !u!1 &1901552756
 GameObject:
   m_ObjectHideFlags: 0
