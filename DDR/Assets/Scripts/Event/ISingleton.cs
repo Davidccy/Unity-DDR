@@ -46,18 +46,16 @@ public class ISingleton<T> : MonoBehaviour where T : Component {
             _instance = this as T;
 
             DontDestroyOnLoad(_instance);
+            DoAwake();
 
             return;
         }
-        else {
-            T instance = this as T;
-            if (_instance != instance) {
-                Debug.LogErrorFormat("Duplicate ISingleton component {0} detected", typeof(T).ToString());
-                Destroy(instance);
-            }
-        }
 
-        DoAwake();
+        T instance = this as T;
+        if (_instance != instance) {
+            Debug.LogErrorFormat("Duplicate ISingleton component {0} detected", typeof(T).ToString());
+            Destroy(instance);
+        }
     }
 
     private void OnDestroy() {
