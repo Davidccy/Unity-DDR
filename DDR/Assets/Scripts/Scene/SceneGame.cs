@@ -48,6 +48,10 @@ public class SceneGame : SceneBase {
     }
 
     private async void OnFinalNodeFinished(BaseGameEventArgs args) {
+        if (TrackManager.Instance.IsEditorMode) {
+            return;
+        }
+
         await Task.Delay((int) _finishedWaiting * 1000);
 
         if (WindowManager.Instance != null) {

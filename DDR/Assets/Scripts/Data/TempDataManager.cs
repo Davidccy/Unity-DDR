@@ -17,5 +17,9 @@ public static class TempDataManager {
 
         return (T) _dataTable[key];
     }
+
+    public static bool HasData(string key) {
+        return _dataTable.ContainsKey(key);
+    }
     #endregion
 }

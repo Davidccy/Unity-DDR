@@ -167,13 +167,18 @@ public class UINodeHandler : MonoBehaviour {
     }
 
     private void RemoveNotes() {
-        foreach (List<UINode> nodeList in _nodeMap.Values) {
-            for (int i = 0; i < nodeList.Count; i++) {
-                Destroy(nodeList[i].gameObject);
+        if (_nodeMap != null) {
+            foreach (List<UINode> nodeList in _nodeMap.Values) {
+                for (int i = 0; i < nodeList.Count; i++) {
+                    Destroy(nodeList[i].gameObject);
+                }
             }
-        }
 
-        _nodeMap.Clear();
+            _nodeMap.Clear();
+        }
+        else {
+            _nodeMap = new Dictionary<NodePosition, List<UINode>>();
+        }
     }
 
     private void GenerateNodes() {

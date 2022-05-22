@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor.UI;
 using UnityEditorInternal;
 
 [CustomEditor(typeof(TrackData), true)]
 [CanEditMultipleObjects]
 public class TrackDataEditor : Editor {
+    private SerializedProperty _audioTrack = null;
     private SerializedProperty _trackName = null;
     private SerializedProperty _bpm = null;    
     private SerializedProperty _readyCount = null;
@@ -19,6 +16,7 @@ public class TrackDataEditor : Editor {
     private ReorderableList _nodeList = null;
 
     private void OnEnable() {
+        _audioTrack = serializedObject.FindProperty("AudioTrack");
         _trackName = serializedObject.FindProperty("TrackName");
         _bpm = serializedObject.FindProperty("BPM");
         _readyCount = serializedObject.FindProperty("ReadyCount");
@@ -36,6 +34,7 @@ public class TrackDataEditor : Editor {
         serializedObject.Update();
 
         //base.OnInspectorGUI();
+        EditorGUILayout.PropertyField(_audioTrack);
         EditorGUILayout.PropertyField(_trackName);
         EditorGUILayout.PropertyField(_bpm);
         EditorGUILayout.PropertyField(_readyCount);

@@ -44,6 +44,10 @@ public class GameScoreHandler : MonoBehaviour {
     }
 
     private void OnFinalNodeFinished(BaseGameEventArgs args) {
+        if (TrackManager.Instance.IsEditorMode) {
+            return;
+        }
+
         // Load track achievement
         int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
         TrackAchievement oldAchv = Utility.LoadTrackAchievement(trackID);

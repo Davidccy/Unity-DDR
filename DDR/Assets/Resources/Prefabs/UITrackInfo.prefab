@@ -980,10 +980,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80332c217212604582b600114dc78fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _textTrackName: {fileID: 0}
   _textTrackProgress: {fileID: 211468948264087483}
   _textTrackProgressReverse: {fileID: 211468948390316948}
-  _textCurMeasure: {fileID: 211468947304010833}
   _imageProgress: {fileID: 211468947844981579}
+  _rectCurMeasure: {fileID: 211468947141936684}
+  _textCurMeasure: {fileID: 211468947304010833}
 --- !u!1 &211468947743985014
 GameObject:
   m_ObjectHideFlags: 0

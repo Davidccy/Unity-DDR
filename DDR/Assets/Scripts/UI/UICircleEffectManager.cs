@@ -26,6 +26,10 @@ public class UICircleEffectManager : MonoBehaviour {
             return;
         }
 
+        if (_canvas == null) {
+            return;
+        }
+
         RectTransform rectCanvas = _canvas.transform as RectTransform;
         for (int i = 0; i < _effects.Length; i++) {
             _effects[i].SetBound(rectCanvas.sizeDelta.x, rectCanvas.sizeDelta.y);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class TrackManager : ISingleton<TrackManager> {
@@ -16,7 +15,8 @@ public class TrackManager : ISingleton<TrackManager> {
 
     private bool _isPlaying = false;
     private bool _isTrackEnd = false;
-    private float _trackTime = 0;
+    private bool _isEditorMode = false;
+
     private float _delayBeforeReady = 2.0f;
     private float _pre = 0;
     #endregion
@@ -110,6 +110,12 @@ public class TrackManager : ISingleton<TrackManager> {
             return _pre + (_asTrack != null ? _asTrack.time : 0);
         }
     }
+
+    public bool IsEditorMode {
+        get {
+            return _isEditorMode;
+        }
+    }
     #endregion
 
     #region Mono Behaviour Hooks
@@ -121,25 +127,44 @@ public class TrackManager : ISingleton<TrackManager> {
         Stop();
     }
 
-    private void FixedUpdate() {
+    private void Update() {
         if (_isPlaying) {
-            _trackTime += Time.fixedDeltaTime;
+            RefreshTrackVolume();
         }
     }
     #endregion
 
     #region APIs
+    public void LoadTrackDataEditor(TrackData td) {
+        Stop();
+
+        _isEditorMode = true;
+
+        _trackData = td;
+        _acTrack = td.AudioTrack;
+        _acSEReady = Utility.GetSEReady();
+        _acSEPerfect = Utility.GetSEPerfect();
+        _acSENormal = Utility.GetSENormal();
+
+        TrackLoadedGameEventArgs args = new TrackLoadedGameEventArgs();
+        args.Dispatch();
+    }
+
     public void LoadTrackData() {
-        int trackID = 1; // TODO
-        //int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
+        if (!TempDataManager.HasData(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID)) {
+            Debug.LogErrorFormat("Invalid selected track ID, abort track data loading");
+            return;
+        }
+
+        Stop();
+
+        _isEditorMode = false;
+
+        int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
 
         // Load data
         _trackData = Utility.GetTrackData(trackID);
-
-        // Load Track
-        _acTrack = Utility.GetTrack(trackID);
-
-        // Load sound effect
+        _acTrack = _trackData.AudioTrack;
         _acSEReady = Utility.GetSEReady();
         _acSEPerfect = Utility.GetSEPerfect();
         _acSENormal = Utility.GetSENormal();
@@ -222,6 +247,17 @@ public class TrackManager : ISingleton<TrackManager> {
         }
 
         _isTrackEnd = true;
+    }
+
+    private void RefreshTrackVolume() {
+        if (_asTrack == null || _asTrack.clip == null) {
+            return;
+        }
+
+        float fadeOutDuration = 0.2f;
+        float curTrackTime = _asTrack.time;
+        float fadeOutTiming = TrackLength - fadeOutDuration;
+        _asTrack.volume = curTrackTime <= fadeOutTiming ? 1 : Mathf.Lerp(0, 1, (TrackLength - curTrackTime) / fadeOutDuration);
     }
     #endregion
 }

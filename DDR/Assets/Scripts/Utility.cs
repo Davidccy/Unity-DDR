@@ -123,13 +123,6 @@ public static class Utility {
     }
     #endregion
 
-    #region Audio Handlings
-    public static AudioClip GetTrack(int trackID) {
-        AudioClip ac = Resources.Load<AudioClip>(string.Format("Audio/Track/Track_{0:000}", trackID));
-        return ac;
-    }
-    #endregion
-
     #region Track Speed Handlings
     public static float GetTrackSpeed() {
         int speedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL);

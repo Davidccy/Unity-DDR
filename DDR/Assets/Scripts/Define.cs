@@ -10,6 +10,11 @@ public enum NodePosition {
     Space,
 }
 
+public enum NodeType { 
+    Tap,
+    Hold,
+}
+
 public enum NodeResult {
     Perfect,
     Great,
@@ -49,13 +54,15 @@ public class TempResultData {
 #region Scriptable Object Data
 [System.Serializable]
 public class NodeData {
-    public int Measure;             // Start from 1
+    public int Measure;
     public NodeInfo[] NodeInfoList;
 }
 
 [System.Serializable]
 public class NodeInfo {
     public float Timing;
+    public float Timing2;
+    public NodeType NodeType;
     public NodePosition NodePosition;
 }
 
@@ -83,12 +90,18 @@ public class TrackAchievement {
 }
 
 public static class Define {
+    #region Editor Related Settings
+    public static string EDITOR_SCENE_PATH = "Assets/Scenes/Game.unity";
+    public static string EDITOR_ASSET_PATH = "Assets/Resources/Data/TrackData";
+    public static string EDITOR_ASSET_DEFAULT_NAME = "TrackData_000";
+    #endregion
+
     #region Scene Names
     public static string SCENE_COMMON = "Common";
     public static string SCENE_GAME = "Game";
     public static string SCENE_INIT = "Init";
     public static string SCENE_MAIN = "Main";
-    public static string SCENE_RESULT = "Result";
+    public static string SCENE_RESULT = "Result";    
     #endregion
 
     #region Window Names

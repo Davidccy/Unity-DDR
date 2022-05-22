@@ -9,32 +9,42 @@ public class UITrackInfo : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _textTrackProgress = null;
     [SerializeField] private TextMeshProUGUI _textTrackProgressReverse = null;
     [SerializeField] private Image _imageProgress = null;
+
+    [SerializeField] private RectTransform _rectCurMeasure = null;
     [SerializeField] private TextMeshProUGUI _textCurMeasure = null;
     #endregion
 
-    #region Internal Fields
-    private SelectInfo _selectInfo = null;
-    #endregion
-
     #region Mono Behaviour Hooks
-    private void OnEnable() {
-        Init();
-        RefreshTrackName();
+    private void Awake() {
+        GameEventManager.Instance.Register(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
     }
 
     private void Update() {
         Refresh();
     }
+
+    private void OnDestroy() {
+        if (GameEventManager.Instance != null) {
+            GameEventManager.Instance.Unregister(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
+        }
+    }
+    #endregion
+
+    #region Event Handlings
+    private void OnTrackLoaded(BaseGameEventArgs args) {
+        RefreshTrackName();
+        RefreshMeasure();
+    }
     #endregion
 
     #region Internal Methods
-    private void Init() {
-        int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
-        _selectInfo = Utility.GetSelectInfo(trackID);
+    private void RefreshTrackName() {
+        TrackData td = TrackManager.Instance.TrackData;
+        _textTrackName.text = string.Format("{0}", td.TrackName);
     }
 
-    private void RefreshTrackName() {
-        _textTrackName.text = string.Format("{0}", _selectInfo.TrackName);
+    private void RefreshMeasure() {
+        _rectCurMeasure.gameObject.SetActive(TrackManager.Instance.IsEditorMode);
     }
 
     private void Refresh() {
