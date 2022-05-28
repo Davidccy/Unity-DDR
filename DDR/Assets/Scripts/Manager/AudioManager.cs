@@ -92,6 +92,10 @@ public class AudioManager : ISingleton<AudioManager> {
         AsSE.clip = acSE;
         AsSE.Play();
     }
+
+    public void StopSE() {
+        AsSE.Stop();
+    }
     #endregion
 
     #region Internal Methods

@@ -8,12 +8,15 @@ public class SceneGame : SceneBase {
     [SerializeField] private UINodeHandler _uiNodeHandler = null;
     [SerializeField] private float _startWaiting = 0;
     [SerializeField] private float _finishedWaiting = 0;
+
+    [SerializeField] private UIAchievementEffect _uiAchvEffectAP = null;
+    [SerializeField] private UIAchievementEffect _uiAchvEffectFC = null;
     #endregion
 
     #region Override Methods
     protected override void OnSceneAwake() {
         GameEventManager.Instance.Register(GameEventTypes.NODE_GENERATED, OnNodeGenerated);
-        GameEventManager.Instance.Register(GameEventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+        GameEventManager.Instance.Register(GameEventTypes.TRACK_ACHIEVEMENT, OnTrackAchievement);
 
         LoadTrack();
     }
@@ -21,10 +24,20 @@ public class SceneGame : SceneBase {
     protected override void OnSceneDestroy() {
         if (GameEventManager.Instance != null) {
             GameEventManager.Instance.Unregister(GameEventTypes.NODE_GENERATED, OnNodeGenerated);
-            GameEventManager.Instance.Unregister(GameEventTypes.FINAL_NODE_FINISHED, OnFinalNodeFinished);
+            GameEventManager.Instance.Unregister(GameEventTypes.TRACK_ACHIEVEMENT, OnTrackAchievement);
         }
     }
     #endregion
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            _uiAchvEffectAP.Play();
+        }
+
+        if (Input.GetKeyDown(KeyCode.X)) {
+            _uiAchvEffectFC.Play();
+        }
+    }
 
     #region Internal Methods
     private async void LoadTrack() {
@@ -47,9 +60,13 @@ public class SceneGame : SceneBase {
         }
     }
 
-    private async void OnFinalNodeFinished(BaseGameEventArgs args) {
-        if (TrackManager.Instance.IsEditorMode) {
-            return;
+    private async void OnTrackAchievement(BaseGameEventArgs args) {
+        TrackAchievementGameEventArgs taArgs = args as TrackAchievementGameEventArgs;
+        if (taArgs.IsAllPerfect) {
+            await _uiAchvEffectAP.Play();
+        }
+        else if (taArgs.IsFullCombo) {
+            await _uiAchvEffectFC.Play();
         }
 
         await Task.Delay((int) _finishedWaiting * 1000);
@@ -61,11 +78,6 @@ public class SceneGame : SceneBase {
         TrackManager.Instance.Stop();
 
         SceneManager.LoadScene(Define.SCENE_RESULT, LoadSceneMode.Single);
-    }
-
-    private bool IsAllperfect() {
-        // TODO
-        return false;
     }
     #endregion
 }

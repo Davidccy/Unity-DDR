@@ -48,6 +48,8 @@ public class TempResultData {
     public int TotalNodeCount;
     public int MaxCombo;
     public Dictionary<NodeResult, int> NodeResultTable;
+    public bool IsAllPerfect;
+    public bool IsFullCombo;
 }
 #endregion
 

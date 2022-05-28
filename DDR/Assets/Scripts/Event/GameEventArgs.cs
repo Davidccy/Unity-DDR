@@ -60,6 +60,25 @@ public class TrackLoadedGameEventArgs : BaseGameEventArgs {
     }
 }
 
+public class TrackAchievementGameEventArgs : BaseGameEventArgs {
+    public bool IsAllPerfect {
+        get;
+        private set;
+    }
+
+    public bool IsFullCombo {
+        get;
+        private set;
+    }
+
+    public TrackAchievementGameEventArgs(bool isAllPerfect, bool isFullCombo) {
+        ID = GameEventTypes.TRACK_ACHIEVEMENT;
+
+        IsAllPerfect = isAllPerfect;
+        IsFullCombo = isFullCombo;
+    }
+}
+
 public class ScoreChangedGameEventArgs : BaseGameEventArgs {
     public int PreviousScore {
         get;

@@ -12,6 +12,7 @@ public enum GameEventTypes {
     NODE_RESULT,
     FINAL_NODE_FINISHED,
     TRACK_LOADED,
+    TRACK_ACHIEVEMENT,
 
     SCORE_CHANGED,
     COMBO_CHANGED,

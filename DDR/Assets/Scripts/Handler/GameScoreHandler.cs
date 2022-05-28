@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameScoreHandler : MonoBehaviour {
@@ -43,24 +44,30 @@ public class GameScoreHandler : MonoBehaviour {
         UpdateCombo(nrArgs.NR);
     }
 
-    private void OnFinalNodeFinished(BaseGameEventArgs args) {
+    private async void OnFinalNodeFinished(BaseGameEventArgs args) {
         if (TrackManager.Instance.IsEditorMode) {
             return;
         }
+
+        bool newIsAllPerfect = IsAllPerfect();
+        bool newIsFullCombo = IsFullCombo();
 
         // Load track achievement
         int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
         TrackAchievement oldAchv = Utility.LoadTrackAchievement(trackID);
         int oldScore = oldAchv != null ? oldAchv.Score : 0;
         int oldCombo = oldAchv != null ? oldAchv.Combo : 0;
-        bool oldIsFullCombo = oldAchv != null ? oldAchv.IsFullCombo : false;
         bool oldIsAllPerfect = oldAchv != null ? oldAchv.IsAllPerfect : false;
+        bool oldIsFullCombo = oldAchv != null ? oldAchv.IsFullCombo : false;
 
+        // Result to display
         TempResultData trd = new TempResultData();
         trd.Score = _curScore;
         trd.TotalNodeCount = _totalNode;
         trd.MaxCombo = _maxCombo;
         trd.NodeResultTable = _nodeResultTable;
+        trd.IsAllPerfect = newIsAllPerfect;
+        trd.IsFullCombo = newIsFullCombo;
 
         TempDataManager.SaveData(Define.TEMP_GAME_DATA_KEY_RESULT, trd);
 
@@ -68,9 +75,14 @@ public class GameScoreHandler : MonoBehaviour {
         TrackAchievement newAchv = new TrackAchievement();
         newAchv.Score = Mathf.Max(oldScore, _curScore);
         newAchv.Combo = Mathf.Max(oldCombo, _maxCombo);
-        newAchv.IsFullCombo = IsFullCombo() | oldIsFullCombo;
-        newAchv.IsAllPerfect = IsAllPerfect() | oldIsAllPerfect;
+        newAchv.IsAllPerfect = newIsAllPerfect | oldIsAllPerfect;
+        newAchv.IsFullCombo = newIsFullCombo | oldIsFullCombo;        
         Utility.SaveTrackAchievement(trackID, newAchv);
+
+        // Raise event
+        await Task.Delay(1000);
+        TrackAchievementGameEventArgs scArgs = new TrackAchievementGameEventArgs(newIsAllPerfect, newIsFullCombo);
+        scArgs.Dispatch();
     }
     #endregion
 
@@ -140,12 +152,12 @@ public class GameScoreHandler : MonoBehaviour {
         args.Dispatch();
     }
 
-    private bool IsFullCombo() {
-        return _nodeResultTable[NodeResult.Miss] == 0;
-    }
-
     private bool IsAllPerfect() {
         return _nodeResultTable[NodeResult.Perfect] == _totalNode;
+    }
+
+    private bool IsFullCombo() {
+        return _nodeResultTable[NodeResult.Miss] == 0;
     }
     #endregion
 }

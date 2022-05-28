@@ -10,6 +10,7 @@ public class UIResult : MonoBehaviour {
         None,
         Title,
         Node,
+        Achievement,
         Rank,
         Continue,
         Finish,
@@ -31,6 +32,10 @@ public class UIResult : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _textMyBestScore = null;
     [SerializeField] private CustomPlayableDirector _cpdNode = null;
 
+    [Header("Achievement")]
+    [SerializeField] private CustomPlayableDirector _cpdAllPerfect = null;
+    [SerializeField] private CustomPlayableDirector _cpdFullCombo = null;
+
     [Header("Rank")]
     [SerializeField] private TextMeshProUGUI _textScoreRank = null;
     [SerializeField] private CustomPlayableDirector _cpdRank = null;
@@ -45,6 +50,7 @@ public class UIResult : MonoBehaviour {
     #region Internal Fields
     private ResultStep _rStep = ResultStep.None;
     private bool _resultFInishedTriggered = false;
+    private TempResultData _trd = null;
     #endregion
 
     #region Exposed Fields
@@ -73,6 +79,7 @@ public class UIResult : MonoBehaviour {
 
         await PlayTitle();
         await PlayResultNode();
+        await PlayResultAchievement();
         await PlayResultRank();
         await PlayTapToContinue();
 
@@ -87,16 +94,17 @@ public class UIResult : MonoBehaviour {
         _textTrackName.text = sInfo.TrackName;
         _imageTrackThumbnail.sprite = sInfo.Thumbnail;
 
-        TempResultData trd = TempDataManager.LoadData<TempResultData>(Define.TEMP_GAME_DATA_KEY_RESULT);
-        _resultPerfect.SetScore(trd.NodeResultTable[NodeResult.Perfect], trd.TotalNodeCount);
-        _resultGreat.SetScore(trd.NodeResultTable[NodeResult.Great], trd.TotalNodeCount);
-        _resultGood.SetScore(trd.NodeResultTable[NodeResult.Good], trd.TotalNodeCount);
-        _resultMiss.SetScore(trd.NodeResultTable[NodeResult.Miss], trd.TotalNodeCount);
-        _resultCombo.SetScore(trd.MaxCombo, trd.TotalNodeCount);
-        _resultScore.SetScore(trd.Score, trd.TotalNodeCount);
+        _trd = TempDataManager.LoadData<TempResultData>(Define.TEMP_GAME_DATA_KEY_RESULT);
+
+        _resultPerfect.SetScore(_trd.NodeResultTable[NodeResult.Perfect], _trd.TotalNodeCount);
+        _resultGreat.SetScore(_trd.NodeResultTable[NodeResult.Great], _trd.TotalNodeCount);
+        _resultGood.SetScore(_trd.NodeResultTable[NodeResult.Good], _trd.TotalNodeCount);
+        _resultMiss.SetScore(_trd.NodeResultTable[NodeResult.Miss], _trd.TotalNodeCount);
+        _resultCombo.SetScore(_trd.MaxCombo, _trd.TotalNodeCount);
+        _resultScore.SetScore(_trd.Score, _trd.TotalNodeCount);
         _textMyBestScore.text = "1234567"; // TODO
 
-        string rank = Utility.GetScoreRankText(trd.Score);
+        string rank = Utility.GetScoreRankText(_trd.Score);
         _textScoreRank.text = rank;
     }
 
@@ -118,6 +126,17 @@ public class UIResult : MonoBehaviour {
         tasks.Add(_resultCombo.Play((float) 28 / 60));
         tasks.Add(_resultScore.Play((float) 30 / 60));
         await Task.WhenAll(tasks.ToArray());
+    }
+
+    private async Task PlayResultAchievement() {
+        _rStep = ResultStep.Achievement;
+
+        if (_trd.IsAllPerfect) {
+            await _cpdAllPerfect.Play();
+        }
+        else if (_trd.IsFullCombo) {
+            await _cpdFullCombo.Play();
+        }
     }
 
     private async Task PlayResultRank() {
@@ -145,13 +164,21 @@ public class UIResult : MonoBehaviour {
             _resultCombo.SetFinish();
             _resultScore.SetFinish();
         }
-        else if(_rStep == ResultStep.Rank) {
+        else if (_rStep == ResultStep.Achievement) {
+            if (_trd.IsAllPerfect) {
+                _cpdAllPerfect.SetFinish();
+            }
+            else if (_trd.IsFullCombo) {
+                _cpdFullCombo.SetFinish();
+            }
+        }
+        else if (_rStep == ResultStep.Rank) {
             _cpdRank.SetFinish();
         }
-        else if(_rStep == ResultStep.Continue) {
+        else if (_rStep == ResultStep.Continue) {
             _cpdContinue.SetFinish();
         }
-        else if(_rStep == ResultStep.Finish) {
+        else if (_rStep == ResultStep.Finish) {
             ResultFinish();
         }
     }
