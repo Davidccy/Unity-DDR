@@ -183,14 +183,14 @@ public class UINodeHandler : MonoBehaviour {
 
     private void GenerateNodes() {
         // Track data
-        TrackData td = TrackManager.Instance.TrackData;
+        TrackData tData = TrackManager.Instance.TrackData;
 
         // BPM
-        int bpm = td.BPM;
-        float timePerMeasure = 60.0f / (float) bpm * 4;
+        int bpm = tData.BPM;
+        float spm = 60.0f / (float) bpm * tData.BumpPerMeasure; // Second per measure
 
-        for (int i = 0; i < td.Nodes.Length; i++) {
-            NodeData nData = td.Nodes[i];
+        for (int i = 0; i < tData.Nodes.Length; i++) {
+            NodeData nData = tData.Nodes[i];
             int measure = nData.Measure;
             for (int j = 0; j < nData.NodeInfoList.Length; j++) {
                 NodeInfo info = nData.NodeInfoList[j];
@@ -198,7 +198,7 @@ public class UINodeHandler : MonoBehaviour {
                 NodeDisplayInfo nodedisplayInfo = new NodeDisplayInfo();
                 nodedisplayInfo.Position = info.NodePosition;
                 nodedisplayInfo.MovingType = _nodeMovingType;
-                nodedisplayInfo.Timing = timePerMeasure * ((measure - 1) + info.Timing) + td.FirstMeasure;
+                nodedisplayInfo.Timing = spm * ((measure - 1) + info.Timing) + tData.FirstMeasure;
                 nodedisplayInfo.Speed = _nodeSpeed;
 
                 UINodeRoot root = GetUINodeRoot(info.NodePosition);

@@ -95,7 +95,7 @@ public class TrackManager : ISingleton<TrackManager> {
                 return 0;
             }
 
-            float spm = (float) 60 / _trackData.BPM * 4; // Second per measure
+            float spm = 60.0f / _trackData.BPM * _trackData.BumpPerMeasure; // Second per measure
 
             return Mathf.FloorToInt(a / spm) + 1;
         }

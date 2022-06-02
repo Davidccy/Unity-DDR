@@ -11,6 +11,7 @@ public class TrackDataEditor : Editor {
     private SerializedProperty _readyCount = null;
     private SerializedProperty _startDelay = null;
     private SerializedProperty _firstMeasure = null;
+    private SerializedProperty _bumpPerMeasure = null;
     private SerializedProperty _nodes = null;
 
     private ReorderableList _nodeList = null;
@@ -22,6 +23,7 @@ public class TrackDataEditor : Editor {
         _readyCount = serializedObject.FindProperty("ReadyCount");
         _startDelay = serializedObject.FindProperty("StartDelay");
         _firstMeasure = serializedObject.FindProperty("FirstMeasure");
+        _bumpPerMeasure = serializedObject.FindProperty("BumpPerMeasure");
         _nodes = serializedObject.FindProperty("Nodes");
 
         _nodeList = new ReorderableList(serializedObject, _nodes, true, true, true, true);
@@ -40,6 +42,7 @@ public class TrackDataEditor : Editor {
         EditorGUILayout.PropertyField(_readyCount);
         EditorGUILayout.PropertyField(_startDelay);
         EditorGUILayout.PropertyField(_firstMeasure);
+        EditorGUILayout.PropertyField(_bumpPerMeasure);
         _nodeList.DoLayoutList();
 
         serializedObject.ApplyModifiedProperties();

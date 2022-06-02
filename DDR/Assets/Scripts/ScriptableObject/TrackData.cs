@@ -9,5 +9,6 @@ public class TrackData : ScriptableObject {
     public int ReadyCount;
     public float StartDelay;
     public float FirstMeasure;
+    public int BumpPerMeasure;
     public NodeData[] Nodes;
 }
