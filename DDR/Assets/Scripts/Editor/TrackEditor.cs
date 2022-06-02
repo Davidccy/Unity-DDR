@@ -12,20 +12,30 @@ public class TrackEditor : EditorWindow {
         window.Show();
     }
 
+    #region Internal Fields
+    private readonly int _MEASURE_PER_LINE = 8;
+    private readonly float _NOTIFICATION_DURATION = 3.0f;
+
     private AudioClip _acTrack = null;
     private string _trackName = string.Empty;
     private int _bgm = 0;
     private int _readyCount = 0;
     private float _startDelay = 0;
     private float _firstMeasure = 0;
+    private int _bumpPerMeasure = 0;
     private NodeData[] _nodeDataArray;
-
-    private readonly int _MEASURE_PER_LINE = 8;
 
     private int _selectingMeasure = -1;
     private int _selectedCopyMeasure = -1;
     private TrackManager _trackManager = null;
+    private string _editingFilePath = string.Empty;
 
+    private GUIStyle _selectedMeasureStyle = new GUIStyle();
+    private Color _selectedMeasureColor = Color.green;
+    private Color _unSelectedMeasureColor = Color.white;
+    #endregion
+
+    #region Editor Window Hooks
     public void OnEnable() {
         GameObject goTrackManager = GameObject.Find("TrackManager");
         _trackManager = goTrackManager.GetComponent<TrackManager>();
@@ -36,41 +46,65 @@ public class TrackEditor : EditorWindow {
         if (_trackManager == null) {
             Debug.LogErrorFormat("TrackManager not found");
         }
+
+        _selectedMeasureStyle.fontStyle = FontStyle.Bold;
     }
 
     public void OnGUI() {
+        EditorGUILayout.LabelField(string.Format("Editing file path: {0}", 
+            string.IsNullOrEmpty(_editingFilePath) ? "None" : _editingFilePath));
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.BeginHorizontal();
+        DrawColorButton("**Create New Track Data**",
+            () => {
+                CreateNewTrackData();
+            },
+            Color.white);
+
+        DrawColorButton("**Load Track Data**",
+            () => {
+                LoadTrackData();
+            },
+            Color.white);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.Space();
+
         AudioClip acTrack = (AudioClip) EditorGUILayout.ObjectField("Select Audio Clip", _acTrack, typeof(AudioClip), false);
-        if (acTrack != _acTrack) {
+        if (_acTrack != acTrack) {
             _acTrack = acTrack;
         }
 
         string trackName = EditorGUILayout.TextField("Track Name", _trackName);
-        if (trackName != _trackName) {
+        if (_trackName != trackName) {
             _trackName = trackName;
         }
 
         int bgm = EditorGUILayout.IntField("BGM", _bgm);
-        if (bgm != _bgm) {
+        if (_bgm != bgm) {
             _bgm = bgm;
         }
 
         int readyCount = EditorGUILayout.IntField("Ready Count", _readyCount);
-        if (readyCount != _readyCount) {
+        if (_readyCount != readyCount) {
             _readyCount = readyCount;
         }
 
         float startDelay = EditorGUILayout.FloatField("Start Delay", _startDelay);
-        if (startDelay != _startDelay) {
+        if (_startDelay != startDelay) {
             _startDelay = startDelay;
         }
 
         float firstMeasure = EditorGUILayout.FloatField("First Measure", _firstMeasure);
-        if (firstMeasure != _firstMeasure) {
+        if (_firstMeasure != firstMeasure) {
             _firstMeasure = firstMeasure;
         }
 
-        if (GUILayout.Button("**Load Track Data**")) {
-            LoadTrackData();            
+        int bumpPerMeasure = EditorGUILayout.IntField("Bump Per Measure", _bumpPerMeasure);
+        if (_bumpPerMeasure != bumpPerMeasure) {
+            _bumpPerMeasure = bumpPerMeasure;
         }
 
         EditorGUILayout.Space();
@@ -78,31 +112,39 @@ public class TrackEditor : EditorWindow {
 
         EditorGUILayout.LabelField("Measures:");
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Create Measure", GUILayout.Width(150))) {
-            CreateMeasure();
-            _selectedCopyMeasure = -1;
-        }
+        DrawColorButton("Create Measure", 
+            () => {
+                CreateMeasure();
+                _selectedCopyMeasure = -1;
+            }, 
+            Color.white, 150);
 
         if (_selectingMeasure != -1 && _selectingMeasure == _nodeDataArray.Length - 1) {
-            if (GUILayout.Button("Remove Measure", GUILayout.Width(150))) {
-                RemoveMeasure();
-                _selectedCopyMeasure = -1;
-            }
+            DrawColorButton("Remove Measure",
+                () => {
+                    RemoveMeasure();
+                    _selectedCopyMeasure = -1;
+                },
+                Color.white, 150);
         }        
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
         if (_selectingMeasure != -1) {
-            if (GUILayout.Button("Copy Measure", GUILayout.Width(150))) {
-                _selectedCopyMeasure = _selectingMeasure;
-            }
+            DrawColorButton("Copy Measure",
+                () => {
+                    _selectedCopyMeasure = _selectingMeasure;
+                },
+                Color.white, 150);
         }
 
         if (_selectedCopyMeasure != -1 && _selectingMeasure != _selectedCopyMeasure) {
-            if (GUILayout.Button("Paste Copied Measure", GUILayout.Width(150))) {
-                CopyMeasure(_selectedCopyMeasure, _selectingMeasure);
-                _selectedCopyMeasure = -1;
-            }
+            DrawColorButton("Paste Copied Measure",
+                () => {
+                    CopyMeasure(_selectedCopyMeasure, _selectingMeasure);
+                    _selectedCopyMeasure = -1;
+                },
+                Color.white, 150);
         }
         EditorGUILayout.EndHorizontal();
 
@@ -115,9 +157,13 @@ public class TrackEditor : EditorWindow {
                     EditorGUILayout.BeginHorizontal();
                 }
 
-                if (GUILayout.Button(measure.ToString(), GUILayout.Width(50))) {
-                    _selectingMeasure = measure;
-                }
+                Color c = _selectingMeasure == measure ? _selectedMeasureColor : _unSelectedMeasureColor;
+                DrawColorButton(measure.ToString(),
+                    () => {
+                        _selectingMeasure = measure;
+                    },
+                    c, 50);
+
             }
             EditorGUILayout.EndHorizontal();
         }
@@ -127,9 +173,11 @@ public class TrackEditor : EditorWindow {
 
         if (_selectingMeasure != -1) {
             EditorGUILayout.LabelField(string.Format("Now Selecting Measure: {0}", _selectingMeasure));
-            if (GUILayout.Button("Create New Node", GUILayout.Width(150))) {
-                CreateNodeInfo(_selectingMeasure);
-            }
+            DrawColorButton("Create New Node",
+                () => {
+                    CreateNodeInfo(_selectingMeasure);
+                },
+                Color.white, 150);
             EditorGUILayout.Space(20, false);
 
             EditorGUILayout.LabelField("Nodes in Measures:");
@@ -153,17 +201,21 @@ public class TrackEditor : EditorWindow {
                 EditorGUIUtility.labelWidth = 50;
 
                 // Order changing
-                if (GUILayout.Button("^", GUILayout.Width(20))) {
-                    if (i != 0) {
-                        SwapNodeInfo(nodeInfoArray, i, i - 1);
-                    }
-                }
+                DrawColorButton("^",
+                    () => {
+                        if (i != 0) {
+                            SwapNodeInfo(nodeInfoArray, i, i - 1);
+                        }
+                    },
+                    Color.white, 20);
 
-                if (GUILayout.Button("v", GUILayout.Width(20))) {
-                    if (i != nodeInfoArray.Length - 1) {
-                        SwapNodeInfo(nodeInfoArray, i, i + 1);
-                    }
-                }
+                DrawColorButton("v",
+                    () => {
+                        if (i != nodeInfoArray.Length - 1) {
+                            SwapNodeInfo(nodeInfoArray, i, i + 1);
+                        }
+                    },
+                    Color.white, 20);
                 EditorGUILayout.Space(20, false);
 
                 NodeInfo nInfo = nodeInfoArray[i];
@@ -210,9 +262,11 @@ public class TrackEditor : EditorWindow {
                 }
                 EditorGUILayout.Space(20, false);
 
-                if (GUILayout.Button("Remove", GUILayout.Width(60))) {
-                    RemoveNodeInfo(_selectingMeasure, i);
-                }
+                DrawColorButton("Remove",
+                    () => {
+                        RemoveNodeInfo(_selectingMeasure, i);
+                    },
+                    Color.red, 60);
 
                 EditorGUILayout.EndHorizontal();
             }
@@ -223,9 +277,11 @@ public class TrackEditor : EditorWindow {
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
-        if (GUILayout.Button("**Save Track Data**")) {
-            SaveTrackData();
-        }
+        DrawColorButton("**Save Track Data**",
+            () => {
+                SaveTrackData();
+            },
+            Color.yellow);
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
@@ -234,40 +290,93 @@ public class TrackEditor : EditorWindow {
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
-        if (GUILayout.Button("Play !!")) {
-            PlayerAudio();
-        }
+        DrawColorButton("Play !!",
+           () => {
+               PlayTrack();
+           },
+           Color.white);
     }
+    #endregion
 
     #region Internal Methods
-    private void LoadTrackData() {
-        // NOTE:
-        // Ex:  path = D:/UnityProjects/Unity-DDR/DDR/Assets/Resources/Data/TrackData/TrackData_001.asset
-        //      Application.dataPath = D:/UnityProjects/Unity-DDR/DDR/Assets
-        //
+    private void DrawColorButton(string text, Action cb, Color color, float width = -1) {
+        Color oriColor = GUI.color;
+        GUI.backgroundColor = color;
 
-        string path = EditorUtility.OpenFilePanel("Load Track Data", Define.EDITOR_ASSET_PATH, "asset");
-        path = path.Replace(Application.dataPath, "Assets");
-        TrackData tData = AssetDatabase.LoadAssetAtPath<TrackData>(path);
-        ImportTrackData(tData);
+        if (width == -1) {
+            if (GUILayout.Button(text)) {
+                if (cb != null) {
+                    cb();
+                }
+            }
+        }
+        else {
+            if (GUILayout.Button(text, GUILayout.Width(width))) {
+                if (cb != null) {
+                    cb();
+                }
+            }
+        }
+
+        GUI.color = oriColor;
     }
 
-    private void SaveTrackData() {
+    private void CreateNewTrackData() {
         // NOTE:
         // Ex:  path = D:/UnityProjects/Unity-DDR/DDR/Assets/Resources/Data/TrackData/TrackData_001.asset
         //      Application.dataPath = D:/UnityProjects/Unity-DDR/DDR/Assets
-        //
 
-        string path = EditorUtility.SaveFilePanel("Save Track Data", Define.EDITOR_ASSET_PATH, Define.EDITOR_ASSET_DEFAULT_NAME, "asset");
+        string path = EditorUtility.SaveFilePanel("Create New Track Data", Define.EDITOR_ASSET_PATH, Define.EDITOR_ASSET_DEFAULT_NAME, "asset");
         if (string.IsNullOrEmpty(path)) {
             return;
         }
         path = path.Replace(Application.dataPath, "Assets");
 
-        TrackData tData = ExportTrackData();
+        TrackData tData = ScriptableObject.CreateInstance<TrackData>();
         AssetDatabase.CreateAsset(tData, path);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+
+        _editingFilePath = path;
+
+        ImportTrackData(tData);
+
+        ShowNotification(new GUIContent(string.Format("New file '{0}' created", _editingFilePath)), _NOTIFICATION_DURATION);
+    }
+
+    private void LoadTrackData() {
+        // NOTE:
+        // Ex:  path = D:/UnityProjects/Unity-DDR/DDR/Assets/Resources/Data/TrackData/TrackData_001.asset
+        //      Application.dataPath = D:/UnityProjects/Unity-DDR/DDR/Assets
+
+        string path = EditorUtility.OpenFilePanel("Load Track Data", Define.EDITOR_ASSET_PATH, "asset");
+        if (string.IsNullOrEmpty(path)) {
+            return;
+        }
+
+        path = path.Replace(Application.dataPath, "Assets");
+        TrackData tData = AssetDatabase.LoadAssetAtPath<TrackData>(path);
+        ImportTrackData(tData);
+
+        _editingFilePath = path;
+
+        ShowNotification(new GUIContent(string.Format("File '{0}' loaded", _editingFilePath)), _NOTIFICATION_DURATION);
+    }
+
+    private void SaveTrackData() {
+        if (string.IsNullOrEmpty(_editingFilePath)) {
+            ShowNotification(new GUIContent("No file editing, try create new file first"), _NOTIFICATION_DURATION);
+            return;
+        }
+
+        if (EditorUtility.DisplayDialog("Confirm", "Are you sure to save this track data ?", "OK", "Cancel")) {
+            TrackData tData = ExportTrackData();
+            AssetDatabase.CreateAsset(tData, _editingFilePath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            ShowNotification(new GUIContent(string.Format("File '{0}' saved", _editingFilePath)), _NOTIFICATION_DURATION);
+        }        
     }
 
     private void ImportTrackData(TrackData tData) {
@@ -282,6 +391,7 @@ public class TrackEditor : EditorWindow {
         _readyCount = tData.ReadyCount;
         _startDelay = tData.StartDelay;
         _firstMeasure = tData.FirstMeasure;
+        _bumpPerMeasure = tData.BumpPerMeasure;
         _nodeDataArray = tData.Nodes;
 
         _selectingMeasure = -1;
@@ -295,6 +405,7 @@ public class TrackEditor : EditorWindow {
         tData.ReadyCount = _readyCount;
         tData.StartDelay = _startDelay;
         tData.FirstMeasure = _firstMeasure;
+        tData.BumpPerMeasure = _bumpPerMeasure;
         tData.Nodes = _nodeDataArray;
 
         return tData;
@@ -418,7 +529,7 @@ public class TrackEditor : EditorWindow {
         nodeInfoArray[idxB] = oldNodeInfoA;
     }
 
-    private void PlayerAudio() {
+    private void PlayTrack() {
         if (_acTrack == null) {
             return;
         }
