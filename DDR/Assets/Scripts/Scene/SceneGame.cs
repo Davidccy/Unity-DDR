@@ -29,16 +29,6 @@ public class SceneGame : SceneBase {
     }
     #endregion
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Z)) {
-            _uiAchvEffectAP.Play();
-        }
-
-        if (Input.GetKeyDown(KeyCode.X)) {
-            _uiAchvEffectFC.Play();
-        }
-    }
-
     #region Internal Methods
     private async void LoadTrack() {
         await Task.Delay(100);
