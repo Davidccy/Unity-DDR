@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: TrackData_005
   m_EditorClassIdentifier: 
   AudioTrack: {fileID: 8300000, guid: a7cf5a27dbf969b479a7e760212f5afd, type: 3}
+  AudioTrackShort: {fileID: 8300000, guid: 46ff0cd0d7131324cadcab772f398f96, type: 3}
+  Thumbnail: {fileID: 21300000, guid: a55c78bc4a1651f4d962a2d106ef6382, type: 3}
+  Wallpaper: {fileID: 21300000, guid: 1216c5abe916d7f41bad0c21ee2d8f67, type: 3}
   TrackName: "\u57CE"
   BPM: 144
   ReadyCount: 6

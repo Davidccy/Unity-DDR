@@ -15,8 +15,13 @@ public class TrackEditor : EditorWindow {
     #region Internal Fields
     private readonly int _MEASURE_PER_LINE = 8;
     private readonly float _NOTIFICATION_DURATION = 3.0f;
+    private Color _COLOR_SELECTED_MEASURE = Color.green;
+    private Color _COLOR_UNSELECTED_MEASURE = Color.white;
 
     private AudioClip _acTrack = null;
+    private AudioClip _acTrackShort = null;
+    private Sprite _thumbnail = null;
+    private Sprite _wallpaper = null;
     private string _trackName = string.Empty;
     private int _bgm = 0;
     private int _readyCount = 0;
@@ -31,8 +36,6 @@ public class TrackEditor : EditorWindow {
     private string _editingFilePath = string.Empty;
 
     private GUIStyle _selectedMeasureStyle = new GUIStyle();
-    private Color _selectedMeasureColor = Color.green;
-    private Color _unSelectedMeasureColor = Color.white;
     #endregion
 
     #region Editor Window Hooks
@@ -72,9 +75,30 @@ public class TrackEditor : EditorWindow {
 
         EditorGUILayout.Space();
 
+        EditorGUILayout.BeginHorizontal();
+        Sprite thumbnail = (Sprite) EditorGUILayout.ObjectField("Thumbnail", _thumbnail, typeof(Sprite), false, GUILayout.Width(220));
+        if (_thumbnail != thumbnail) {
+            _thumbnail = thumbnail;
+        }
+
+        EditorGUILayout.Space(50, false);
+
+        Sprite wallpaper = (Sprite) EditorGUILayout.ObjectField("Wallpaper", _wallpaper, typeof(Sprite), false, GUILayout.Width(220));
+        if (_wallpaper != wallpaper) {
+            _wallpaper = wallpaper;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.Space();
+
         AudioClip acTrack = (AudioClip) EditorGUILayout.ObjectField("Select Audio Clip", _acTrack, typeof(AudioClip), false);
         if (_acTrack != acTrack) {
             _acTrack = acTrack;
+        }
+
+        AudioClip acTrackShort = (AudioClip) EditorGUILayout.ObjectField("Select Audio Clip Short", _acTrackShort, typeof(AudioClip), false);
+        if (_acTrackShort != acTrackShort) {
+            _acTrackShort = acTrackShort;
         }
 
         string trackName = EditorGUILayout.TextField("Track Name", _trackName);
@@ -157,7 +181,7 @@ public class TrackEditor : EditorWindow {
                     EditorGUILayout.BeginHorizontal();
                 }
 
-                Color c = _selectingMeasure == measure ? _selectedMeasureColor : _unSelectedMeasureColor;
+                Color c = _selectingMeasure == measure ? _COLOR_SELECTED_MEASURE : _COLOR_UNSELECTED_MEASURE;
                 DrawColorButton(measure.ToString(),
                     () => {
                         _selectingMeasure = measure;
@@ -386,6 +410,9 @@ public class TrackEditor : EditorWindow {
         }
 
         _acTrack = tData.AudioTrack;
+        _acTrackShort = tData.AudioTrackShort;
+        _thumbnail = tData.Thumbnail;
+        _wallpaper = tData.Wallpaper;
         _trackName = tData.TrackName;
         _bgm = tData.BPM;
         _readyCount = tData.ReadyCount;
@@ -400,6 +427,9 @@ public class TrackEditor : EditorWindow {
     private TrackData ExportTrackData() {
         TrackData tData = ScriptableObject.CreateInstance<TrackData>();
         tData.AudioTrack = _acTrack;
+        tData.AudioTrackShort = _acTrackShort;
+        tData.Thumbnail = _thumbnail;
+        tData.Wallpaper = _wallpaper;
         tData.TrackName = _trackName;
         tData.BPM = _bgm;
         tData.ReadyCount = _readyCount;

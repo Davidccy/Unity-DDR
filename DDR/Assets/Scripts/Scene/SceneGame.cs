@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class SceneGame : SceneBase {
     #region Serialized Fields
+    [SerializeField] private UIWallpaperResizer _uiWallpaperResizer = null;
     [SerializeField] private UINodeHandler _uiNodeHandler = null;
     [SerializeField] private float _startWaiting = 0;
     [SerializeField] private float _finishedWaiting = 0;
@@ -37,6 +37,8 @@ public class SceneGame : SceneBase {
     }
 
     private async void OnNodeGenerated(BaseGameEventArgs args) {
+        _uiWallpaperResizer.SetSprite(TrackManager.Instance.TrackData.Wallpaper);
+
         await Task.Delay((int) _startWaiting * 1000);
 
         // Start playing track

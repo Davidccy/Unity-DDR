@@ -43,29 +43,37 @@ public class SelectDataEditor : Editor {
             GUIContent.none
         );
 
-        // TrackName
-        EditorGUI.LabelField(new Rect(rect.x, rect.y + 40, 80, EditorGUIUtility.singleLineHeight), "TrackName");
+        // Track Data
+        EditorGUI.LabelField(new Rect(rect.x, rect.y + 40, 80, EditorGUIUtility.singleLineHeight), "TrackData");
         EditorGUI.PropertyField(
             new Rect(rect.x + 80, rect.y + 40, 150, EditorGUIUtility.singleLineHeight),
-            element.FindPropertyRelative("TrackName"),
+            element.FindPropertyRelative("TrackData"),
             GUIContent.none
         );
 
-        // Thumbnail
-        EditorGUI.LabelField(new Rect(rect.x, rect.y + 60, 80, EditorGUIUtility.singleLineHeight), "Thumbnail");
-        EditorGUI.PropertyField(
-            new Rect(rect.x + 80, rect.y + 60, 150, EditorGUIUtility.singleLineHeight),
-            element.FindPropertyRelative("Thumbnail"),
-            GUIContent.none
-        );
+        //// TrackName
+        //EditorGUI.LabelField(new Rect(rect.x, rect.y + 40, 80, EditorGUIUtility.singleLineHeight), "TrackName");
+        //EditorGUI.PropertyField(
+        //    new Rect(rect.x + 80, rect.y + 40, 150, EditorGUIUtility.singleLineHeight),
+        //    element.FindPropertyRelative("TrackName"),
+        //    GUIContent.none
+        //);
 
-        // BPM
-        EditorGUI.LabelField(new Rect(rect.x, rect.y + 80, 80, EditorGUIUtility.singleLineHeight), "BPM");
-        EditorGUI.PropertyField(
-            new Rect(rect.x + 80, rect.y + 80, 80, EditorGUIUtility.singleLineHeight),
-            element.FindPropertyRelative("BPM"),
-            GUIContent.none
-        );
+        //// Thumbnail
+        //EditorGUI.LabelField(new Rect(rect.x, rect.y + 60, 80, EditorGUIUtility.singleLineHeight), "Thumbnail");
+        //EditorGUI.PropertyField(
+        //    new Rect(rect.x + 80, rect.y + 60, 150, EditorGUIUtility.singleLineHeight),
+        //    element.FindPropertyRelative("Thumbnail"),
+        //    GUIContent.none
+        //);
+
+        //// BPM
+        //EditorGUI.LabelField(new Rect(rect.x, rect.y + 80, 80, EditorGUIUtility.singleLineHeight), "BPM");
+        //EditorGUI.PropertyField(
+        //    new Rect(rect.x + 80, rect.y + 80, 80, EditorGUIUtility.singleLineHeight),
+        //    element.FindPropertyRelative("BPM"),
+        //    GUIContent.none
+        //);
     }
 
     private float ElementHeight(int index) {
@@ -74,6 +82,6 @@ public class SelectDataEditor : Editor {
 
         height += EditorGUI.GetPropertyHeight(element, true) + EditorGUIUtility.standardVerticalSpacing;
 
-        return height + 80;
+        return height + 40;
     }
 }

@@ -91,8 +91,8 @@ public class UIResult : MonoBehaviour {
 
         int trackID = TempDataManager.LoadData<int>(Define.TEMP_GAME_DATA_KEY_SELECTED_TRACK_ID);
         SelectInfo sInfo = Utility.GetSelectInfo(trackID);
-        _textTrackName.text = sInfo.TrackName;
-        _imageTrackThumbnail.sprite = sInfo.Thumbnail;
+        _textTrackName.text = sInfo.TrackData.TrackName;
+        _imageTrackThumbnail.sprite = sInfo.TrackData.Thumbnail;
 
         _trd = TempDataManager.LoadData<TempResultData>(Define.TEMP_GAME_DATA_KEY_RESULT);
 

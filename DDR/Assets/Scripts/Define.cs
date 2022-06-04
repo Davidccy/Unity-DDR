@@ -71,9 +71,10 @@ public class NodeInfo {
 [System.Serializable]
 public class SelectInfo {
     public int TrackID;
-    public string TrackName;
-    public Sprite Thumbnail;
-    public int BPM;
+    public TrackData TrackData;
+    //public string TrackName;
+    //public Sprite Thumbnail;
+    //public int BPM;
 }
 #endregion
 

@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: TrackData_001
   m_EditorClassIdentifier: 
   AudioTrack: {fileID: 8300000, guid: 3b82ea352f37db241a9349e90f94d183, type: 3}
+  AudioTrackShort: {fileID: 8300000, guid: 2b2246cd7dd31d94b92b81e17678d2f7, type: 3}
+  Thumbnail: {fileID: 21300000, guid: 534d83306b0ddb745a421aedb4bf303d, type: 3}
+  Wallpaper: {fileID: 21300000, guid: ce032e912721aa34da753e8191b47b57, type: 3}
   TrackName: HelloGameWorld
   BPM: 131
   ReadyCount: 3

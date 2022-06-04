@@ -19,8 +19,21 @@ public class UIWallpaperResizer : MonoBehaviour {
     }
     #endregion
 
+    #region APIs
+    public void SetSprite(Sprite sp) {
+        _imageWallpaper.sprite = sp;
+
+        Refresh();
+    }
+    #endregion
+
     #region Internal Methods
     private void Refresh() {
+        if (_imageWallpaper == null || _imageWallpaper.sprite == null) {
+            Debug.LogErrorFormat("Null wallpaper sprite to refresh");
+            return;
+        }
+
         float scaleX = _rectCanvas.sizeDelta.x / _imageWallpaper.sprite.rect.width;
         float scaleY = _rectCanvas.sizeDelta.y / _imageWallpaper.sprite.rect.height;
 

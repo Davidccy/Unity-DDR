@@ -34,9 +34,9 @@ public class UITrackSelectInfo : MonoBehaviour {
 
     #region Internal Methods
     private void Refresh() {
-        _imageThumbnail.sprite = _sInfo.Thumbnail;
-        _textBPM.text = string.Format("{0}", _sInfo.BPM);
-        _textTrackName.text = string.Format("{0}", _sInfo.TrackName);
+        _imageThumbnail.sprite = _sInfo.TrackData.Thumbnail;
+        _textBPM.text = string.Format("{0}", _sInfo.TrackData.BPM);
+        _textTrackName.text = string.Format("{0}", _sInfo.TrackData.TrackName);
 
         TrackAchievement achv = Utility.LoadTrackAchievement(_sInfo.TrackID);
         _textHighScore.text = achv != null ? string.Format("{0:0000000}", achv.Score) : "---";

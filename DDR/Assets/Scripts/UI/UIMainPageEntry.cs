@@ -22,6 +22,7 @@ public class UIMainPageEntry : UIMainPageBase {
 
     private void OnEnable() {
         ActiveRandomWallpaper();
+        PlayBGM();
     }
 
     private void OnDestroy() {
@@ -60,6 +61,13 @@ public class UIMainPageEntry : UIMainPageBase {
         _goWallpaper[newWallpaperIndex].SetActive(true);
 
         _wallpaperIndex = newWallpaperIndex;
+    }
+
+    private void PlayBGM() {
+        if (AudioManager.Instance != null) {
+            AudioClip acBGM = Utility.GameConfigData.BGMMain;
+            AudioManager.Instance.PlayBGM(acBGM).DoNotAwait();
+        }
     }
     #endregion
 }

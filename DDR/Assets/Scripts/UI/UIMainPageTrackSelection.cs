@@ -85,6 +85,8 @@ public class UIMainPageTrackSelection : UIMainPageBase {
 
     #region Button Handlings
     private async void ButtonBackOnClick() {
+        AudioManager.Instance.StopBGM().DoNotAwait();
+
         await _sceneMain.ChangeToPage(SceneMain.UIPage.Entry);
     }
 
@@ -173,6 +175,9 @@ public class UIMainPageTrackSelection : UIMainPageBase {
             info.transform.localPosition = new Vector3(_space * positionIndex, 0, 0);
             info.transform.localScale = uiIndex == _centerUIIndex ? Vector3.one : Vector3.one * _unselectedScale;
         }
+
+        AudioClip acShort = _selectData.SelectInfos[_centerTrackDataIndex].TrackData.AudioTrackShort;
+        AudioManager.Instance.PlayBGM(acShort).DoNotAwait();
     }
 
     private void ToPreviousTrack() {
@@ -225,6 +230,8 @@ public class UIMainPageTrackSelection : UIMainPageBase {
         }
 
         _isPerforming = true;
+
+        AudioManager.Instance.StopBGM().DoNotAwait();
 
         float startTime = Time.realtimeSinceStartup;
         float passedTime = 0;

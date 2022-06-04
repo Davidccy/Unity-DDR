@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: TrackData_004
   m_EditorClassIdentifier: 
   AudioTrack: {fileID: 8300000, guid: c84088978b385b24f9a3361076ea52a7, type: 3}
+  AudioTrackShort: {fileID: 8300000, guid: 11702c63018979f4394995ca029f50bc, type: 3}
+  Thumbnail: {fileID: 21300000, guid: 0888cb2d17e76fc4db58f979319b1ce6, type: 3}
+  Wallpaper: {fileID: 21300000, guid: b34c79765596947428c6fcf9e6157684, type: 3}
   TrackName: "\u30D5\u30A3\u30FC\u30EB\u30C9"
   BPM: 130
   ReadyCount: 4

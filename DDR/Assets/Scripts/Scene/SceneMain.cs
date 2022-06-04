@@ -19,11 +19,6 @@ public class SceneMain : SceneBase {
 
     #region Override Methods
     protected override void OnSceneAwake() {
-        if (AudioManager.Instance != null) {
-            AudioClip acBGM = Utility.GameConfigData.BGMMain;
-            AudioManager.Instance.PlayBGM(acBGM).DoNotAwait();
-        }
-
         HideAllPages();
 
         if (_curPageIndex == -1) {

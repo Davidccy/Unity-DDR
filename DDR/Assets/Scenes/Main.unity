@@ -548,7 +548,7 @@ PrefabInstance:
     - target: {fileID: 5925163878393240363, guid: fabab6a7a91df774bb7e6ce68fe7d761,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fabab6a7a91df774bb7e6ce68fe7d761, type: 3}
@@ -568,6 +568,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UIMainEntry
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832392732390570712, guid: 05bb93d8fe9fb3040bf082b411a874c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6832392732390570713, guid: 05bb93d8fe9fb3040bf082b411a874c8,
         type: 3}
