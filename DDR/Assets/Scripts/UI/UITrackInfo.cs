@@ -12,11 +12,15 @@ public class UITrackInfo : MonoBehaviour {
 
     [SerializeField] private RectTransform _rectCurMeasure = null;
     [SerializeField] private TextMeshProUGUI _textCurMeasure = null;
+
+    [SerializeField] private Button _btnOption = null;
     #endregion
 
     #region Mono Behaviour Hooks
     private void Awake() {
         GameEventManager.Instance.Register(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
+
+        _btnOption.onClick.AddListener(ButtonOptionOnClick);
     }
 
     private void Update() {
@@ -27,6 +31,8 @@ public class UITrackInfo : MonoBehaviour {
         if (GameEventManager.Instance != null) {
             GameEventManager.Instance.Unregister(GameEventTypes.TRACK_LOADED, OnTrackLoaded);
         }
+
+        _btnOption.onClick.RemoveListener(ButtonOptionOnClick);
     }
     #endregion
 
@@ -34,6 +40,17 @@ public class UITrackInfo : MonoBehaviour {
     private void OnTrackLoaded(BaseGameEventArgs args) {
         RefreshTrackName();
         RefreshMeasure();
+    }
+    #endregion
+
+    #region Button Handlings
+    private void ButtonOptionOnClick() {
+        if (!TrackManager.Instance.IsPausing) {
+            TrackManager.Instance.Pause();
+        }
+        else {
+            TrackManager.Instance.Continue();
+        }
     }
     #endregion
 

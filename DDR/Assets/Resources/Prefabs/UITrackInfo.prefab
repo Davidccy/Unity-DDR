@@ -1062,6 +1062,7 @@ MonoBehaviour:
   _imageProgress: {fileID: 211468947844981579}
   _rectCurMeasure: {fileID: 211468947141936684}
   _textCurMeasure: {fileID: 211468947304010833}
+  _btnOption: {fileID: 211468947256783610}
 --- !u!1 &211468947743985014
 GameObject:
   m_ObjectHideFlags: 0

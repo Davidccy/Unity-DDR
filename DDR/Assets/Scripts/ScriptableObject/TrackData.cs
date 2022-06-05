@@ -10,8 +10,8 @@ public class TrackData : ScriptableObject {
     public string TrackName;
     public int BPM;
     public int ReadyCount;
-    public float StartDelay;
     public float FirstMeasure;
+    public int DelayBumpCount;
     public int BumpPerMeasure;
     public NodeData[] Nodes;
 }

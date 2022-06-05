@@ -23,10 +23,10 @@ public class TrackEditor : EditorWindow {
     private Sprite _thumbnail = null;
     private Sprite _wallpaper = null;
     private string _trackName = string.Empty;
-    private int _bgm = 0;
+    private int _bpm = 0;
     private int _readyCount = 0;
-    private float _startDelay = 0;
     private float _firstMeasure = 0;
+    private int _delayBumpCount = 0;
     private int _bumpPerMeasure = 0;
     private NodeData[] _nodeDataArray;
 
@@ -106,9 +106,9 @@ public class TrackEditor : EditorWindow {
             _trackName = trackName;
         }
 
-        int bgm = EditorGUILayout.IntField("BGM", _bgm);
-        if (_bgm != bgm) {
-            _bgm = bgm;
+        int bpm = EditorGUILayout.IntField("BPM", _bpm);
+        if (_bpm != bpm) {
+            _bpm = bpm;
         }
 
         int readyCount = EditorGUILayout.IntField("Ready Count", _readyCount);
@@ -116,14 +116,14 @@ public class TrackEditor : EditorWindow {
             _readyCount = readyCount;
         }
 
-        float startDelay = EditorGUILayout.FloatField("Start Delay", _startDelay);
-        if (_startDelay != startDelay) {
-            _startDelay = startDelay;
-        }
-
         float firstMeasure = EditorGUILayout.FloatField("First Measure", _firstMeasure);
         if (_firstMeasure != firstMeasure) {
             _firstMeasure = firstMeasure;
+        }
+
+        int delayBumpCount = EditorGUILayout.IntField("Delay Bump Count", _delayBumpCount);
+        if (_delayBumpCount != delayBumpCount) {
+            _delayBumpCount = delayBumpCount;
         }
 
         int bumpPerMeasure = EditorGUILayout.IntField("Bump Per Measure", _bumpPerMeasure);
@@ -414,10 +414,10 @@ public class TrackEditor : EditorWindow {
         _thumbnail = tData.Thumbnail;
         _wallpaper = tData.Wallpaper;
         _trackName = tData.TrackName;
-        _bgm = tData.BPM;
+        _bpm = tData.BPM;
         _readyCount = tData.ReadyCount;
-        _startDelay = tData.StartDelay;
         _firstMeasure = tData.FirstMeasure;
+        _delayBumpCount = tData.DelayBumpCount;
         _bumpPerMeasure = tData.BumpPerMeasure;
         _nodeDataArray = tData.Nodes;
 
@@ -431,10 +431,10 @@ public class TrackEditor : EditorWindow {
         tData.Thumbnail = _thumbnail;
         tData.Wallpaper = _wallpaper;
         tData.TrackName = _trackName;
-        tData.BPM = _bgm;
+        tData.BPM = _bpm;
         tData.ReadyCount = _readyCount;
-        tData.StartDelay = _startDelay;
         tData.FirstMeasure = _firstMeasure;
+        tData.DelayBumpCount = _delayBumpCount;
         tData.BumpPerMeasure = _bumpPerMeasure;
         tData.Nodes = _nodeDataArray;
 

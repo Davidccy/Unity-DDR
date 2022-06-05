@@ -19,8 +19,8 @@ MonoBehaviour:
   TrackName: "\u30D5\u30A3\u30FC\u30EB\u30C9"
   BPM: 130
   ReadyCount: 4
-  StartDelay: 0.4
   FirstMeasure: 0.4
+  DelayBumpCount: 4
   BumpPerMeasure: 4
   Nodes:
   - Measure: 0

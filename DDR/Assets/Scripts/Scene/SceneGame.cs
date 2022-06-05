@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class SceneGame : SceneBase {
     #region Serialized Fields
     [SerializeField] private UIWallpaperResizer _uiWallpaperResizer = null;
-    [SerializeField] private UINodeHandler _uiNodeHandler = null;
     [SerializeField] private float _startWaiting = 0;
     [SerializeField] private float _finishedWaiting = 0;
 

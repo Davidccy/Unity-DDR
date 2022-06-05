@@ -19,8 +19,8 @@ MonoBehaviour:
   TrackName: Pastorale
   BPM: 180
   ReadyCount: 3
-  StartDelay: 0.4
   FirstMeasure: 0.79
+  DelayBumpCount: 4
   BumpPerMeasure: 4
   Nodes:
   - Measure: 0

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TrackManager : ISingleton<TrackManager> {
     #region Internal Fields
@@ -16,9 +15,19 @@ public class TrackManager : ISingleton<TrackManager> {
     private bool _isPlaying = false;
     private bool _isTrackEnd = false;
     private bool _isEditorMode = false;
-
-    private float _delayBeforeReady = 2.0f;
+    private bool _isPausing = false;
+    
     private float _pre = 0;
+    private float _trackTime = 0;
+    private float _bps = 0; // Bump per second
+    private float _spb = 0; // Seconds per bump
+    private float _nextBumpTime = 0;
+    private int _nextBumpIndex = 0;
+
+    private float _prePause = 0;
+    private float _trackTimePause = 0;
+
+    private readonly float _DELAY_BEFORE_READY = 2.0f;
     #endregion
 
     #region Properties
@@ -101,6 +110,12 @@ public class TrackManager : ISingleton<TrackManager> {
         }
     }
 
+    public int BumpIndex {
+        get {
+            return _nextBumpIndex;
+        }
+    }
+
     public float TrackProgress {
         get {
             if (IsTrackEnd) {
@@ -116,6 +131,12 @@ public class TrackManager : ISingleton<TrackManager> {
             return _isEditorMode;
         }
     }
+
+    public bool IsPausing {
+        get {
+            return _isPausing;
+        }
+    }
     #endregion
 
     #region Mono Behaviour Hooks
@@ -127,10 +148,9 @@ public class TrackManager : ISingleton<TrackManager> {
         Stop();
     }
 
-    private void Update() {
-        if (_isPlaying) {
-            RefreshTrackVolume();
-        }
+    private void FixedUpdate() {
+        ToNextFrame();
+        RefreshTrackVolume();
     }
     #endregion
 
@@ -174,15 +194,13 @@ public class TrackManager : ISingleton<TrackManager> {
         args.Dispatch();
     }
 
-    public void PlayTrack(bool playReadyBump = false) {
+    public void PlayTrack() {
         Stop();
 
-        StartCoroutine(StartTrack());
-    }
+        //StartCoroutine(StartTrack());
 
-    //public void StopTrack() {
-    //    Stop();
-    //}
+        StartNew();
+    }
 
     public void PlaySE(bool isPerfect) {
         AsSE.clip = isPerfect ? _acSEPerfect : _acSENormal;
@@ -202,54 +220,154 @@ public class TrackManager : ISingleton<TrackManager> {
         _isPlaying = false;
         _isTrackEnd = false;
     }
+
+    public void Pause() {
+        if (_isPausing) {
+            return;
+        }
+
+        _prePause = _pre;
+        _trackTimePause = _trackTime;
+
+        _isPausing = true;
+        _asTrack.Pause();
+    }
+
+    public void Continue() {
+        if (!_isPausing) {
+            return;
+        }
+
+        _pre = _prePause;
+        _trackTime = _trackTimePause;
+
+        _isPausing = false;
+        _asTrack.Play();
+    }
     #endregion
 
     #region Internal Methods
-    private IEnumerator StartTrack() {
-        if (_isPlaying) {
-            yield break;
-        }
-
+    public void StartNew() {
         _isPlaying = true;
         _isTrackEnd = false;
 
         AsTrack.clip = _acTrack;
         AsTrack.time = 0;
 
-        // BPM calculation
-        float bps = (float) _trackData.BPM / 60;    // Bump per second
-        float spb = 1 / bps;                        // Seconds per bump
-        // BPM calculation
+        _bps = (float) _trackData.BPM / 60;
+        _spb = 1 / _bps;
 
-        _pre = -(spb * _trackData.ReadyCount - _trackData.StartDelay + _delayBeforeReady);
-        float nextBumpTime = -(spb * _trackData.ReadyCount - _trackData.StartDelay); // First bump
-        while (_pre < 0) {
-            yield return new WaitForEndOfFrame();
-
-            _pre += Time.deltaTime;
-            if (_pre > nextBumpTime) {
-                PlayReady();
-                new BumpGameEventArgs().Dispatch();
-                nextBumpTime += spb;
-            }
-        }
-        _pre = 0;
-
-        AsTrack.Play();
-
-        while (AsTrack.isPlaying) {
-            yield return new WaitForEndOfFrame();
-
-            if (AsTrack.time >= nextBumpTime) {
-                new BumpGameEventArgs().Dispatch();
-                nextBumpTime += spb;
-            }
-        }
-
-        _isTrackEnd = true;
+        _pre = _trackData.FirstMeasure - (_spb * _trackData.DelayBumpCount + _DELAY_BEFORE_READY);
+        _nextBumpTime = GetNextBumpTime(TrackProgress, _spb, out _nextBumpIndex);
+        _trackTime = 0;
     }
 
+    private void ToNextFrame() {
+        if (!_isPlaying || IsPausing) {
+            return;
+        }
+
+        if (_pre < 0) {
+            _pre += Time.fixedDeltaTime;
+
+            if (_pre > _nextBumpTime) {
+                if (_nextBumpIndex < -(_trackData.DelayBumpCount - _trackData.ReadyCount)) {
+                    PlayReady();
+                }
+                
+                new BumpGameEventArgs().Dispatch();
+                _nextBumpTime = GetNextBumpTime(TrackProgress, _spb, out _nextBumpIndex);
+            }
+
+            if (_pre >= 0) {
+                AsTrack.Play();
+            }
+        }
+        else {
+            if (AsTrack.time >= _nextBumpTime) {
+                if (_nextBumpIndex < -(_trackData.DelayBumpCount - _trackData.ReadyCount)) {
+                    PlayReady();
+                }
+
+                new BumpGameEventArgs().Dispatch();
+                _nextBumpTime = GetNextBumpTime(TrackProgress, _spb, out _nextBumpIndex);
+            }
+        }
+    }
+
+    private float GetNextBumpTime(float currentTime, float spb, out int bumpIndex) {
+        bumpIndex = 0;
+        float firstBumpTime = _trackData.FirstMeasure - (spb * _trackData.DelayBumpCount);
+        if (currentTime < firstBumpTime) {
+            bumpIndex = -_trackData.DelayBumpCount;
+            return firstBumpTime;
+        }
+
+        float diffTime = 0;
+        if (currentTime < _trackData.FirstMeasure) {
+            diffTime = _trackData.FirstMeasure - currentTime;
+            int remainedBumpCount = (int) (diffTime / spb);
+            bumpIndex = -remainedBumpCount;
+
+            return _trackData.FirstMeasure - remainedBumpCount * spb;
+        }
+
+        diffTime = currentTime - _trackData.FirstMeasure;
+        int passedBumpCount = (int) (diffTime / spb);
+        bumpIndex = passedBumpCount + 1;
+
+        return _trackData.FirstMeasure + (passedBumpCount + 1) * spb;
+    }
+
+    //private IEnumerator StartTrack() {
+    //    if (_isPlaying) {
+    //        yield break;
+    //    }
+
+    //    _isPlaying = true;
+    //    _isTrackEnd = false;
+
+    //    AsTrack.clip = _acTrack;
+    //    AsTrack.time = 0;
+
+    //    // BPM calculation
+    //    float bps = (float) _trackData.BPM / 60;    // Bump per second
+    //    float spb = 1 / bps;                        // Seconds per bump
+    //    // BPM calculation
+
+    //    _pre = -(spb * _trackData.ReadyCount - _trackData.StartDelay + _DELAY_BEFORE_READY);
+    //    float nextBumpTime = -(spb * _trackData.ReadyCount - _trackData.StartDelay); // First bump
+    //    while (_pre < 0) {
+    //        yield return new WaitForEndOfFrame();
+
+    //        _pre += Time.deltaTime;
+    //        if (_pre > nextBumpTime) {
+    //            PlayReady();
+    //            new BumpGameEventArgs().Dispatch();
+    //            nextBumpTime += spb;
+    //        }
+    //    }
+    //    _pre = 0;
+
+    //    AsTrack.Play();
+
+    //    while (AsTrack.isPlaying) {
+    //        yield return new WaitForEndOfFrame();
+
+    //        if (AsTrack.time >= nextBumpTime) {
+    //            new BumpGameEventArgs().Dispatch();
+    //            nextBumpTime += spb;
+    //        }
+    //    }
+
+    //    _isTrackEnd = true;
+    //}
+
     private void RefreshTrackVolume() {
+        if (!_isPlaying) {
+            return;
+        }
+
         if (_asTrack == null || _asTrack.clip == null) {
             return;
         }

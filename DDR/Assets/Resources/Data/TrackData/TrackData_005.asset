@@ -19,8 +19,8 @@ MonoBehaviour:
   TrackName: "\u57CE"
   BPM: 144
   ReadyCount: 6
-  StartDelay: 0.4
   FirstMeasure: 0.365
+  DelayBumpCount: 6
   BumpPerMeasure: 3
   Nodes:
   - Measure: 0

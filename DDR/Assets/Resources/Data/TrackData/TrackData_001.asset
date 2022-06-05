@@ -19,8 +19,8 @@ MonoBehaviour:
   TrackName: HelloGameWorld
   BPM: 131
   ReadyCount: 3
-  StartDelay: 0.05
   FirstMeasure: 0.5458
+  DelayBumpCount: 4
   BumpPerMeasure: 4
   Nodes:
   - Measure: 0
