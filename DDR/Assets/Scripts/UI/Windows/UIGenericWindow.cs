@@ -71,11 +71,13 @@ public abstract class UIGenericWindow : MonoBehaviour {
 	#endregion
 
 	#region UI Button Handlings
-	private void ButtonCloseOnClick() {
-		PlayFadeOut().DoNotAwait();
-
+	private async void ButtonCloseOnClick() {
 		if (_acClose != null && AudioManager.Instance != null) {
 			AudioManager.Instance.PlaySE(_acClose);
+		}
+
+		if (WindowManager.Instance != null) {
+			await WindowManager.Instance.CloseWindow(WindowName);
 		}
 	}
 	#endregion

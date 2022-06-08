@@ -47,6 +47,10 @@ public class UITrackInfo : MonoBehaviour {
     private void ButtonOptionOnClick() {
         if (!TrackManager.Instance.IsPausing) {
             TrackManager.Instance.Pause();
+
+            if (WindowManager.Instance != null) {
+                WindowManager.Instance.OpenWindow(Define.WIDNOW_GAME_PAUSE).DoNotAwait();
+            }
         }
         else {
             TrackManager.Instance.Continue();

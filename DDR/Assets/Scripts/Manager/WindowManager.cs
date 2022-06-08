@@ -28,16 +28,21 @@ public class WindowManager : ISingleton<WindowManager> {
     public async Task<UIGenericWindow> OpenWindow(string windowName, bool loadIfNotExist = true) {
         UIGenericWindow window = await GetWindow(windowName, loadIfNotExist);
         if (window != null) {
+            window.gameObject.SetActive(true);
             await window.PlayFadeIn();
         }
 
         return window;
     }
 
-    public async Task<UIGenericWindow> CloseWindow(string windowName, bool loadIfNotExist = false) {
+    public async Task<UIGenericWindow> CloseWindow(string windowName, bool loadIfNotExist = false, bool skipFadeOut = false) {
         UIGenericWindow window = await GetWindow(windowName, loadIfNotExist);
         if (window != null) {
-            await window.PlayFadeOut();
+            if (!skipFadeOut) {
+                await window.PlayFadeOut();
+            }
+            
+            window.gameObject.SetActive(false);
         }
 
         return window;

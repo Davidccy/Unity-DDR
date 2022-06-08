@@ -60,6 +60,24 @@ public class TrackLoadedGameEventArgs : BaseGameEventArgs {
     }
 }
 
+public class TrackRetryGameEventArgs : BaseGameEventArgs {
+    public TrackRetryGameEventArgs() {
+        ID = GameEventTypes.TRACK_RETRY;
+    }
+}
+
+public class TrackAbortGameEventArgs : BaseGameEventArgs {
+    public TrackAbortGameEventArgs() {
+        ID = GameEventTypes.TRACK_ABORT;
+    }
+}
+
+public class TrackResumeGameEventArgs : BaseGameEventArgs {
+    public TrackResumeGameEventArgs() {
+        ID = GameEventTypes.TRACK_RESUME;
+    }
+}
+
 public class TrackAchievementGameEventArgs : BaseGameEventArgs {
     public bool IsAllPerfect {
         get;

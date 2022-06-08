@@ -110,8 +110,10 @@ public static class Define {
     #region Window Names
     public static string WIDNOW_CREDITS = "UIWindowCredits";
     public static string WIDNOW_CUT_SCENE = "UIWindowCutScene";
+    public static string WIDNOW_GAME_PAUSE = "UIWindowGamePause";
     public static string WIDNOW_LOADING = "UIWindowLoading";
     public static string WIDNOW_TRACK_OPTION = "UIWindowTrackOption";
+    public static string WIDNOW_TRACK_RESUME = "UIWindowTrackResume";
     #endregion
 
     #region Audio Settings

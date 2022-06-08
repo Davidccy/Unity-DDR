@@ -24,9 +24,6 @@ public class TrackManager : ISingleton<TrackManager> {
     private float _nextBumpTime = 0;
     private int _nextBumpIndex = 0;
 
-    private float _prePause = 0;
-    private float _trackTimePause = 0;
-
     private readonly float _DELAY_BEFORE_READY = 2.0f;
     #endregion
 
@@ -219,15 +216,13 @@ public class TrackManager : ISingleton<TrackManager> {
 
         _isPlaying = false;
         _isTrackEnd = false;
+        _isPausing = false;
     }
 
     public void Pause() {
         if (_isPausing) {
             return;
         }
-
-        _prePause = _pre;
-        _trackTimePause = _trackTime;
 
         _isPausing = true;
         _asTrack.Pause();
@@ -237,9 +232,6 @@ public class TrackManager : ISingleton<TrackManager> {
         if (!_isPausing) {
             return;
         }
-
-        _pre = _prePause;
-        _trackTime = _trackTimePause;
 
         _isPausing = false;
         _asTrack.Play();

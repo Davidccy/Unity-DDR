@@ -15,7 +15,10 @@ public class SceneGame : SceneBase {
     #region Override Methods
     protected override void OnSceneAwake() {
         GameEventManager.Instance.Register(GameEventTypes.NODE_GENERATED, OnNodeGenerated);
-        GameEventManager.Instance.Register(GameEventTypes.TRACK_ACHIEVEMENT, OnTrackAchievement);
+        GameEventManager.Instance.Register(GameEventTypes.TRACK_RETRY, OnTrackRetry);
+        GameEventManager.Instance.Register(GameEventTypes.TRACK_ABORT, OnTrackAbort);
+        GameEventManager.Instance.Register(GameEventTypes.TRACK_RESUME, OnTrackResume);
+        GameEventManager.Instance.Register(GameEventTypes.TRACK_ACHIEVEMENT, OnTrackAchievement);        
 
         LoadTrack();
     }
@@ -23,6 +26,9 @@ public class SceneGame : SceneBase {
     protected override void OnSceneDestroy() {
         if (GameEventManager.Instance != null) {
             GameEventManager.Instance.Unregister(GameEventTypes.NODE_GENERATED, OnNodeGenerated);
+            GameEventManager.Instance.Unregister(GameEventTypes.TRACK_RETRY, OnTrackRetry);
+            GameEventManager.Instance.Unregister(GameEventTypes.TRACK_ABORT, OnTrackAbort);
+            GameEventManager.Instance.Unregister(GameEventTypes.TRACK_RESUME, OnTrackResume);
             GameEventManager.Instance.Unregister(GameEventTypes.TRACK_ACHIEVEMENT, OnTrackAchievement);
         }
     }
@@ -69,6 +75,26 @@ public class SceneGame : SceneBase {
         TrackManager.Instance.Stop();
 
         SceneManager.LoadScene(Define.SCENE_RESULT, LoadSceneMode.Single);
+    }
+
+    private async void OnTrackRetry(BaseGameEventArgs args) {
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.OpenWindow(Define.WIDNOW_LOADING);
+        }
+
+        TrackManager.Instance.LoadTrackData();
+    }
+    
+    private async void OnTrackAbort(BaseGameEventArgs args) {
+        if (WindowManager.Instance != null) {
+            await WindowManager.Instance.OpenWindow(Define.WIDNOW_LOADING);
+        }
+
+        SceneManager.LoadScene(Define.SCENE_MAIN, LoadSceneMode.Single);
+    }
+
+    private void OnTrackResume(BaseGameEventArgs args) {
+        TrackManager.Instance.Continue();
     }
     #endregion
 }
