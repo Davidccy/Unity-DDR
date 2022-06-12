@@ -50,6 +50,8 @@ public class TempResultData {
     public Dictionary<NodeResult, int> NodeResultTable;
     public bool IsAllPerfect;
     public bool IsFullCombo;
+    public bool IsNewRecord;
+    public int MyBestScore;
 }
 #endregion
 

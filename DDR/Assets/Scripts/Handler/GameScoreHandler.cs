@@ -68,6 +68,8 @@ public class GameScoreHandler : MonoBehaviour {
         trd.NodeResultTable = _nodeResultTable;
         trd.IsAllPerfect = newIsAllPerfect;
         trd.IsFullCombo = newIsFullCombo;
+        trd.IsNewRecord = _curScore > oldScore;
+        trd.MyBestScore = oldScore;
 
         TempDataManager.SaveData(Define.TEMP_GAME_DATA_KEY_RESULT, trd);
 

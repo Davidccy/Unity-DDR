@@ -3,41 +3,47 @@ using TMPro;
 using UnityEngine;
 
 public class UIWaveText : MonoBehaviour {
-    // NOTE:
-    // Reference : https://www.youtube.com/watch?v=FXMqUdP3XcE
-
     #region Serialized Fields
-    [SerializeField]
-    private TextMeshProUGUI _text = null;
-
-    [SerializeField]
-    private float _startDelay = 0;
-
-    [SerializeField]
-    private float _waveHeight = 0;
-
-    [SerializeField]
-    private float _waveDuration = 0;
-
-    [SerializeField]
-    private float _loopDuration = 0;
-
-    [SerializeField]
-    private float _nextCharacterInterval = 0;
+    [SerializeField] private TextMeshProUGUI _text = null;
+    [SerializeField] private bool _playOnEnable = false;
+    [SerializeField] private float _startDelay = 0;
+    [SerializeField] private float _waveHeight = 0;
+    [SerializeField] private float _waveDuration = 0;
+    [SerializeField] private float _loopDuration = 0;
+    [SerializeField] private float _nextCharacterInterval = 0;
     #endregion
 
     #region Internal Fields
+    private bool _isPlaying = false;
     private float _passedTime = 0;
     #endregion
 
     #region Mono Behaviour Hooks
     private void OnEnable() {
         Reset();
+
+        if (_playOnEnable) {
+            _isPlaying = true;
+        }
+    }
+
+    private void OnDisable() {
+        _isPlaying = false;
     }
 
     private void Update() {
         _passedTime += Time.deltaTime;
         UpdateWave();
+    }
+    #endregion
+
+    #region APIs
+    public void Play() {
+        _isPlaying = true;
+    }
+
+    public void Stop() {
+        _isPlaying = false;
     }
     #endregion
 
@@ -47,6 +53,10 @@ public class UIWaveText : MonoBehaviour {
     }
 
     private void UpdateWave() {
+        if (!_isPlaying) {
+            return;
+        }
+
         // Value restrictions
         if (_loopDuration <= 0) {
             _loopDuration = 1;

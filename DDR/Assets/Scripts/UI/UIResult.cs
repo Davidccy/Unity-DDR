@@ -10,6 +10,7 @@ public class UIResult : MonoBehaviour {
         None,
         Title,
         Node,
+        NewRecord,
         Achievement,
         Rank,
         Continue,
@@ -31,6 +32,10 @@ public class UIResult : MonoBehaviour {
     [SerializeField] private UIResultValueRolling _resultScore = null;
     [SerializeField] private TextMeshProUGUI _textMyBestScore = null;
     [SerializeField] private CustomPlayableDirector _cpdNode = null;
+
+    [Header("Achievement")]
+    [SerializeField] private CustomPlayableDirector _cpdNewRecord = null;
+    [SerializeField] private UIWaveText _uiWaveText = null;
 
     [Header("Achievement")]
     [SerializeField] private CustomPlayableDirector _cpdAllPerfect = null;
@@ -79,6 +84,7 @@ public class UIResult : MonoBehaviour {
 
         await PlayTitle();
         await PlayResultNode();
+        await PlayResultNewRecord();
         await PlayResultAchievement();
         await PlayResultRank();
         await PlayTapToContinue();
@@ -102,7 +108,7 @@ public class UIResult : MonoBehaviour {
         _resultMiss.SetScore(_trd.NodeResultTable[NodeResult.Miss], _trd.TotalNodeCount);
         _resultCombo.SetScore(_trd.MaxCombo, _trd.TotalNodeCount);
         _resultScore.SetScore(_trd.Score, _trd.TotalNodeCount);
-        _textMyBestScore.text = "1234567"; // TODO
+        _textMyBestScore.text = string.Format("{0}", _trd.MyBestScore);
 
         string rank = Utility.GetScoreRankText(_trd.Score);
         _textScoreRank.text = rank;
@@ -112,6 +118,15 @@ public class UIResult : MonoBehaviour {
         _rStep = ResultStep.Title;
 
         await _cpdTrackInfo.Play();
+    }
+
+    private async Task PlayResultNewRecord() {
+        _rStep = ResultStep.Title;
+
+        if (_trd.IsNewRecord) {
+            await _cpdNewRecord.Play();
+            _uiWaveText.Play();
+        }
     }
 
     private async Task PlayResultNode() {
@@ -163,6 +178,12 @@ public class UIResult : MonoBehaviour {
             _resultMiss.SetFinish();
             _resultCombo.SetFinish();
             _resultScore.SetFinish();
+        }
+        else if (_rStep == ResultStep.NewRecord) {
+            if (_trd.IsNewRecord) {
+                _cpdNewRecord.SetFinish();
+                _uiWaveText.Play();
+            }            
         }
         else if (_rStep == ResultStep.Achievement) {
             if (_trd.IsAllPerfect) {
