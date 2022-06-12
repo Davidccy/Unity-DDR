@@ -90,6 +90,8 @@ public class SceneGame : SceneBase {
             await WindowManager.Instance.OpenWindow(Define.WIDNOW_LOADING);
         }
 
+        TrackManager.Instance.Stop();
+
         SceneManager.LoadScene(Define.SCENE_MAIN, LoadSceneMode.Single);
     }
 
