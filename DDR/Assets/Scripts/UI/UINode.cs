@@ -58,6 +58,10 @@ public class UINode : MonoBehaviour {
     #endregion
 
     #region Mono Behaviour Hooks
+    private void OnEnable() {
+        _textRemainTiming.text = string.Empty;
+    }
+
     private void FixedUpdate() {
         RefreshPosition();
 
@@ -118,13 +122,15 @@ public class UINode : MonoBehaviour {
         float curTiming = TrackManager.Instance.TrackProgress;
         float timingDiff = _ndInfo.Timing - curTiming; // If 'timingDiff' > 0, means the node not passed yet
 
-        _textRemainTiming.text = string.Format("{0:F4}", timingDiff);
-
         float height = timingDiff * _ndInfo.Speed * 100;
         height = _ndInfo.MovingType == NodeMovingType.Raising ? -height : height;
 
         RectTransform rt = this.transform as RectTransform;
         rt.anchoredPosition = new Vector3(0, height, 0);
+
+#if UNITY_EDITOR
+        _textRemainTiming.text = string.Format("{0:F4}", timingDiff);
+#endif
     }
 
     private void CheckIsMissed() {
