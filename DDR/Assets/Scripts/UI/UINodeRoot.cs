@@ -96,7 +96,7 @@ public class UINodeRoot : MonoBehaviour, IPointerDownHandler {
 
         _isInit = true;
 
-        int controlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
+        int controlType = Utility.GetControlType();
         _isTouchActive = controlType == (int) ControlType.Touching;
 
         _goArrowRoot.SetActive(_nPos != NodePosition.Space);

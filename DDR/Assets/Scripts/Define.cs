@@ -139,6 +139,14 @@ public static class Define {
     public static int SCORE_MIN_RANK_D = 500000;
     #endregion
 
+    #region Default Settings
+    public static int DEFAULT_AUDIO_SE_PERFECT = 0;
+    public static int DEFAULT_AUDIO_SE_NORMAL = 1;
+    public static int DEFAULT_SPEED_LEVEL = 6; // Level 6, value = 3
+    public static int DEFAULT_NODE_MOVING_TYPE = (int) NodeMovingType.Raising;
+    public static int DEFAULT_CONTROL_TYPE = (int) ControlType.Keyboard;
+    #endregion
+
     #region Game Data Keys
     // Options
     public static string GAME_DATA_KEY_SE_PERFECT = "Game_Data_SE_Perfect";

@@ -7,7 +7,7 @@ public class SongInputHandler : MonoBehaviour {
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        int controlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
+        int controlType = Utility.GetControlType();
         _isActive = controlType == (int) ControlType.Keyboard;
     }
 

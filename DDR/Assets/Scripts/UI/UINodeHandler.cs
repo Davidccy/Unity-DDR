@@ -32,7 +32,7 @@ public class UINodeHandler : MonoBehaviour {
     #endregion
 
     #region Internal Fields
-    private NodeMovingType _nodeMovingType;
+    private int _nodeMovingType;
     private float _nodeSpeed;
     private NodeRootSet _nodeRootSet = null;
     private Dictionary<NodePosition, List<UINode>> _nodeMap = new Dictionary<NodePosition, List<UINode>>();
@@ -142,15 +142,15 @@ public class UINodeHandler : MonoBehaviour {
     }
 
     private void InitSettings() {
-        _nodeMovingType = (NodeMovingType) GameDataManager.LoadInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE);
-        _nodeSpeed = Utility.GetTrackSpeed();
+        _nodeMovingType = Utility.GetNodeMovingType();
+        _nodeSpeed = Utility.GetTrackSpeedValue();
     }
 
     private void InitUI() {
         // UI node roots set
-        _nodeRootSet = _nodeMovingType == NodeMovingType.Raising ? _nodeRootSetRaising : _nodeRootSetFalling;
-        _nodeRootSetRaising.GoRoot.SetActive(_nodeMovingType == NodeMovingType.Raising);
-        _nodeRootSetFalling.GoRoot.SetActive(_nodeMovingType == NodeMovingType.Falling);
+        _nodeRootSet = _nodeMovingType == (int) NodeMovingType.Raising ? _nodeRootSetRaising : _nodeRootSetFalling;
+        _nodeRootSetRaising.GoRoot.SetActive(_nodeMovingType == (int) NodeMovingType.Raising);
+        _nodeRootSetFalling.GoRoot.SetActive(_nodeMovingType == (int) NodeMovingType.Falling);
 
         _nodeRootSet.NodeLeft.Activate();
         _nodeRootSet.NodeUp.Activate();
@@ -197,7 +197,7 @@ public class UINodeHandler : MonoBehaviour {
 
                 NodeDisplayInfo nodedisplayInfo = new NodeDisplayInfo();
                 nodedisplayInfo.Position = info.NodePosition;
-                nodedisplayInfo.MovingType = _nodeMovingType;
+                nodedisplayInfo.MovingType = (NodeMovingType) _nodeMovingType;
                 nodedisplayInfo.Timing = spm * ((measure - 1) + info.Timing) + tData.FirstMeasure;
                 nodedisplayInfo.Speed = _nodeSpeed;
 

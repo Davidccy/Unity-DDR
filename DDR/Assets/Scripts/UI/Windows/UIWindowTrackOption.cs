@@ -164,7 +164,7 @@ public class UIWindowTrackOption : UIGenericWindow {
         _sliderSpeed.minValue = Define.SPEED_LEVEL_MIN;
         _sliderSpeed.maxValue = Define.SPEED_LEVEL_MAX;
 
-        _curSpeedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL);
+        _curSpeedLevel = Utility.GetTrackSpeedLevel();
         _sliderSpeed.value = _curSpeedLevel;
     }
 
@@ -177,14 +177,14 @@ public class UIWindowTrackOption : UIGenericWindow {
     }
 
     private void RefreshSpeedSetting() {
-        _curSpeedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL);
+        _curSpeedLevel = Utility.GetTrackSpeedLevel();
 
-        float speedValue = Utility.GetTrackSpeed();
+        float speedValue = Utility.GetTrackSpeedValue();
         _textSpeedValue.text = string.Format("{0:0.0}", speedValue);
     }
 
     private void RefreshNodeSoundPerfect() {
-        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_PERFECT);
+        int seIndex = Utility.GetSEPerfectIndex();
 
         for (int i = 0; i < _btnNodeSoundPerfect.Length; i++) {
             _btnNodeSoundPerfect[i].image.sprite = i == seIndex ? _imageSelected.sprite : _imageUnselected.sprite;
@@ -192,7 +192,7 @@ public class UIWindowTrackOption : UIGenericWindow {
     }
 
     private void RefreshNodeSoundNormal() {
-        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_NORMAL);
+        int seIndex = Utility.GetSENormalIndex();
 
         for (int i = 0; i < _btnNodeSoundNormal.Length; i++) {
             _btnNodeSoundNormal[i].image.sprite = i == seIndex ? _imageSelected.sprite : _imageUnselected.sprite;
@@ -200,7 +200,7 @@ public class UIWindowTrackOption : UIGenericWindow {
     }
 
     private void RefreshMovingSetting() {
-        _curNodeMovingType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE);
+        _curNodeMovingType = Utility.GetNodeMovingType();
 
         _btnNodeMovingRaising.image.sprite = 
             _curNodeMovingType == (int) NodeMovingType.Raising ? _imageSelected.sprite : _imageUnselected.sprite;
@@ -209,7 +209,7 @@ public class UIWindowTrackOption : UIGenericWindow {
     }
 
     private void RefreshControlSetting() {
-        _curControlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE);
+        _curControlType = Utility.GetControlType();
 
         _btnControlKeyboard.image.sprite =
             _curControlType == (int) ControlType.Keyboard ? _imageSelected.sprite : _imageUnselected.sprite;

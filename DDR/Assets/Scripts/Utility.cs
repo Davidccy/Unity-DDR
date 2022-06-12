@@ -62,17 +62,40 @@ public static class Utility {
         return GameConfigData.SoundEffectReady;
     }
 
+    public static int GetSEPerfectIndex() {
+        if (GameConfigData == null) {
+            return 0;
+        }
+
+        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_PERFECT, Define.DEFAULT_AUDIO_SE_PERFECT);
+        if (seIndex >= GameConfigData.SoundEffectPerfect.Length) {
+            return 0;
+        }
+
+        return seIndex;
+    }
+
     public static AudioClip GetSEPerfect() {
         if (GameConfigData == null) {
             return null;
         }
 
-        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_PERFECT);
-        if (seIndex >= GameConfigData.SoundEffectPerfect.Length) {
-            return GameConfigData.SoundEffectPerfect[0];
-        }
+        int seIndex = GetSEPerfectIndex();
 
         return GameConfigData.SoundEffectPerfect[seIndex];
+    }
+
+    public static int GetSENormalIndex() {
+        if (GameConfigData == null) {
+            return 0;
+        }
+
+        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_NORMAL, Define.DEFAULT_AUDIO_SE_NORMAL);
+        if (seIndex >= GameConfigData.SoundEffectNormal.Length) {
+            return 0;
+        }
+
+        return seIndex;
     }
 
     public static AudioClip GetSENormal() {
@@ -80,10 +103,7 @@ public static class Utility {
             return null;
         }
 
-        int seIndex = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SE_NORMAL);
-        if (seIndex >= GameConfigData.SoundEffectNormal.Length) {
-            return GameConfigData.SoundEffectNormal[0];
-        }
+        int seIndex = GetSENormalIndex();
 
         return GameConfigData.SoundEffectNormal[seIndex];
     }
@@ -124,9 +144,26 @@ public static class Utility {
     #endregion
 
     #region Track Speed Handlings
-    public static float GetTrackSpeed() {
-        int speedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL);
+    public static int GetTrackSpeedLevel() {
+        int speedLevel = GameDataManager.LoadInt(Define.GAME_DATA_KEY_SPEED_LEVEL, Define.DEFAULT_SPEED_LEVEL);
+        return speedLevel;
+    }
+
+    public static float GetTrackSpeedValue() {
+        int speedLevel = GetTrackSpeedLevel();
         return speedLevel * Define.SPEED_PER_LEVEL + Define.SPEED_BASE;
+    }
+    #endregion
+
+    #region Track Option Handlings
+    public static int GetNodeMovingType() {
+        int nodeMovingType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_NODE_MOVING_TYPE, Define.DEFAULT_NODE_MOVING_TYPE);
+        return nodeMovingType;
+    }
+
+    public static int GetControlType() {
+        int controlType = GameDataManager.LoadInt(Define.GAME_DATA_KEY_CONTROL_TYPE, Define.DEFAULT_CONTROL_TYPE);
+        return controlType;
     }
     #endregion
 
