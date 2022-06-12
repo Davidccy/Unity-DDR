@@ -194,8 +194,6 @@ public class TrackManager : ISingleton<TrackManager> {
     public void PlayTrack() {
         Stop();
 
-        //StartCoroutine(StartTrack());
-
         StartNew();
     }
 
@@ -210,8 +208,6 @@ public class TrackManager : ISingleton<TrackManager> {
     }
 
     public void Stop() {
-        StopAllCoroutines();
-
         AsTrack.Stop();
 
         _isPlaying = false;
