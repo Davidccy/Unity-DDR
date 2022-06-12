@@ -2440,7 +2440,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiWallpaperResizer: {fileID: 1603528787}
-  _uiNodeHandler: {fileID: 330435094}
   _startWaiting: 2
   _finishedWaiting: 2
   _uiAchvEffectAP: {fileID: 5526959933611485349}
