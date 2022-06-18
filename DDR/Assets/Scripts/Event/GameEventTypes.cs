@@ -4,7 +4,10 @@ public enum GameEventTypes {
     NONE,
     TEST,
 
-    // Game playing
+    // System
+    RESOLUTION_CHANGED,
+
+    // Game Playing
     NODE_PRESSED,
     NODE_GENERATED,
 

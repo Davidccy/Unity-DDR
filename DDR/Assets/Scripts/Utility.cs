@@ -42,6 +42,29 @@ public static class Utility {
     }
     #endregion
 
+    #region Resolition Handlings
+    public static Rect GetScaledSafeArea() {
+        Vector2 customizedResolution = new Vector2(Define.RESOLUTION_WIDTH, Define.RESOLUTION_HEIGHT);
+
+        float screenWidthScale = (float) Screen.width / customizedResolution.x;
+        float screenHeightScale = (float) Screen.height / customizedResolution.y;
+        float scale = screenWidthScale > screenHeightScale ? screenHeightScale : screenWidthScale;
+
+        Rect safeArea = Screen.safeArea;
+        return new Rect(safeArea.x / scale, safeArea.y / scale, safeArea.width / scale, safeArea.height / scale);
+    }
+
+    public static float GetMatchWidthOrHeight() {
+        Vector2 customizedResolution = new Vector2(Define.RESOLUTION_WIDTH, Define.RESOLUTION_HEIGHT);
+
+        float screenWidthScale = (float) Screen.width / customizedResolution.x;
+        float screenHeightScale = (float) Screen.height / customizedResolution.y;
+        float match = screenWidthScale > screenHeightScale ? 1 : 0;
+
+        return match;
+    }
+    #endregion
+
     #region Game Config Handlings
     private static GameConfigData _gameConfigData = null;
     public static GameConfigData GameConfigData {

@@ -19,6 +19,12 @@ public class TestGameEventArgs : BaseGameEventArgs {
     }
 }
 
+public class ResolutionChangedGameEventArgs : BaseGameEventArgs {
+    public ResolutionChangedGameEventArgs() {
+        ID = GameEventTypes.RESOLUTION_CHANGED;
+    }
+}
+
 public class BumpGameEventArgs : BaseGameEventArgs {
     public BumpGameEventArgs() {
         ID = GameEventTypes.BUMP;

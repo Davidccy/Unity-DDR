@@ -3,18 +3,26 @@ using UnityEngine.UI;
 
 public class UIWallpaperResizer : MonoBehaviour {
     #region Serialized Fields
-    [SerializeField] private Canvas _canvas = null;
+    [SerializeField] private RectTransform _rectReference = null;
     [SerializeField] private Image _imageWallpaper = null;
-    #endregion
-
-    #region Internal Fields
-    private RectTransform _rectCanvas = null;
     #endregion
 
     #region Mono Behaviour Hooks
     private void Awake() {
-        _rectCanvas = _canvas.transform as RectTransform;
+        GameEventManager.Instance.Register(GameEventTypes.RESOLUTION_CHANGED, OnResolutionChanged);
 
+        Refresh();
+    }
+
+    private void OnDestroy() {
+        if (GameEventManager.Instance != null) {
+            GameEventManager.Instance.Unregister(GameEventTypes.RESOLUTION_CHANGED, OnResolutionChanged);
+        }
+    }
+    #endregion
+
+    #region Event Handlings
+    private void OnResolutionChanged(BaseGameEventArgs args) {
         Refresh();
     }
     #endregion
@@ -34,8 +42,8 @@ public class UIWallpaperResizer : MonoBehaviour {
             return;
         }
 
-        float scaleX = _rectCanvas.sizeDelta.x / _imageWallpaper.sprite.rect.width;
-        float scaleY = _rectCanvas.sizeDelta.y / _imageWallpaper.sprite.rect.height;
+        float scaleX = _rectReference.rect.width / _imageWallpaper.sprite.rect.width;
+        float scaleY = _rectReference.rect.height / _imageWallpaper.sprite.rect.height;
 
         float scale = Mathf.Max(scaleX, scaleY);
 

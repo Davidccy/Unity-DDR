@@ -95,6 +95,11 @@ public class TrackAchievement {
 }
 
 public static class Define {
+    #region Resolution
+    public static int RESOLUTION_WIDTH = 800;
+    public static int RESOLUTION_HEIGHT = 600;
+    #endregion
+
     #region Editor Related Settings
     public static string EDITOR_SCENE_PATH = "Assets/Scenes/Game.unity";
     public static string EDITOR_ASSET_PATH = "Assets/Resources/Data/TrackData";
