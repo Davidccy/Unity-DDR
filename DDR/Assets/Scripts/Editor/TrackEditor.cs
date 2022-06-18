@@ -15,8 +15,8 @@ public class TrackEditor : EditorWindow {
     #region Internal Fields
     private readonly int _MEASURE_PER_LINE = 8;
     private readonly float _NOTIFICATION_DURATION = 3.0f;
-    private Color _COLOR_SELECTED_MEASURE = Color.green;
-    private Color _COLOR_UNSELECTED_MEASURE = Color.white;
+    private readonly Color _COLOR_SELECTED_MEASURE = Color.green;
+    private readonly Color _COLOR_UNSELECTED_MEASURE = Color.white;
 
     private AudioClip _acTrack = null;
     private AudioClip _acTrackShort = null;
