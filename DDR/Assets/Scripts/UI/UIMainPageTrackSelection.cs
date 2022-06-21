@@ -31,6 +31,8 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     [SerializeField] private float _performcanceDuration = 0;
     [SerializeField] private bool _switchWhenPerformance = false;
     [SerializeField] private AudioClip _acTrackSelection = null;
+    [SerializeField] private float _alphaThreshold = 0;
+    [SerializeField] private float _alphaMaxDistance = 0; // Not include threshold
     #endregion
 
     #region Internal Fields
@@ -170,10 +172,14 @@ public class UIMainPageTrackSelection : UIMainPageBase {
                 trackDataIndex -= totalSelectDataCount;
             }
 
+            float xPos = _space * positionIndex;
+            float alpha = Mathf.Abs(xPos) <= _alphaThreshold ? 1 : 1 - (Mathf.Abs(xPos) - _alphaThreshold) / _alphaMaxDistance;
+
             UITrackSelectInfo info = _trackSelectInfoList[uiIndex];
             info.SetTrackSelectInfo(_selectData.SelectInfos[trackDataIndex]);
-            info.transform.localPosition = new Vector3(_space * positionIndex, 0, 0);
-            info.transform.localScale = uiIndex == _centerUIIndex ? Vector3.one : Vector3.one * _unselectedScale;
+            info.transform.localPosition = new Vector3(xPos, 0, 0);
+            info.transform.localScale = uiIndex == _centerUIIndex ? Vector3.one : Vector3.one * _unselectedScale;            
+            info.SetAlpha(alpha);
         }
 
         AudioClip acShort = _selectData.SelectInfos[_centerTrackDataIndex].TrackData.AudioTrackShort;
@@ -267,17 +273,24 @@ public class UIMainPageTrackSelection : UIMainPageBase {
                 // Position
                 Vector3 startPos = new Vector3(_space * curPositionIndex, 0, 0);
                 Vector3 goalPos = new Vector3(_space * goalPositionIndex, 0, 0);
-                info.transform.localPosition = Vector3.Lerp(startPos, goalPos, progress);
+                Vector3 localPos = Vector3.Lerp(startPos, goalPos, progress);
+                info.transform.localPosition = localPos;
 
                 // Scale
                 Vector3 startScale = uiIndex == _centerUIIndex ? Vector3.one : Vector3.one * _unselectedScale;
                 Vector3 goalScale = uiIndex == nextCenterUIIndex ? Vector3.one : Vector3.one * _unselectedScale;
                 info.transform.localScale = Vector3.Lerp(startScale, goalScale, progress);
 
+                // Alpha
+                float xPos = localPos.x;
+                float alpha = Mathf.Abs(xPos) <= _alphaThreshold ? 1 : 1 - (Mathf.Abs(xPos) - _alphaThreshold) / _alphaMaxDistance;
+                info.SetAlpha(alpha);
+
                 // Unselected mask alpha
                 float startAlpha = uiIndex == _centerUIIndex ? 0 : 1;
                 float goalAlpha = uiIndex == nextCenterUIIndex ? 0 : 1;
-                info.SetUnselectedMaskAlpha(Mathf.Lerp(startAlpha, goalAlpha, progress));
+                float maskAlpha = Mathf.Lerp(startAlpha, goalAlpha, progress);
+                info.SetUnselectedMaskAlpha(maskAlpha);
             }
         }
 

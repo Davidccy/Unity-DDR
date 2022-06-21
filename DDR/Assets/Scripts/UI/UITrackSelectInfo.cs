@@ -4,6 +4,7 @@ using TMPro;
 
 public class UITrackSelectInfo : MonoBehaviour {
     #region Serialized Fields
+    [SerializeField] private CanvasGroup _cg = null;
     [SerializeField] private Image _imageThumbnail = null;
     [SerializeField] private CanvasGroup _cgUnselectedMask = null;
     [SerializeField] private TextMeshProUGUI _textBPM = null;
@@ -25,6 +26,10 @@ public class UITrackSelectInfo : MonoBehaviour {
     public void SetTrackSelectInfo(SelectInfo sInfo) {
         _sInfo = sInfo;
         Refresh();
+    }
+
+    public void SetAlpha(float alpha) {
+        _cg.alpha = alpha;
     }
 
     public void SetUnselectedMaskAlpha(float alpha) {
