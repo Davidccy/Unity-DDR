@@ -28,7 +28,7 @@ public class UIMainPageTrackSelection : UIMainPageBase {
     [Header("Sub Content - Performance Settings")]
     [SerializeField] private float _space = 0;
     [SerializeField] private float _unselectedScale = 0;
-    [SerializeField] private float _performcanceDuration = 0;
+    [SerializeField] private float _performanceDuration = 0;
     [SerializeField] private bool _switchWhenPerformance = false;
     [SerializeField] private AudioClip _acTrackSelection = null;
     [SerializeField] private float _alphaThreshold = 0;
@@ -252,11 +252,11 @@ public class UIMainPageTrackSelection : UIMainPageBase {
             nextCenterUIIndex -= totalUICount;
         }
 
-        while (passedTime < _performcanceDuration) {
+        while (passedTime < _performanceDuration) {
             yield return new WaitForEndOfFrame();
 
             passedTime = Time.realtimeSinceStartup - startTime;
-            progress = passedTime / _performcanceDuration;
+            progress = passedTime / _performanceDuration;
             for (int uiIndex = 0; uiIndex < _trackSelectInfoList.Count; uiIndex++) {
                 int curPositionIndex = (uiIndex - _centerUIIndex);
                 if (curPositionIndex < -(totalUICount / 2)) {

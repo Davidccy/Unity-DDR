@@ -649,7 +649,7 @@ MonoBehaviour:
   _cpdTrackCancel: {fileID: 5925163878215427410}
   _space: 250
   _unselectedScale: 0.6
-  _performcanceDuration: 0.3
+  _performanceDuration: 0.5
   _switchWhenPerformance: 0
   _acTrackSelection: {fileID: 8300000, guid: 89e6b910865c0154f813266607fba13d, type: 3}
   _alphaThreshold: 250
