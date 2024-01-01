@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b820df5556886b4691aae5522d40083, type: 3}
-  m_Name: TrackData_003
+  m_Name: TrackData_001_Old
   m_EditorClassIdentifier: 
-  AudioTrack: {fileID: 8300000, guid: a88422cc7920417439878032ef101c19, type: 3}
-  AudioTrackShort: {fileID: 8300000, guid: 2d75907b306425642ac97626fa0e5e82, type: 3}
-  Thumbnail: {fileID: 21300000, guid: 8eca0e5882b920c408474f3997a48c1d, type: 3}
-  Wallpaper: {fileID: 21300000, guid: 1acdac6699ce99040b07135c64369bd1, type: 3}
-  TrackName: "\u5927\u6B63\u30ED\u30DE\u30F3\u306E\u65E5\u5E38\u66F2"
-  BPM: 120
-  ReadyCount: 4
-  FirstMeasure: 0.3027
+  AudioTrack: {fileID: 8300000, guid: 3b82ea352f37db241a9349e90f94d183, type: 3}
+  AudioTrackShort: {fileID: 8300000, guid: 2b2246cd7dd31d94b92b81e17678d2f7, type: 3}
+  Thumbnail: {fileID: 21300000, guid: 534d83306b0ddb745a421aedb4bf303d, type: 3}
+  Wallpaper: {fileID: 21300000, guid: ce032e912721aa34da753e8191b47b57, type: 3}
+  TrackName: HelloGameWorld
+  BPM: 131
+  ReadyCount: 3
+  FirstMeasure: 0.5458
   DelayBumpCount: 4
   BumpPerMeasure: 4
   Nodes:
   - Measure: 0
     NodeInfoList:
-    - Timing: 0.875
+    - Timing: 0.75
       Timing2: 0
       NodeType: 0
       NodePosition: 0
@@ -35,120 +35,112 @@ MonoBehaviour:
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
     - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 2
+      NodePosition: 0
+    - Timing: 0.8125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
     - Timing: 0.875
       Timing2: 0
       NodeType: 0
       NodePosition: 0
+    - Timing: 0.9375
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
   - Measure: 2
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
       NodePosition: 0
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.875
+      NodePosition: 1
+    - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
+      NodePosition: 1
   - Measure: 3
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
     - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
+      NodePosition: 1
+    - Timing: 0.8125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
     - Timing: 0.875
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
+      NodePosition: 1
+    - Timing: 0.9375
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
   - Measure: 4
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.875
+      NodePosition: 1
+    - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
+      NodePosition: 3
+    - Timing: 0.5
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
   - Measure: 5
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
     - Timing: 0.75
       Timing2: 0
       NodeType: 0
       NodePosition: 3
+    - Timing: 0.8125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
     - Timing: 0.875
       Timing2: 0
       NodeType: 0
       NodePosition: 3
+    - Timing: 0.9375
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
   - Measure: 6
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
+      NodePosition: 3
     - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 1
+      NodePosition: 2
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
       NodePosition: 2
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
     - Timing: 0.875
       Timing2: 0
       NodeType: 0
@@ -158,24 +150,16 @@ MonoBehaviour:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.375
+      NodePosition: 1
+    - Timing: 0.25
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
+      NodePosition: 2
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
       NodePosition: 3
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
     - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-    - Timing: 0.875
       Timing2: 0
       NodeType: 0
       NodePosition: 0
@@ -185,29 +169,25 @@ MonoBehaviour:
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.5
+    - Timing: 0.1875
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.875
+    - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
+      NodePosition: 1
+    - Timing: 0.5
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
   - Measure: 9
     NodeInfoList:
     - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.5
       Timing2: 0
       NodeType: 0
       NodePosition: 4
@@ -215,51 +195,55 @@ MonoBehaviour:
       Timing2: 0
       NodeType: 0
       NodePosition: 2
+    - Timing: 0.8125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
     - Timing: 0.875
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
+      NodePosition: 2
+    - Timing: 0.9375
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
   - Measure: 10
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
+      NodePosition: 2
     - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
+      NodePosition: 1
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.875
+      NodePosition: 1
+    - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
+      NodePosition: 1
   - Measure: 11
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
     - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
+      NodePosition: 1
+    - Timing: 0.8125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 0
     - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.9375
       Timing2: 0
       NodeType: 0
       NodePosition: 0
@@ -268,8 +252,12 @@ MonoBehaviour:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.875
+      NodePosition: 1
+    - Timing: 0.375
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 0
+    - Timing: 0.5
       Timing2: 0
       NodeType: 0
       NodePosition: 0
@@ -279,23 +267,19 @@ MonoBehaviour:
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.375
+    - Timing: 0.75
       Timing2: 0
       NodeType: 0
       NodePosition: 0
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.75
+    - Timing: 0.8125
       Timing2: 0
       NodeType: 0
       NodePosition: 3
     - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 0
+    - Timing: 0.9375
       Timing2: 0
       NodeType: 0
       NodePosition: 3
@@ -304,166 +288,102 @@ MonoBehaviour:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
+      NodePosition: 0
     - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 2
+      NodePosition: 3
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
-      NodePosition: 1
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
       NodePosition: 3
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
   - Measure: 15
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
+      NodePosition: 0
+    - Timing: 0.1875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
     - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 2
+      NodePosition: 1
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
     - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
+      NodePosition: 1
   - Measure: 16
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-    - Timing: 0.875
+    - Timing: 0.25
       Timing2: 0
       NodeType: 0
       NodePosition: 2
+    - Timing: 0.5
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 0
   - Measure: 17
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
-    - Timing: 0.25
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
+      NodePosition: 4
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
       NodePosition: 2
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
   - Measure: 18
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.875
+    - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
+      NodePosition: 1
   - Measure: 19
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.25
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
-      NodePosition: 2
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
+      NodePosition: 3
   - Measure: 20
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
+      NodePosition: 4
+    - Timing: 0.375
+      Timing2: 0
+      NodeType: 0
       NodePosition: 0
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
   - Measure: 21
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 1
-    - Timing: 0.25
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
+      NodePosition: 4
     - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
-    - Timing: 0.625
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.875
       Timing2: 0
       NodeType: 0
       NodePosition: 2
@@ -476,16 +396,108 @@ MonoBehaviour:
     - Timing: 0.375
       Timing2: 0
       NodeType: 0
+      NodePosition: 3
+  - Measure: 23
+    NodeInfoList:
+    - Timing: 0
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+    - Timing: 0.5
+      Timing2: 0
+      NodeType: 0
       NodePosition: 0
+  - Measure: 24
+    NodeInfoList:
+    - Timing: 0
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
     - Timing: 0.5
       Timing2: 0
       NodeType: 0
       NodePosition: 1
+    - Timing: 0.625
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
     - Timing: 0.875
       Timing2: 0
       NodeType: 0
-      NodePosition: 3
-  - Measure: 23
+      NodePosition: 2
+  - Measure: 25
+    NodeInfoList:
+    - Timing: 0.25
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
+    - Timing: 0.625
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+    - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+  - Measure: 26
+    NodeInfoList:
+    - Timing: 0.125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.25
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.375
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+  - Measure: 27
+    NodeInfoList:
+    - Timing: 0.25
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
+    - Timing: 0.625
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+    - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+  - Measure: 28
+    NodeInfoList:
+    - Timing: 0.125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.25
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
+    - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
+  - Measure: 29
     NodeInfoList:
     - Timing: 0
       Timing2: 0
@@ -495,7 +507,17 @@ MonoBehaviour:
       Timing2: 0
       NodeType: 0
       NodePosition: 4
-    - Timing: 0.5
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
+  - Measure: 30
+    NodeInfoList:
+    - Timing: 0
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.375
       Timing2: 0
       NodeType: 0
       NodePosition: 3
@@ -506,222 +528,108 @@ MonoBehaviour:
     - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 1
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-  - Measure: 24
-    NodeInfoList:
-    - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
-    - Timing: 0.25
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-  - Measure: 25
-    NodeInfoList:
-    - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-  - Measure: 26
-    NodeInfoList:
-    - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-  - Measure: 27
-    NodeInfoList:
-    - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
       NodePosition: 2
     - Timing: 0.875
       Timing2: 0
       NodeType: 0
       NodePosition: 2
-  - Measure: 28
-    NodeInfoList:
-    - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-  - Measure: 29
-    NodeInfoList:
-    - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-  - Measure: 30
-    NodeInfoList:
-    - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
-    - Timing: 0.125
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.25
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
-    - Timing: 0.375
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 1
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
   - Measure: 31
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.125
-      Timing2: 0
-      NodeType: 0
       NodePosition: 0
-    - Timing: 0.25
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
     - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 3
-    - Timing: 0.5
+      NodePosition: 1
+    - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 3
+      NodePosition: 4
+    - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
   - Measure: 32
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.125
-      Timing2: 0
-      NodeType: 0
       NodePosition: 3
-    - Timing: 0.25
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
     - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 1
-    - Timing: 0.5
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 2
-    - Timing: 0.75
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
+      NodePosition: 0
   - Measure: 33
     NodeInfoList:
-    - Timing: 0
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
-    - Timing: 0.125
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 3
     - Timing: 0.25
       Timing2: 0
       NodeType: 0
+      NodePosition: 2
+    - Timing: 0.625
+      Timing2: 0
+      NodeType: 0
       NodePosition: 4
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+    - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+  - Measure: 34
+    NodeInfoList:
+    - Timing: 0.125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.25
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
     - Timing: 0.375
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
-    - Timing: 0.5
+      NodePosition: 1
+    - Timing: 0.625
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
+    - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
+  - Measure: 35
+    NodeInfoList:
+    - Timing: 0.125
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 4
+    - Timing: 0.625
       Timing2: 0
       NodeType: 0
       NodePosition: 0
-  - Measure: 34
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 0
+    - Timing: 0.875
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 0
+  - Measure: 36
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
-      NodePosition: 4
-    - Timing: 0.125
-      Timing2: 0
-      NodeType: 0
       NodePosition: 0
     - Timing: 0.25
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 4
-    - Timing: 0.375
       Timing2: 0
       NodeType: 0
       NodePosition: 1
@@ -732,14 +640,48 @@ MonoBehaviour:
     - Timing: 0.75
       Timing2: 0
       NodeType: 0
-      NodePosition: 0
-    - Timing: 0.875
-      Timing2: 0
-      NodeType: 0
-      NodePosition: 0
-  - Measure: 35
+      NodePosition: 3
+  - Measure: 37
     NodeInfoList:
     - Timing: 0
       Timing2: 0
       NodeType: 0
+      NodePosition: 2
+    - Timing: 0.375
+      Timing2: 0
+      NodeType: 0
       NodePosition: 4
+  - Measure: 38
+    NodeInfoList:
+    - Timing: 0
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+    - Timing: 0.375
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
+    - Timing: 0.75
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1
+  - Measure: 39
+    NodeInfoList:
+    - Timing: 0
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 0
+    - Timing: 0.5
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 3
+  - Measure: 40
+    NodeInfoList:
+    - Timing: 0
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 2
+    - Timing: 0.375
+      Timing2: 0
+      NodeType: 0
+      NodePosition: 1

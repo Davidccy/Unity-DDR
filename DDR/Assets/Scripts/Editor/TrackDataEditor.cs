@@ -40,7 +40,7 @@ public class TrackDataEditor : Editor {
         EditorGUILayout.PropertyField(_trackName);
         EditorGUILayout.PropertyField(_bpm);
         EditorGUILayout.PropertyField(_readyCount);
-        EditorGUILayout.PropertyField(_startDelay);
+        //EditorGUILayout.PropertyField(_startDelay);
         EditorGUILayout.PropertyField(_firstMeasure);
         EditorGUILayout.PropertyField(_bumpPerMeasure);
         _nodeList.DoLayoutList();
