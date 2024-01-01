@@ -86,6 +86,9 @@ public class UITrackSelectionBackGround : MonoBehaviour {
         float posX = 0;
         float posY = 0;
 
+        float accMovement = 0;
+        float movePixel = 0;
+
         while (true) {
             if (ct.IsCancellationRequested) {
                 return;
@@ -93,8 +96,24 @@ public class UITrackSelectionBackGround : MonoBehaviour {
 
             float imageWidth = _rectImageList[0].rect.width;
             int imageCount = _rectImageList.Count;
+            float x0 = 0;
+            float x1 = 0;
+
+            accMovement += _speed;
+            if (accMovement >= 0) {
+                movePixel = Mathf.FloorToInt(accMovement);
+                accMovement -= movePixel;
+            }
+            else if (accMovement <= -1) {
+                movePixel = Mathf.CeilToInt(accMovement);
+                accMovement -= movePixel;
+            }
+            else {
+                movePixel = 0;
+            }
+
             for (int i = 0; i < _rectImageList.Count; i++) {
-                posX = _rectImageList[i].anchoredPosition.x + _speed;
+                posX = _rectImageList[i].anchoredPosition.x + movePixel;
                 posY = _rectImageList[i].anchoredPosition.y;
 
                 // If out of screen on the left side, swap this hint to the right side
@@ -103,8 +122,14 @@ public class UITrackSelectionBackGround : MonoBehaviour {
                 }
 
                 _rectImageList[i].anchoredPosition = new Vector2(posX, posY);
-            }
 
+                if (i == 0) {
+                    x0 = posX;
+                }
+                if (i == 1) {
+                    x1 = posX;
+                }
+            }
             await Task.Delay(1);
         }
     }
